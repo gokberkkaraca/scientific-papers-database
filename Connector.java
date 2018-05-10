@@ -1,4 +1,4 @@
-import java.sql.*;
+﻿import java.sql.*;
 
 public class Connector {
     private static Connection conn = null;
@@ -285,6 +285,17 @@ public class Connector {
         insertSubmissions();
         insertPublications();
         insertConference();
+        insertSubmits();
+        insertJournals();
+        insertInvites();
+        insertExpertises();
+        insertAuthorExpertises();
+        insertReviewerExpertises();
+        insertReviews();
+        insertEditorPublishers();
+        insertCites();
+        insertSponsors();
+        insertFinances();
     }
 
     private static void insertSubscribers() {
@@ -318,6 +329,77 @@ public class Connector {
         System.out.println("Publication insertions completed.");
     }
 
+
+    private static void insertExpertises() {
+        String insertQuery = "INSERT INTO expertise VALUES";
+        String query1 = "('expertise1')";
+        String query2 = "('expertise2')";
+        String query3 = "('expertise3')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        System.out.println("Publication insertions completed.");
+    }
+
+    private static void insertJournals() {
+        String insertQuery = "INSERT INTO journal VALUES";
+        String query1 = "('1', 'topic1', 'publisher4')";
+        String query2 = "('2', 'topic2', 'publisher5')";
+        String query3 = "('3', 'topic3', 'publisher6')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        System.out.println("Publication insertions completed.");
+    }
+    private static void insertSponsors() {
+        String insertQuery = "INSERT INTO sponsor VALUES";
+        String query1 = "('sponsor1', 'link1')";
+        String query2 = "('sponsor2', 'link2')";
+        String query3 = "('sponsor3', 'link3')";
+        String query4 = "('sponsor4', 'link4')";
+        String query5 = "('sponsor5', 'link5')";
+        String query6 = "('sponsor6', 'link6')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        System.out.println("Publication insertions completed.");
+    }
+
+    private static void insertFinances() {
+        String insertQuery = "INSERT INTO finances VALUES";
+        String query1 = "('sponsor1', '11')";
+        String query2 = "('sponsor2', '12')";
+        String query3 = "('sponsor3', '13')";
+        String query4 = "('sponsor4', '14')";
+        String query5 = "('sponsor5', '15')";
+        String query6 = "('sponsor6', '16')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        System.out.println("Publication insertions completed.");
+    }
+
+    private static void insertInvites() {
+        String insertQuery = "INSERT INTO invites VALUES";
+        String query1 = "('email5', 'email3', '4', '0')";
+        String query2 = "('email5', 'email4', '5', '1')";
+        String query3 = "('email6', 'email3', '6', '2')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        System.out.println("Publication insertions completed.");
+    }
 
     private static void insertInstitutions() {
         String insertQuery = "INSERT INTO institution VALUES";
@@ -366,6 +448,26 @@ public class Connector {
         System.out.println("Publisher insertions completed.");
     }
 
+    private static void insertAuthorExpertises() {
+        String insertQuery = "INSERT INTO authorExpertise VALUES";
+        String query1 ="('email1', 'expertise1')";
+        String query2 ="('email2', 'expertise2')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        System.out.println("Publisher insertions completed.");
+    }
+
+    private static void insertReviewerExpertises() {
+        String insertQuery = "INSERT INTO reviewerExpertise VALUES";
+        String query1 ="('email5', 'expertise1')";
+        String query2 ="('email6', 'expertise2')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        System.out.println("Publisher insertions completed.");
+    }
+
     private static void insertReviewers() {
         String insertQuery = "INSERT INTO reviewer VALUES";
         String query1 ="('email5')";
@@ -373,6 +475,64 @@ public class Connector {
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
+        System.out.println("Publisher insertions completed.");
+    }
+
+    private static void insertReviews() {
+        String insertQuery = "INSERT INTO reviews VALUES";
+        String query1 ="('email5', 'email3', '1', 'feedback1')";
+        String query2 ="('email6', 'email4', '2', 'feedback2')";
+        String query3 ="('email5', 'email3', '3', 'feedback3')";
+        String query4 ="('email6', 'email3', '4', 'feedback4')";
+        String query5 ="('email5', 'email3', '5', 'feedback5')";
+        String query6 ="('email6', 'email4', '6', 'feedback6')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        System.out.println("Publisher insertions completed.");
+    }
+
+
+    private static void insertEditorPublishers() {
+        String insertQuery = "INSERT INTO editorPublisher VALUES";
+        String query1 ="('email3', 'publisher1')";
+        String query2 ="('email4', 'publisher2')";
+        String query3 ="('email3', 'publisher3')";
+        String query4 ="('email4', 'publisher4')";
+        String query5 ="('email3', 'publisher5')";
+        String query6 ="('email4', 'publisher6')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        System.out.println("Publisher insertions completed.");
+    }
+
+
+    private static void insertCites() {
+        String insertQuery = "INSERT INTO cites VALUES";
+        String query1 ="('11', '12')";
+        String query2 ="('11', '13')";
+        String query3 ="('13', '12')";
+        String query4 ="('14', '15')";
+        String query5 ="('14', '16')";
+        String query6 ="('14', '11')";
+        String query7 ="('15', '16')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
         System.out.println("Publisher insertions completed.");
     }
 
@@ -419,6 +579,24 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
+    }
+
+    private static void insertSubmits() {
+        String insertQuery = "INSERT INTO submits VALUES";
+        String query1 ="('email1', '1', 'publisher1')";
+        String query2 ="('email2', '2', 'publisher2')";
+        String query3 ="('email1', '3', 'publisher3')";
+        String query4 ="('email2', '4', 'publisher1')";
+        String query5 ="('email1', '5', 'publisher2')";
+        String query6 ="('email2', '6', 'publisher3')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        System.out.println("Publisher insertions completed.");
     }
 
     private static void closeConnection() {
