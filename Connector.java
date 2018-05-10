@@ -18,7 +18,7 @@ public class Connector {
         createTables();
 
         //Insertions
-        //insertRows();
+        insertRows();
 
         //Close connection
         closeConnection();
@@ -88,7 +88,7 @@ public class Connector {
     private static void dropTables() {
         String tableNames[] = { "authorExpertise", "reviewerExpertise", "reviews", "editorPublisher",
                 "cites", "invites",  "finances" , "sponsor",
-                   "publication", "conference","journal", "expertise", "submits", "author","reviewer",
+                "publication", "conference","journal", "expertise", "submits", "author","reviewer",
                 "publisher"," submission","editor","subscriber","institution" };
 
         for (String tName: tableNames ) {
@@ -148,7 +148,7 @@ public class Connector {
 
         String publication = "CREATE TABLE publication(\n" +
                 "        p_id INT,\n" +
-                "        Title varchar(500),\n" +
+                "        title varchar(500),\n" +
                 "                pages INT,\n" +
                 "                publication_date date,\n" +
                 "                doc_link varchar(200),\n" +
@@ -276,69 +276,150 @@ public class Connector {
 
 
     private static void insertRows() {
-        //Customer insertions
-        insertCustomers();
-        //Account insertions
-        insertAccounts();
-        //Owns insertions
-        insertOwns();
+        insertInstitutions();
+        insertSubscribers();
+        insertPublishers();
+        insertAuthors();
+        insertEditors();
+        insertReviewers();
+        insertSubmissions();
+        insertPublications();
+        insertConference();
     }
 
-    private static void insertCustomers() {
-        String insertQuery = "INSERT INTO customer VALUES";
-        String cemQuery ="('20000001', 'Cem', '1980.10.10', 'Engineer', 'Tunali', 'Ankara', 'TC')";
-        String aslıQuery = "( '20000002', 'Asli', DATE '1985.09.08', 'Teacher', 'Nisantasi', 'Istanbul', 'TC')";
-        String ahmetQuery = "( '20000003',  'Ahmet', DATE '1995.02.11.' , 'Salesman', 'Karsiyaka', 'Izmir',  'TC')";
-        String johnQuery = "( '20000004', 'John', DATE '1990.04.16', 'Architect', 'Kizilay',  'Ankara', 'ABD')";
+    private static void insertSubscribers() {
+        String insertQuery = "INSERT INTO subscriber VALUES";
+        String query1 = "('email1', 'institution1', 'password1', 'name1', 'surname1', '1')";
+        String query2 = "('email2', 'institution2', 'password2', 'name2', 'surname2', '1')";
+        String query3 = "('email3', 'institution3', 'password3', 'name3', 'surname3', '2')";
+        String query4 = "('email4', 'institution4', 'password4', 'name4', 'surname4', '2')";
+        String query5 = "('email5', 'institution5', 'password5', 'name5', 'surname5', '3')";
+        String query6 = "('email6', 'institution6', 'password6', 'name6', 'surname6', '3')";
 
-        execQuery( insertQuery + cemQuery);
-        execQuery( insertQuery + aslıQuery);
-        execQuery( insertQuery + ahmetQuery);
-        execQuery( insertQuery + johnQuery);
-        System.out.println("Insertions completed.");
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        System.out.println("Publication insertions completed.");
+    }
+
+    private static void insertConference() {
+        String insertQuery = "INSERT INTO conference VALUES";
+        String query1 = "('1980.01.01', 'topic1', 'publisher1')";
+        String query2 = "('1980.01.02', 'topic2', 'publisher2')";
+        String query3 = "('1980.01.03', 'topic3', 'publisher3')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        System.out.println("Publication insertions completed.");
     }
 
 
-    private static void insertAccounts() {
-        String insertQuery = "INSERT INTO account VALUES";
-        String kızılayQuery = "('A0000001', 'Kizilay', '2000.00', '2009.01.01')";
-        String bilkentQuery = "('A0000002', 'Bilkent', '8000.00', '2011.01.01')";
-        String cankayaQuery = "('A0000003' ,'Cankaya' ,'4000.00' ,'2012.01.01')";
-        String sincanQuery = "('A0000004' , 'Sincan' ,'1000.00' , '2012.01.01')";
-        String tandoganQuery = "('A0000005' ,'Tandogan' ,'3000.00' ,'2013.01.01')";
-        String eryamanQuery = "('A0000006' ,'Eryaman' ,'5000.00' ,'2015.01.01')";
-        String umitkoyQuery = "('A0000007' ,'Umitkoy' ,'6000.00' ,'2017.01.01')";
+    private static void insertInstitutions() {
+        String insertQuery = "INSERT INTO institution VALUES";
+        String query1 = "('institution1', 'street1', 'zip1', 'city1', 'country1')";
+        String query2 = "('institution2', 'street2', 'zip2', 'city2', 'country2')";
+        String query3 = "('institution3', 'street3', 'zip3', 'city3', 'country3')";
+        String query4 = "('institution4', 'street4', 'zip4', 'city4', 'country4')";
+        String query5 = "('institution5', 'street5', 'zip5', 'city5', 'country5')";
+        String query6 = "('institution6', 'street6', 'zip6', 'city6', 'country6')";
 
-        execQuery( insertQuery + kızılayQuery);
-        execQuery( insertQuery + bilkentQuery);
-        execQuery( insertQuery + cankayaQuery);
-        execQuery( insertQuery + sincanQuery);
-        execQuery( insertQuery + tandoganQuery);
-        execQuery( insertQuery + eryamanQuery);
-        execQuery( insertQuery + umitkoyQuery);
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        System.out.println("Publication insertions completed.");
     }
 
+    private static void insertPublications() {
+        String insertQuery = "INSERT INTO publication VALUES";
+        String query1 ="('11', 'publication1', '581', '1970.01.01', 'link1', '1', '1')";
+        String query2 ="('12', 'publication2', '582', '1970.01.02', 'link2', '2', '2')";
+        String query3 ="('13', 'publication3', '583', '1970.01.03', 'link3', '3', '3')";
+        String query4 ="('14', 'publication4', '584', '1970.01.04', 'link4', '4', '4')";
+        String query5 ="('15', 'publication5', '585', '1970.01.05', 'link5', '5', '5')";
+        String query6 ="('16', 'publication6', '586', '1970.01.06', 'link6', '6', '6')";
 
-    private static void insertOwns() {
-        //TODO write insert queries f
-        String insertQuery = "INSERT INTO owns VALUES";
-        String[] ownQuery  = new String[10];
-        ownQuery[0] = "( '20000001' ,'A0000001')";
-        ownQuery[1] = "( '20000001' ,'A0000002')";
-        ownQuery[2] = "( '20000001' ,'A0000003')";
-        ownQuery[3] = "( '20000001' ,'A0000004')";
-        ownQuery[4] = "( '20000002' ,'A0000002')";
-        ownQuery[5] = "( '20000002' ,'A0000003')";
-        ownQuery[6] = "( '20000002' ,'A0000005')";
-        ownQuery[7] = "( '20000003' ,'A0000006')";
-        ownQuery[8] = "( '20000003' ,'A0000007')";
-        ownQuery[9] = "( '20000004' ,'A0000006')";
-
-        for ( String own: ownQuery){
-            execQuery( insertQuery + own);
-        }
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        System.out.println("Publication insertions completed.");
     }
 
+    private static void insertAuthors() {
+        String insertQuery = "INSERT INTO author VALUES";
+        String query1 ="('email1')";
+        String query2 ="('email2')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        System.out.println("Publisher insertions completed.");
+    }
+
+    private static void insertReviewers() {
+        String insertQuery = "INSERT INTO reviewer VALUES";
+        String query1 ="('email5')";
+        String query2 ="('email6')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        System.out.println("Publisher insertions completed.");
+    }
+
+    private static void insertPublishers() {
+        String insertQuery = "INSERT INTO publisher VALUES";
+        String query1 ="('publisher1')";
+        String query2 ="('publisher2')";
+        String query3 ="('publisher3')";
+        String query4 ="('publisher4')";
+        String query5 ="('publisher5')";
+        String query6 ="('publisher6')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        System.out.println("Publisher insertions completed.");
+    }
+
+    private static void insertEditors() {
+        String insertQuery = "INSERT INTO editor VALUES";
+        String query1 ="('1', 'email3')";
+        String query2 ="('2', 'email4')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        System.out.println("Publisher insertions completed.");
+    }
+
+    private static void insertSubmissions() {
+        String insertQuery = "INSERT INTO submission VALUES";
+        String query1 ="('1', '0', 'sub1', 'link1', '1970.01.01', 'email3')";
+        String query2 ="('2', '1', 'sub2',  'link2', '1970.01.02','email4')";
+        String query3 ="('3', '0', 'sub3', 'link3','1970.01.03',  'email3')";
+        String query4 ="('4', '1', 'sub4', 'link4','1970.01.04',  'email4')";
+        String query5 ="('5', '2', 'sub5', 'link5', '1970.01.05',  'email3')";
+        String query6 ="('6', '1', 'sub6', 'link6','1970.01.06',  'email4')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+    }
 
     private static void closeConnection() {
         try {
