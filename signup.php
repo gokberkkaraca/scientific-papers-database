@@ -2,9 +2,9 @@
 <html>
     <head>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
-            <link rel="stylesheet" href="signup.css" />
+            <link rel="stylesheet" href="css/signup.css" />
             <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-            <script src="signup_js.js"></script>
+            <script src="js/signup.js"></script>
     </head>
     <body>
         <div class="container" align="center">
@@ -32,7 +32,7 @@ require_once('config.php');
 
 getInstitutions();
 
-function getInstitutions() 
+function getInstitutions()
 {
     global $dbc;
 
