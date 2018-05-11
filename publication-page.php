@@ -4,7 +4,7 @@
 
   $p_id = $_GET["p_id"];
 
-  $sql = "SELECT publication_date, title, pages, downloads FROM publication WHERE p_id = '$p_id'";
+  $sql = "SELECT publication_date, title, pages, downloads, p_name, email  FROM publication NATURAL JOIN submits WHERE p_id = '$p_id'";
   $info_result = mysqli_query($dbc,$sql);
   $count = mysqli_num_rows($info_result);
 
@@ -14,11 +14,24 @@
         $title = $row[1];
         $pages = $row[2];
         $downloads = $row[3];
+        $publisher_name = $row[4];
+        $email = $row[5];
     }
+
+    $sql = "SELECT s_name, s_surname FROM subscriber WHERE email = '$email'";
+    $name = mysqli_query($dbc, $sql);
+    $name = mysqli_fetch_array($name, MYSQLI_NUM);
+    $name = $name[0];
 
     $sql = "SELECT count(*) FROM cites WHERE cited = '$p_id'";
     $cited_result = mysqli_query($dbc,$sql);
     $num_of_citers = mysqli_fetch_array($cited_result, MYSQLI_NUM);
+
+    $sql = "SELECT name, link FROM sponsor NATURAL JOIN finances NATURAL JOIN publication WHERE p_id='$p_id'";
+    $result = mysqli_query($dbc,$sql);
+    $row = mysqli_fetch_array($result, MYSQLI_NUM);
+    $sponsor_name = $row[0];
+    $sponsor_link = $row[1];
 
     $sql = "SELECT p_id, title FROM publication WHERE p_id IN (SELECT citer FROM cites WHERE cited = '$p_id')";
     $citer_result = mysqli_query($dbc,$sql);
@@ -70,12 +83,13 @@
                 if(isset($completed)){
                   echo "<table>";
                   echo "<tr align='center'><th>Bibliography</th></tr>";
+                  echo "<tr><td><div><strong>Publisher: </strong> $publisher_name </div></td></tr>";
                   echo "<tr><td><div><strong>Publication Date:</strong> $publication_date </div></td></tr>";
                   echo "<tr><td><div><strong>Number of Pages:</strong> $pages </div></td></tr>";
                   echo "<tr><td><div><strong>Number of Citers:</strong> $num_of_citers[0] </div></td></tr>";
                   echo "<tr><td><div><strong>Number of Downloads: </strong> $downloads </div></td></tr>";
-                  echo "<tr><td><div><strong>Authors: </strong> TODO </div></td></tr>";
-                  echo "<tr><td><div><strong>Sponsors: </strong> TODO </div></td></tr>";
+                  echo "<tr><td><div><strong>Authors: </strong> $name </div></td></tr>";
+                  echo "<tr><td><div><strong>Sponsors: </strong><a href='$sponsor_link'>$sponsor_name</a></div></td></tr>";
                   echo "</table>";
                   }
                ?>
@@ -97,7 +111,7 @@
               if(isset($completed)) {
                 echo "<table>";
                 echo "<tr align='center'><th>Download</th></tr>";
-                echo "<tr><td><a href='documentlink.html'><i class=\"fas fa-arrow-alt-circle-down fa-7x\"></i></a></td></tr>";
+                echo "<tr><td><a href='documentlink.html'><i class='fas fa-arrow-alt-circle-down fa-7x'></i></a></td></tr>";
                 echo "</table>";
               }
                ?>
