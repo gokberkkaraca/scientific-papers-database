@@ -1,4 +1,4 @@
-﻿import java.sql.*;
+import java.sql.*;
 
 public class Connector {
     private static Connection conn = null;
@@ -88,7 +88,7 @@ public class Connector {
     private static void dropTables() {
         String tableNames[] = { "authorExpertise", "reviewerExpertise", "reviews", "editorPublisher",
                 "cites", "invites",  "finances" , "sponsor",
-                "publication", "conference","journal", "expertise", "submits", "author","reviewer",
+                "publication", "audience", "conference","journal_volume","journal", "expertise", "submits", "author","reviewer",
                 "publisher"," submission","editor","subscriber","institution" };
 
         for (String tName: tableNames ) {
@@ -161,17 +161,31 @@ public class Connector {
 
         String conference = "CREATE TABLE conference(\n" +
                 "        date date,\n" +
-                "        cnf_topic varchar(200),\n" +
+                "        conference_topic varchar(200),\n" +
                 "                p_name varchar(200) PRIMARY KEY,\n" +
                 "        FOREIGN KEY(p_name) REFERENCES publisher(p_name) ON DELETE CASCADE ON UPDATE CASCADE)\n" +
                 "        ENGINE = INNODB";
 
         String journal = "CREATE TABLE journal(\n" +
-                "        volume decimal(5,2),\n" +
                 "        journal_topic varchar(200),\n" +
                 "                p_name varchar(200) PRIMARY KEY,\n" +
                 "        FOREIGN KEY (p_name) REFERENCES publisher(p_name) ON DELETE CASCADE ON UPDATE CASCADE)\n" +
                 "        ENGINE = INNODB";
+
+        String journalVolume = "CREATE TABLE journal_volume (" +
+                "p_name varchar(200), " +
+                "volume_no INT," +
+                "FOREIGN KEY (p_name) REFERENCES journal(p_name) ON DELETE CASCADE ON UPDATE CASCADE, " +
+                "PRIMARY KEY(volume_no, p_name))\n" +
+                "ENGINE=INNODB";
+
+        String audience = "CREATE TABLE audience (" +
+                        "p_name VARCHAR(200)," +
+                        "a_name VARCHAR(200)," +
+                        "a_surname VARCHAR(200), " +
+                        "FOREIGN KEY (p_name) REFERENCES conference(p_name) ON DELETE CASCADE ON UPDATE CASCADE, " +
+                        "PRIMARY KEY(p_name, a_name, a_surname))" +
+                "ENGINE=INNODB";
 
         String invites = "CREATE TABLE invites(\n" +
                 "        reviewer_email varchar(200),\n" +
@@ -271,6 +285,8 @@ public class Connector {
         execQuery(submits);
         execQuery(sponsor);
         execQuery(finances);
+        execQuery(journalVolume);
+        execQuery(audience);
         System.out.println("Tables created");
     }
 
@@ -296,6 +312,8 @@ public class Connector {
         insertCites();
         insertSponsors();
         insertFinances();
+        insertJournalVolumes();
+        insertAudiences();
     }
 
     private static void insertSubscribers() {
@@ -344,9 +362,9 @@ public class Connector {
 
     private static void insertJournals() {
         String insertQuery = "INSERT INTO journal VALUES";
-        String query1 = "('1', 'topic1', 'publisher4')";
-        String query2 = "('2', 'topic2', 'publisher5')";
-        String query3 = "('3', 'topic3', 'publisher6')";
+        String query1 = "('topic1', 'publisher4')";
+        String query2 = "('topic2', 'publisher5')";
+        String query3 = "('topic3', 'publisher6')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -596,6 +614,54 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
+        System.out.println("Publisher insertions completed.");
+    }
+
+    private static void insertJournalVolumes() {
+        String insertQuery = "INSERT INTO journal_volume VALUES";
+        String query1 ="('publisher4', '1')";
+        String query2 ="('publisher4', '2')";
+        String query3 ="('publisher4', '3')";
+        String query4 ="('publisher5', '1')";
+        String query5 ="('publisher5', '2')";
+        String query6 ="('publisher5', '3')";
+        String query7 ="('publisher6', '1')";
+        String query8 ="('publisher6', '2')";
+        String query9 ="('publisher6', '3')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+        execQuery( insertQuery + query9);
+        System.out.println("Publisher insertions completed.");
+    }
+
+    private static void insertAudiences() {
+        String insertQuery = "INSERT INTO audience VALUES";
+        String query1 ="('publisher1', 'audience_name1', 'audience_surname1')";
+        String query2 ="('publisher1', 'audience_name2', 'audience_surname2')";
+        String query3 ="('publisher1', 'audience_name3', 'audience_surname3')";
+        String query4 ="('publisher2', 'audience_name4', 'audience_surname4')";
+        String query5 ="('publisher2', 'audience_name5', 'audience_surname5')";
+        String query6 ="('publisher2', 'audience_name6', 'audience_surname6')";
+        String query7 ="('publisher3', 'audience_name7', 'audience_surname7')";
+        String query8 ="('publisher3', 'audience_name8', 'audience_surname8')";
+        String query9 ="('publisher3', 'audience_name9', 'audience_surname9')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+        execQuery( insertQuery + query9);
         System.out.println("Publisher insertions completed.");
     }
 
