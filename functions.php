@@ -259,11 +259,6 @@
                             $count++;
                         }
                     }
-                    else
-                    {
-                        header('Location: notarray.php');
-                        exit();
-                    }
                     $addPublishers .= ";";
 
                     $stmt2 = @mysqli_prepare($dbc,$addPublishers) or die(mysqli_error($dbc));
@@ -273,6 +268,7 @@
 
                 $_SESSION['authenticated'] = 1;
                 $_SESSION['validationMessage'] = '';
+                $_SESSION['email'] = $email;
                 header('Location: main.php');
                 exit();
             }
