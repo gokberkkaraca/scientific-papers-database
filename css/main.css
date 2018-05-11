@@ -1,4 +1,13 @@
-#top-panel {
+#result-panel {
   margin: 0 auto;
-  background-color: red;
+  width: 80%;
+}
+
+#search-bar {
+  width: 60%;
+}
+
+#scilib-title {
+  font-family: 'Josefin Slab', serif;
+  font-weight: bold;
 }
