@@ -86,7 +86,7 @@ public class Connector {
     }
 
     private static void dropTables() {
-        String tableNames[] = { "authorExpertise", "reviewerExpertise", "reviews", "editorPublisher",
+        String tableNames[] = { "authorExpertise", "reviewerExpertise", "reviews", "editorPublisher","published_in",
                 "cites", "invites",  "finances" , "sponsor",
                 "publication", "audience", "conference","journal_volume","journal", "expertise", "submits", "author","reviewer",
                 "publisher"," submission","editor","subscriber","institution" };
@@ -238,6 +238,15 @@ public class Connector {
                 "        PRIMARY KEY(citer, cited))\n" +
                 "        ENGINE=INNODB";
 
+        String published_in = "CREATE TABLE published_in ( \n" +
+                "                p_name varchar(200),\n" +
+                "                volume_no INT,\n" +
+                "                p_id INT,\n" +
+                "                FOREIGN KEY (p_name) REFERENCES journal_volume(p_name) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
+                "                FOREIGN KEY (volume_no) REFERENCES journal_volume(volume_no) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
+                "                FOREIGN KEY (p_id) REFERENCES publication(p_id) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
+                "                PRIMARY KEY(p_name, volume_no,p_id)) ENGINE=INNODB;";
+
         String submits = "CREATE TABLE submits (\n" +
                 "        email varchar(200),\n" +
                 "                s_id INT,\n" +
@@ -287,6 +296,7 @@ public class Connector {
         execQuery(finances);
         execQuery(journalVolume);
         execQuery(audience);
+        execQuery(published_in);
         System.out.println("Tables created");
     }
 
@@ -314,6 +324,7 @@ public class Connector {
         insertFinances();
         insertJournalVolumes();
         insertAudiences();
+        insertPublishedIns();
     }
 
     private static void insertSubscribers() {
@@ -554,6 +565,7 @@ public class Connector {
         System.out.println("Publisher insertions completed.");
     }
 
+
     private static void insertPublishers() {
         String insertQuery = "INSERT INTO publisher VALUES";
         String query1 ="('publisher1')";
@@ -604,9 +616,9 @@ public class Connector {
         String query1 ="('email1', '1', 'publisher1')";
         String query2 ="('email2', '2', 'publisher2')";
         String query3 ="('email1', '3', 'publisher3')";
-        String query4 ="('email2', '4', 'publisher1')";
-        String query5 ="('email1', '5', 'publisher2')";
-        String query6 ="('email2', '6', 'publisher3')";
+        String query4 ="('email2', '4', 'publisher4')";
+        String query5 ="('email1', '5', 'publisher5')";
+        String query6 ="('email2', '6', 'publisher6')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -640,6 +652,25 @@ public class Connector {
         execQuery( insertQuery + query9);
         System.out.println("Publisher insertions completed.");
     }
+
+    private static void insertPublishedIns() {
+        String insertQuery = "INSERT INTO published_in VALUES";
+        String query1 ="('publisher4', '1', 11)";
+        String query2 ="('publisher4', '2', 12)";
+        String query3 ="('publisher4', '3', 13)";
+        String query4 ="('publisher5', '1', 14)";
+        String query5 ="('publisher5', '2', 15)";
+        String query6 ="('publisher5', '3', 16)";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        System.out.println("Publisher insertions completed.");
+    }
+
 
     private static void insertAudiences() {
         String insertQuery = "INSERT INTO audience VALUES";

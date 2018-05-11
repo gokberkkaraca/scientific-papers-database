@@ -83,7 +83,7 @@
                 if(isset($completed)){
                   echo "<table>";
                   echo "<tr align='center'><th>Bibliography</th></tr>";
-                  echo "<tr><td><div><strong>Publisher: </strong> $publisher_name </div></td></tr>";
+                  echo "<tr><td><strong>Publisher: </strong><a href='find-publisher.php?p_name=$publisher_name'>$publisher_name</a></td></tr>";
                   echo "<tr><td><div><strong>Publication Date:</strong> $publication_date </div></td></tr>";
                   echo "<tr><td><div><strong>Number of Pages:</strong> $pages </div></td></tr>";
                   echo "<tr><td><div><strong>Number of Citers:</strong> $num_of_citers[0] </div></td></tr>";

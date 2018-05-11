@@ -111,7 +111,7 @@
 						while ( $row = mysqli_fetch_array($result,MYSQLI_NUM)) {
 							echo "<tr>";
 							echo "<td><a href='publication-page.php?p_id=$row[0]'>$row[1]</a></td>";
-							echo "<td>$row[2]</td>";
+							echo "<td><a href='find-publisher.php?p_name=$row[2]'>$row[2]</a></td>";
 							echo "<td></td>";
 							echo "</tr>";
 						}
