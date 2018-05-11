@@ -1,22 +1,20 @@
+
 $(document).ready(function(){
 
 
     $( "#signup_role_select" ).on( "change", function() {
-
+        
         $( ".signup_role_added_div" ).remove();
         switch( $(" #signup_role_select option:selected ").val() )
         {
             case "reviewer":
             case "author":
             {
-                // do an ajax call to get expertises from db then create select with them
-
                 $.ajax({
                     type: "GET",
-                    url: "functions.php?getExpertises=true",
-                    dataType: "json",
+                    url: "functions.php?getExpertises=true",             
+                    dataType: "json",                
                     success: function(response){
-
                         var arr = ("" + response).split(",");
 
                         if(arr.length <= 0 )
@@ -25,9 +23,9 @@ $(document).ready(function(){
                         }
                         else
                         {
-                            $(".role_select_div").after( '<div class="form-group signup_role_added_div">' +
-                            '<label for="expertise">Select your expertise</label>' +
-                            '<select class="form-control" name="expertise" required></select></div>');
+                            $(".role_select_div").after( '<div class="form-group signup_role_added_div">' + 
+                            '<label for="expertise">Select your expertise</label>' + 
+                            '<select class="form-control" name="expertise[]" required multiple></select></div>');
                             $pubSel = $(".signup_role_added_div > select");
                             arr.forEach(element => {
                                 $pubSel.append('<option value="'+ element +'">'+ element +'</option>');
@@ -39,14 +37,12 @@ $(document).ready(function(){
             break;
             case "editor":
             {
-                // do an ajax call to get publishers from db then create select with them
-
+                
                 $.ajax({
                     type: "GET",
-                    url: "functions.php?getPublishers=true",
-                    dataType: "json",
+                    url: "functions.php?getPublishers=true",             
+                    dataType: "json",                
                     success: function(response){
-
                         var arr = ("" + response).split(",");
 
                         if(arr.length <= 0 )
@@ -55,9 +51,9 @@ $(document).ready(function(){
                         }
                         else
                         {
-                            $(".role_select_div").after( '<div class="form-group signup_role_added_div">' +
-                            '<label for="publisher">Select your publisher(s)</label>' +
-                            '<select class="form-control" name="publisher" required multiple></select></div>');
+                            $(".role_select_div").after( '<div class="form-group signup_role_added_div">' + 
+                            '<label for="publisher">Select your publisher(s)</label>' + 
+                            '<select class="form-control" name="publisher[]" required multiple></select></div>');
                             $pubSel = $(".signup_role_added_div > select");
                             arr.forEach(element => {
                                 $pubSel.append('<option value="'+ element +'">'+ element +'</option>');
@@ -70,3 +66,5 @@ $(document).ready(function(){
         }
     });
 });
+
+

@@ -2,9 +2,9 @@
 <html>
     <head>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
-            <link rel="stylesheet" href="css/signup.css" />
+            <link rel="stylesheet" href="signup.css" />
             <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-            <script src="js/signup.js"></script>
+            <script src="signup_js.js"></script>
     </head>
     <body>
         <div class="container" align="center">
@@ -12,7 +12,7 @@
                     <h3>Scilib</h3>
             </div>
             <div class="signup_div col-4">
-                <form method="post" action="functions.php?signup=true">
+                <form method="post" action="functions.php">
                     <div class="form-group">
                         <input type="text" class="form-control" name="name" placeholder="Name" required>
                     </div>
@@ -32,7 +32,7 @@ require_once('config.php');
 
 getInstitutions();
 
-function getInstitutions()
+function getInstitutions() 
 {
     global $dbc;
 
