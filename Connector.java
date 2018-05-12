@@ -348,9 +348,9 @@ public class Connector {
 
     private static void insertConference() {
         String insertQuery = "INSERT INTO conference VALUES";
-        String query1 = "('1980.01.01', 'topic1', 'publisher1')";
-        String query2 = "('1980.01.02', 'topic2', 'publisher2')";
-        String query3 = "('1980.01.03', 'topic3', 'publisher3')";
+        String query1 = "('2017.01.01', 'topic1', 'publisher1')";
+        String query2 = "('2018.01.02', 'topic2', 'publisher2')";
+        String query3 = "('2019.01.03', 'topic3', 'publisher3')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
