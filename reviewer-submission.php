@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+<?php
+	include("config.php");
+	session_start();
+	if (isset($_SESSION['email'])) {
+		$user_type = $_SESSION['type'];
+	}
+ ?>
 <html>
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
@@ -61,13 +67,12 @@
 	</div>
 </div>
 <?php
-		include("config.php");
-    session_start();
 
     if(isset($_GET['reject'])) {
       $rev_email = $_SESSION['email'];
       $sid = $_GET['s_id'];
       $edit_email = $_GET['editor_email'];
+
 
       $sql = "DELETE FROM invites WHERE reviewer_email='$rev_email' AND editor_email='$edit_email' AND s_id='$sid'";
       mysqli_query($dbc, $sql);

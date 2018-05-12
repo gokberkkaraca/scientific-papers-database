@@ -8,7 +8,7 @@
     $reviewer_email = $_SESSION['email'];
   }
   else {
-    header("location:index.php")
+    header("location:index.php");
   }
  ?>
 
