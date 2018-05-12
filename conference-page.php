@@ -86,12 +86,12 @@
             </div>
             <div class="col-md-2">
               <?php
-              if(isset($completed)) {
-                echo "<table>";
-                echo "<tr align='center'><th>View Audience</th></tr>";
-                echo "<tr><td align='center'><a href='documentlink.html'><i class='fas fa-user fa-5x'></i></a></td></tr>";
-                echo "</table>";
-              }
+                if(isset($completed)) {
+                  echo "<table>";
+                  echo "<tr align='center'><th>View Audience</th></tr>";
+                  echo "<tr><td align='center'><a href='conference-audience.php?p_name=$p_name'><i class='fas fa-user fa-5x'></i></a></td></tr>";
+                  echo "</table>";
+                }
                ?>
             </div>
           </div>
