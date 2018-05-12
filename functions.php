@@ -282,6 +282,44 @@
         
     }
 
+     function signin() 
+    {
+        global $dbc;
+
+        if( isset($_POST['email']) && isset($_POST['password']) ) {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            
+            // formulate the query
+            $findUser = "select userType from subscriber where email='$email' and password='$password'";
+
+            // perform the query
+            $result = @mysqli_query($dbc,$findUser);
+            
+            // check number of rows to see if user exists in db
+            $num_rows = mysqli_num_rows($result);
+
+            if ($num_rows == 1) {
+                $type = mysqli_fetch_object($result);
+                session_start();
+                $_SESSION['authenticated'] = 1;
+                $_SESSION['validationMessage'] = '';
+                $_SESSION['email'] = $email;
+                $_SESSION['type'] = $type->usertype;
+                header('Location: main.php');
+                session_write_close();
+                exit();
+            } else {
+                $_SESSION['validationMessage'] = 'Some fields are missing!';
+                header('Location: signin.php?error');
+                session_write_close();
+                exit();
+            }
+
+            @mysqli_stmt_close($result);
+        }
+    }
+
     if (isset($_GET['getPublishers'])) 
     {
         $res = getPublishersJson();
@@ -300,6 +338,10 @@
         signup();
     }
 
+    if(isset($_POST['submit_signin']))
+    {
+        signin();
+    }
 
     @mysqli_close($dbc);
 ?>
