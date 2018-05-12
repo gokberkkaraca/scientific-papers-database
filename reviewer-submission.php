@@ -64,8 +64,10 @@
 			$email = $_SESSION["email"];
 
 			// formulate the query
-			$query = 	"SELECT * FROM invites AS I JOIN submission AS S JOIN submits as S2
-						";
+			$query = 	"SELECT * FROM invites AS I JOIN submission AS S JOIN submits as S2";
+						//WHERE I.s_id = S.s_id
+						//AND S.s_id = S2.s_id
+						//AND S.email = S2.email
 
 			// perform the query
 			$result = mysqli_query($dbc,$query);
