@@ -6,8 +6,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab:400,700" rel="stylesheet">
 <script type="text/javascript">
 	function writeFeedback(s_id) {
-		alert(s_id);
-	}
+    	popupWindow = window.open('write-reviewer-feedback.php?s_id=' + s_id,'popUpWindow','height=300,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
+  	}
 </script>
 </head>
 <body>
@@ -52,7 +52,7 @@
 	    	$html .= '<td><a href="' . $array['doc_link'] . '">' . $array['title'] .'</td>';
 	    	$html .= '<td>' . htmlspecialchars($array['date']) . '</td>';
 	    	$html .= '<td>' . htmlspecialchars($array['p_name']) . '</td>';
-	        $html .= '<td>' . '<button onclick="' . "writeFeedback($array[s_id]);" . '">Write Feedback</button>' . '</td>';
+	        $html .= '<td>' . '<button class="btn btn-info" onclick="' . "writeFeedback($array[s_id]);" . '">Write Feedback</button>' . '</td>';
 
 	        $html .= '</tr>';
 
@@ -64,11 +64,10 @@
 			$email = $_SESSION["email"];
 
 			// formulate the query
-			$query = 	"SELECT * FROM invites AS I JOIN submission AS S JOIN submits as S2";
-						//WHERE I.s_id = S.s_id
-						//AND S.s_id = S2.s_id
-						//AND S.email = S2.email
-
+			$query = 	"SELECT * FROM invites AS I JOIN submission AS S JOIN submits as S2
+						WHERE I.s_id = S.s_id
+						AND S.s_id = S2.s_id
+						AND I.reviewer_email = \"$email\"";
 			// perform the query
 			$result = mysqli_query($dbc,$query);
 
