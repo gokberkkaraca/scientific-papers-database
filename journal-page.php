@@ -4,6 +4,7 @@
 
   if (isset($_GET["p_name"]) && isset($_SESSION["email"])) {
     $p_name = $_GET["p_name"];
+    $user_type = $_SESSION["type"];
   }else{
     header("location: index.php");
   }
