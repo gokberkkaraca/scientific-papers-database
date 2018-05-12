@@ -6,9 +6,9 @@
 			$email = $_SESSION["email"];
 			$type = $_SESSION["type"];
 		}
-		// else {
-		// 	header("location: signin.php");
-		// }
+		else {
+		 	header("location: index.php");
+		}
 		if(isset($_GET["search-key"])) {
 			$search_key = $_GET["search-key"];
 			$search_type = $_GET["search-type"];
@@ -52,7 +52,7 @@
 								<a class="nav-link" id="submissions" href="#">Submissions</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" id="navbar-logout" href="#">Logout</a>
+								<a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
 							</li>
 						</ul>
 					</div>

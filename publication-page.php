@@ -2,7 +2,11 @@
   include("config.php");
   session_start();
 
-  $p_id = $_GET["p_id"];
+  if (isset($_GET["p_id"]) && isset($_SESSION["email"])) {
+    $p_id = $_GET["p_id"];
+  }else{
+    header("location: index.php");
+  }
 
   $sql = "SELECT publication_date, title, pages, downloads, p_name, email  FROM publication NATURAL JOIN submits WHERE p_id = '$p_id'";
   $info_result = mysqli_query($dbc,$sql);

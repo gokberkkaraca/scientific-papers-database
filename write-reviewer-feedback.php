@@ -8,7 +8,7 @@
     $reviewer_email = $_SESSION['email'];
   }
   else {
-    // TODO Close window
+    header("location:index.php")
   }
  ?>
 

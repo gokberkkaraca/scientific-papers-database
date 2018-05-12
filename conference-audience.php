@@ -2,7 +2,12 @@
   include("config.php");
   session_start();
 
-  $p_name = $_GET["p_name"];
+  if (isset($_GET["p_name"]) && isset($_SESSION["email"])) {
+    $p_name = $_GET["p_name"];
+  }else{
+    header("location: index.php");
+  }
+
 
   $sql = "SELECT a_name, a_surname FROM audience WHERE p_name = '$p_name'";
   $audience_table = mysqli_query($dbc,$sql);

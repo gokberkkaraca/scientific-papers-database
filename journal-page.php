@@ -2,7 +2,11 @@
   include("config.php");
   session_start();
 
-  $p_name = $_GET["p_name"];
+  if (isset($_GET["p_name"]) && isset($_SESSION["email"])) {
+    $p_name = $_GET["p_name"];
+  }else{
+    header("location: index.php");
+  }
 
   $sql = "SELECT journal_topic  FROM publisher NATURAL JOIN journal WHERE p_name= '$p_name'";
   $info_result = mysqli_query($dbc,$sql);
@@ -52,7 +56,7 @@
               <a class="nav-link" id="submissions" href="#">Submissions</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="navbar-logout" href="#">Logout</a>
+              <a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
             </li>
           </ul>
         </div>

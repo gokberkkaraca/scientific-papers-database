@@ -2,7 +2,11 @@
   include("config.php");
   session_start();
 
-  $p_name = $_GET["p_name"];
+  if (isset($_GET["p_name"]) && isset($_SESSION["email"])) {
+    $p_name = $_GET["p_name"];
+  }else{
+    header("location: index.php");
+  }
 
   $sql = "SELECT * FROM journal WHERE p_name= '$p_name'";
 
