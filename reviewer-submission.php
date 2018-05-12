@@ -6,7 +6,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab:400,700" rel="stylesheet">
 <script type="text/javascript">
 	function writeFeedback(s_id, email) {
-    	popupWindow = window.open('write-reviewer-feedback.php?s_id=' + s_id,'popUpWindow','height=300,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
+    	popupWindow = window.open('write-reviewer-feedback.php?s_id=' + s_id + '&editor_email=' + email,'popUpWindow','height=300,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
   	}
 </script>
 </head>
@@ -47,12 +47,12 @@
 		function build_table($array){
 			$i = 0;
 
-	    	$html = '<tr>';
+	    	$html = "<tr align='center'>";
 
 	    	$html .= '<td><a href="' . $array['doc_link'] . '">' . $array['title'] .'</td>';
 	    	$html .= '<td>' . htmlspecialchars($array['date']) . '</td>';
 	    	$html .= '<td>' . htmlspecialchars($array['p_name']) . '</td>';
-	        $html .= '<td>' . '<button class="btn btn-info" onclick="' . "writeFeedback($array[s_id], $array[email]);" . '">Write Feedback</button>' . '</td>';
+	        $html .= '<td>' . '<button class="btn btn-info" onclick="' . "writeFeedback('$array[s_id]', '$array[email]');" . '">Write Feedback</button>' . '</td>';
 
 	        $html .= '</tr>';
 
@@ -64,7 +64,7 @@
 			$email = $_SESSION["email"];
 
 			// formulate the query
-			$query = 	"SELECT S.title, S.doc_link, S.date, S2.p_name, S.email, S.s_id
+			$query = 	"SELECT S.title, S.doc_link, S.date, S2.p_name, I.editor_email, S.s_id
 						FROM invites AS I JOIN submission AS S JOIN submits as S2
 						WHERE I.s_id = S.s_id
 						AND S.s_id = S2.s_id
@@ -75,13 +75,11 @@
 			// check number of rows to see if table is empty
 	        $num_rows = mysqli_num_rows($result);
 
-	      
-
-	    	echo "<div id=\"result-panel\" align=\"center\">";
+	    echo "<div id=\"result-panel\" align=\"center\">";
 			echo "<div align=\"center\">";
 			echo "<table class=\"table table-striped\">";
 			echo "<thead class=\"thead-light\">";
-			echo "<tr>";
+			echo "<tr align='center'>";
 			echo "<th scope=\"col\">Title</th>";
 			echo "<th scope=\"col\">Date</th>";
 			echo "<th scope=\"col\">Publisher Name</th>";
@@ -90,7 +88,7 @@
 			echo "</thead>";
 			echo "<tbody>";
 	        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-			    echo build_table(array('title'=>$row["title"], 'doc_link'=>$row["doc_link"], 'date'=>$row["date"], 'p_name'=>$row["p_name"], 'email'=>$row["email"], 's_id'=>$row["s_id"]));
+			    echo build_table(array('title'=>$row["title"], 'doc_link'=>$row["doc_link"], 'date'=>$row["date"], 'p_name'=>$row["p_name"], 'email'=>$row["editor_email"], 's_id'=>$row["s_id"]));
 			}
 			echo "</tbody>";
 			echo "</table>";

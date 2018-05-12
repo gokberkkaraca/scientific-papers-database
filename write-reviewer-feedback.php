@@ -22,7 +22,7 @@
   <form method="POST" action="">
     <div class="form-group" align="center">
       <label for="comment">Feedback:</label>
-      <textarea class="form-control" rows="5" id="comment" name="feedback"></textarea>
+      <textarea class="form-control" rows="5" id="comment" name="feedback" required></textarea>
       <br />
       <button type="submit" class="btn btn-success" name="save">Save</button>
       <?php
@@ -30,6 +30,7 @@
           if (isset($_POST['feedback'])) {
             $feedback = $_POST['feedback'];
             $sql = "INSERT INTO reviews VALUES(\"$reviewer_email\", \"$editor_email\", \"$s_id\",  \"$feedback\")";
+            mysqli_query($dbc, $sql);
             echo "<script>window.close();</script>";
           }
         }
