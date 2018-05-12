@@ -81,7 +81,7 @@
 		session_start();
 		if (isset($_SESSION["email"])) {
 			$email = $_SESSION["email"];
-
+	  	$user_type = $_SESSION["type"];
 			// formulate the query
 			$query = 	"SELECT S.title, S.doc_link, S.date, S2.p_name, I.editor_email, S.s_id
 						FROM invites AS I JOIN submission AS S JOIN submits as S2
