@@ -43,23 +43,32 @@
 </div>
 <?php
 		include("config.php");
+    session_start();
+
+    if(isset($_GET['reject'])) {
+      $rev_email = $_SESSION['email'];
+      $sid = $_GET['s_id'];
+      $edit_email = $_GET['editor_email'];
+
+      $sql = "DELETE FROM invites WHERE reviewer_email='$rev_email' AND editor_email='$edit_email' AND s_id='$sid'";
+      mysqli_query($dbc, $sql);
+    }
 
 		function build_table($array){
 			$i = 0;
+	    $email = $_SESSION["email"];
 
-	    	$html = "<tr align='center'>";
+    	$html = "<tr align='center'>";
 
-	    	$html .= '<td><a href="' . $array['doc_link'] . '">' . $array['title'] .'</td>';
-	    	$html .= '<td>' . htmlspecialchars($array['date']) . '</td>';
-	    	$html .= '<td>' . htmlspecialchars($array['p_name']) . '</td>';
-	        $html .= '<td>' . '<button class="btn btn-info" onclick="' . "writeFeedback('$array[s_id]', '$array[email]');" . '">Write Feedback</button>' . '</td>';
+    	$html .= '<td><a href="' . $array['doc_link'] . '">' . $array['title'] .'</td>';
+    	$html .= '<td>' . htmlspecialchars($array['date']) . '</td>';
+    	$html .= '<td>' . htmlspecialchars($array['p_name']) . '</td>';
+      $html .= '<td>' . '<button class="btn btn-info" onclick="' . "writeFeedback('$array[s_id]', '$array[email]');" . '">Write Feedback</button>' . "<a href=reviewer-submission.php?reject=true&reviewer_email=$email&s_id=$array[s_id]&editor_email=$array[email]><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>";
+      $html .= '</tr>';
 
-	        $html .= '</tr>';
-
-		    return $html;
+	    return $html;
 		}
 
-		session_start();
 		if (isset($_SESSION["email"])) {
 			$email = $_SESSION["email"];
 
