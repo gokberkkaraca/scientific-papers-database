@@ -23,6 +23,25 @@
 						<li class="nav-item active">
 							<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
 						</li>
+						<?php
+								//Subscriber
+								if($user_type == 0){
+									//do nothing
+								}else if($user_type == 1){ //reviewer
+									echo '<li class="nav-item">
+																<a class="nav-link" id="author-submission" href="#">Submissions</a>
+															</li>';
+								}
+								else if($user_type == 2){ //reviewer
+									echo '<li class="nav-item">
+													<a class="nav-link" id="submissions" href="#">Editor Submission</a>
+												</li>';
+								}else{ //editor
+									echo '<li class="nav-item">
+													<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
+												</li>';
+								}
+						 ?>
 						<li class="nav-item">
 							<a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
 						</li>

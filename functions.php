@@ -2,14 +2,14 @@
 
     require_once('config.php');
 
-    function getPublishersJson() 
+    function getPublishersJson()
     {
         global $dbc;
 
         $selPublishers = "select p_name from publisher;";
 
         $stmt = @mysqli_query($dbc,$selPublishers);
-        
+
         $publishers = array();
 
         while($row = @mysqli_fetch_array($stmt))
@@ -26,14 +26,14 @@
         return $jsonRes;
     }
 
-    function getExpertisesJson() 
+    function getExpertisesJson()
     {
         global $dbc;
 
         $selExpertises = "select tag from expertise;";
 
         $stmt = @mysqli_query($dbc,$selExpertises);
-        
+
         $expertises = array();
 
         while($row = @mysqli_fetch_array($stmt))
@@ -96,7 +96,7 @@
         {
             $institution = $_POST['institution'];
         }
-        
+
         if(empty($_POST['role']))
         {
             $data_missing[] = 'Role';
@@ -127,14 +127,14 @@
                 }
             }
         }
-        
+
         session_start();
         $_SESSION['validationMessage'] = '';
 
         if(empty($data_missing))
         {
             $checkEmail = "Select count(email) from subscriber where email = '".$email."' ;";
-            
+
             $stmt = @mysqli_query($dbc,$checkEmail);
 
             $count = @mysqli_fetch_array($stmt);
@@ -149,7 +149,7 @@
             else
             {
                 // Create account
-                
+
                 if ($role == "author")
                 {
                     $addAuthor = "insert into subscriber (email,i_name,password,s_name,s_surname,usertype)"
@@ -187,7 +187,7 @@
 
 
                 }
-                
+
                 else if ( $role == "reviewer" )
                 {
                     $addSub = "insert into subscriber (email,i_name,password,s_name,s_surname,usertype)"
@@ -221,7 +221,7 @@
                     $stmt2 = @mysqli_prepare($dbc,$addExpertise) or die(mysqli_error($dbc));
                     @mysqli_stmt_execute($stmt2) or die(mysqli_error($dbc));
                     @mysqli_stmt_close($stmt2);
-                    
+
                 }
                 else if ( $role == "subscriber" )
                 {
@@ -231,7 +231,7 @@
                     $stmt = @mysqli_prepare($dbc,$addSubscriber) or die(mysqli_error($dbc));
                     @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
                     @mysqli_stmt_close($stmt) or die(mysqli_error($dbc));
-                    
+
                 }
                 else if ( $role == "editor" )
                 {
@@ -272,30 +272,30 @@
                 header('Location: main.php');
                 exit();
             }
-            
+
             @mysqli_stmt_close($stmt);
         }
         else
         {
             $_SESSION['validationMessage'] = 'Some fields are missing!';
         }
-        
+
     }
 
-     function signin() 
+     function signin()
     {
         global $dbc;
 
         if( isset($_POST['email']) && isset($_POST['password']) ) {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            
+
             // formulate the query
-            $findUser = "select userType from subscriber where email='$email' and password='$password'";
+            $findUser = "select usertype from subscriber where email='$email' and password='$password'";
 
             // perform the query
             $result = @mysqli_query($dbc,$findUser);
-            
+
             // check number of rows to see if user exists in db
             $num_rows = mysqli_num_rows($result);
 
@@ -320,13 +320,13 @@
         }
     }
 
-    if (isset($_GET['getPublishers'])) 
+    if (isset($_GET['getPublishers']))
     {
         $res = getPublishersJson();
         echo $res;
         //getPublishersJson($_GET['closeID']);
     }
-    if (isset($_GET['getExpertises'])) 
+    if (isset($_GET['getExpertises']))
     {
         $res = getExpertisesJson();
         echo $res;
