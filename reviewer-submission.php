@@ -24,7 +24,7 @@
 							<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" id="navbar-logout" href="#">Logout</a>
+							<a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
 						</li>
 					</ul>
 				</div>
