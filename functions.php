@@ -2,14 +2,14 @@
 
     require_once('config.php');
 
-    function getPublishersJson() 
+    function getPublishersJson()
     {
         global $dbc;
 
         $selPublishers = "select p_name from publisher;";
 
         $stmt = @mysqli_query($dbc,$selPublishers);
-        
+
         $publishers = array();
 
         while($row = @mysqli_fetch_array($stmt))
@@ -26,14 +26,14 @@
         return $jsonRes;
     }
 
-    function getExpertisesJson() 
+    function getExpertisesJson()
     {
         global $dbc;
 
         $selExpertises = "select tag from expertise;";
 
         $stmt = @mysqli_query($dbc,$selExpertises);
-        
+
         $expertises = array();
 
         while($row = @mysqli_fetch_array($stmt))
@@ -96,7 +96,7 @@
         {
             $institution = $_POST['institution'];
         }
-        
+
         if(empty($_POST['role']))
         {
             $data_missing[] = 'Role';
@@ -127,14 +127,14 @@
                 }
             }
         }
-        
+
         session_start();
         $_SESSION['validationMessage'] = '';
 
         if(empty($data_missing))
         {
             $checkEmail = "Select count(email) from subscriber where email = '".$email."' ;";
-            
+
             $stmt = @mysqli_query($dbc,$checkEmail);
 
             $count = @mysqli_fetch_array($stmt);
@@ -188,7 +188,7 @@
 
 
                 }
-                
+
                 else if ( $role == "reviewer" )
                 {
                     $type = 1;
@@ -223,7 +223,7 @@
                     $stmt2 = @mysqli_prepare($dbc,$addExpertise) or die(mysqli_error($dbc));
                     @mysqli_stmt_execute($stmt2) or die(mysqli_error($dbc));
                     @mysqli_stmt_close($stmt2);
-                    
+
                 }
                 else if ( $role == "subscriber" )
                 {
@@ -234,7 +234,7 @@
                     $stmt = @mysqli_prepare($dbc,$addSubscriber) or die(mysqli_error($dbc));
                     @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
                     @mysqli_stmt_close($stmt) or die(mysqli_error($dbc));
-                    
+
                 }
                 else if ( $role == "editor" )
                 {
@@ -277,14 +277,14 @@
                 header('Location: main.php');
                 exit();
             }
-            
+
             @mysqli_stmt_close($stmt);
         }
         else
         {
             $_SESSION['validationMessage'] = 'Some fields are missing!';
         }
-        
+
     }
 
     function makeSubmission()
@@ -337,7 +337,7 @@
         {
             $expertises = $_POST['expertises'];
         }
-        
+
         session_start();
         $_SESSION['validationMessage'] = '';
 
@@ -384,7 +384,7 @@
                 header('Location: author_submissions.php');
                 exit();
             }
-            
+
         }
         else
         {
@@ -397,7 +397,7 @@
 
         global $dbc;
         $s_id = intval($_POST['id']);
-        
+
         $deleteSubmitsQuery = "delete from submits where s_id = ".$s_id.";";
         $deleteInvitesQuery = "delete from invites where s_id = ".$s_id.";";
         $deleteReviewsQuery = "delete from reviews where s_id = ".$s_id.";";
@@ -434,7 +434,7 @@
         @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
 
         $stmt = @mysqli_query($dbc,$addPublication) or die(mysqli_error($dbc));
-    
+
         @mysqli_stmt_close($stmt);
 
         return 'success';
@@ -448,7 +448,7 @@
         $selFeedbacks = "select feedback from reviews where s_id = ".$s_id.";";
 
         $stmt = @mysqli_query($dbc,$selFeedbacks);
-        
+
         $feedbacks = array();
 
         while($row = @mysqli_fetch_array($stmt))
@@ -463,22 +463,22 @@
         return $jsonRes;
     }
 
-    if (isset($_GET['getPublishers'])) 
+    if (isset($_GET['getPublishers']))
     {
         $res = getPublishersJson();
         echo $res;
     }
-    if (isset($_GET['getExpertises'])) 
+    if (isset($_GET['getExpertises']))
     {
         $res = getExpertisesJson();
         echo $res;
     }
-    if (isset($_GET['cancelSub'])) 
+    if (isset($_GET['cancelSub']))
     {
         $res = cancelSubmission();
         echo $res;
     }
-    if (isset($_GET['getFeedback'])) 
+    if (isset($_GET['getFeedback']))
     {
         $res = getFeedbackJson();
         echo $res;
@@ -492,12 +492,73 @@
     {
         makeSubmission();
     }
-    
+
     if(isset($_GET['publish']))
     {
         $res = publishSubmission();
         echo $res;
     }
 
-    @mysqli_close($dbc);
+     signin()
+   {
+       global $dbc;
+
+       if( isset($_POST['email']) && isset($_POST['password']) ) {
+           $email = $_POST['email'];
+           $password = $_POST['password'];
+
+           // formulate the query
+           $findUser = "select usertype from subscriber where email='$email' and password='$password'";
+
+           // perform the query
+           $result = @mysqli_query($dbc,$findUser);
+
+           // check number of rows to see if user exists in db
+           $num_rows = mysqli_num_rows($result);
+
+           if ($num_rows == 1) {
+               $type = mysqli_fetch_object($result);
+               session_start();
+               $_SESSION['authenticated'] = 1;
+               $_SESSION['validationMessage'] = '';
+               $_SESSION['email'] = $email;
+               $_SESSION['type'] = $type->usertype;
+               header('Location: main.php');
+               session_write_close();
+               exit();
+           } else {
+               $_SESSION['validationMessage'] = 'Some fields are missing!';
+               header('Location: signin.php?error');
+               session_write_close();
+               exit();
+           }
+
+           @mysqli_stmt_close($result);
+       }
+   }
+
+   if (isset($_GET['getPublishers']))
+   {
+       $res = getPublishersJson();
+       echo $res;
+       //getPublishersJson($_GET['closeID']);
+   }
+   if (isset($_GET['getExpertises']))
+   {
+       $res = getExpertisesJson();
+       echo $res;
+       //getExpertisesJson($_GET['closeID']);
+   }
+
+   if(isset($_POST['submit_signup']))
+   {
+       signup();
+   }
+
+   if(isset($_POST['submit_signin']))
+   {
+       signin();
+   }
+
+   @mysqli_close($dbc);
 ?>
