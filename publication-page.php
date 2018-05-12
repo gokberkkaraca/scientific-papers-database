@@ -2,7 +2,11 @@
   include("config.php");
   session_start();
 
-  $p_id = $_GET["p_id"];
+  if (isset($_GET["p_id"]) && isset($_SESSION["email"])) {
+    $p_id = $_GET["p_id"];
+  }else{
+    header("location: index.php");
+  }
 
   $sql = "SELECT publication_date, title, pages, downloads, p_name, email  FROM publication NATURAL JOIN submits WHERE p_id = '$p_id'";
   $info_result = mysqli_query($dbc,$sql);
@@ -62,11 +66,27 @@
             <li class="nav-item active">
               <a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
             </li>
+            <?php
+                //Subscriber
+                if($user_type == 0){
+                  //do nothing
+                }else if($user_type == 1){ //reviewer
+                  echo '<li class="nav-item">
+                                <a class="nav-link" id="author-submission" href="#">Submissions</a>
+                              </li>';
+                }
+                else if($user_type == 2){ //reviewer
+                  echo '<li class="nav-item">
+                          <a class="nav-link" id="submissions" href="#">Editor Submission</a>
+                        </li>';
+                }else{ //editor
+                  echo '<li class="nav-item">
+                          <a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
+                        </li>';
+                }
+             ?>
             <li class="nav-item">
-              <a class="nav-link" id="submissions" href="#">Submissions</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="navbar-logout" href="#">Logout</a>
+              <a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
             </li>
           </ul>
         </div>

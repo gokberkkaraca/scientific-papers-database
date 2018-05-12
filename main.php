@@ -4,11 +4,11 @@
 
 		if (isset($_SESSION["email"])) {
 			$email = $_SESSION["email"];
-			$type = $_SESSION["type"];
+			$user_type = $_SESSION["type"];
 		}
-		// else {
-		// 	header("location: signin.php");
-		// }
+		else {
+		 	header("location: index.php");
+		}
 		if(isset($_GET["search-key"])) {
 			$search_key = $_GET["search-key"];
 			$search_type = $_GET["search-type"];
@@ -19,10 +19,8 @@
 				$sql = "SELECT p_id, title, p_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%'";
 				$result = mysqli_query($dbc,$sql);
 			}else{
-			echo "3";
 				$sql = "SELECT p_id, title, p_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%'";
 				$result = mysqli_query($dbc,$sql);
-				echo "3";
 			}
 			$search_completed = 1;
 		}
@@ -48,11 +46,27 @@
 							<li class="nav-item active">
 								<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
 							</li>
+							<?php
+									//Subscriber
+									if($user_type == 0){
+										//do nothing
+									}else if($user_type == 1){ //reviewer
+										echo '<li class="nav-item">
+																	<a class="nav-link" id="author-submission" href="#">Submissions</a>
+																</li>';
+									}
+									else if($user_type == 2){ //reviewer
+										echo '<li class="nav-item">
+														<a class="nav-link" id="submissions" href="#">Editor Submission</a>
+													</li>';
+									}else{ //editor
+										echo '<li class="nav-item">
+														<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
+													</li>';
+									}
+							 ?>
 							<li class="nav-item">
-								<a class="nav-link" id="submissions" href="#">Submissions</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="navbar-logout" href="#">Logout</a>
+								<a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
 							</li>
 						</ul>
 					</div>
