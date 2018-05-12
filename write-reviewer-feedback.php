@@ -31,6 +31,10 @@
             $feedback = $_POST['feedback'];
             $sql = "INSERT INTO reviews VALUES(\"$reviewer_email\", \"$editor_email\", \"$s_id\",  \"$feedback\")";
             mysqli_query($dbc, $sql);
+
+            $sql = "DELETE FROM invites WHERE reviewer_email='$reviewer_email' AND editor_email='$editor_email' AND s_id='$s_id'";
+            mysqli_query($dbc, $sql);
+
             echo "<script>window.close();</script>";
           }
         }
