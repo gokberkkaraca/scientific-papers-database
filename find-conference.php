@@ -7,13 +7,8 @@
      $name = mysqli_real_escape_string($dbc,$_POST['name']);
      $surname = mysqli_real_escape_string($dbc,$_POST['surname']);
      $p_name = mysqli_real_escape_string($dbc, $_POST['conference']);
-     echo "$p_name";
-     echo "$name";
-     echo "$surname";
-
      $sql = "INSERT INTO audience VALUES ('$p_name', '$name', '$surname')";
      $insert = mysqli_query($dbc, $sql);
-     echo "<script>alert('Successfully registered to the conference');</script>";
      //header("location: index.php");
    }
  ?>
@@ -22,6 +17,8 @@
     <meta charset="utf-8">
     <title>Find Conference</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/find-conference.css" />
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
   </head>
   <body>
     <div class="container" align="center" style="margin-top: 30px">
@@ -48,34 +45,14 @@
                              ?>
                         </select>
                 </div>
-                <script>
-                $("#click-me").click(function () {
-
-               $.ajax({
-                   success: function (data) {
-                       console.log(data);
-                       $('#info-modal').addClass("show");
-                   },
-                   async: true
-               });
-
-           });
-
-           $(".modal-dialog .close").click(function(){
-
-               $(this).closest(".modal-dialog").removeClass("show");
-
-           });;
-                //header("location: index.php");
-              }
-                </script>
                 <div class="form-group">
-                    <button type="submit" name="register" class="form-control btn btn-primary">Register</button>
+                    <button type="submit" name="register" href="#" id="register" class="form-control btn btn-primary">Register</button>
                 </div>
             </form>
             <div>
                 <a href="index.php"><button type="submit" name="submit_signup" class="form-control btn btn-info">Go Home</button></a>
             </div>
+            <div id="info-modal" class="modal-dialog">
         </div>
     </div>
   </body>
