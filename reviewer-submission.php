@@ -51,7 +51,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </script>
 </head>
 <body>
-<?php 
+<?php
 		include("config.php");
 
 		function build_table($array){
@@ -62,7 +62,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 	        foreach($array as $key=>$value){
 	        	if ($key != 's_id'){
 	            	$html .= '<td>' . htmlspecialchars($value) . '</td>';
-	        	} 
+	        	}
 	        }
 	        $html .= '<td>' . '<button onclick="' . "writeFeedback($value);" . '">Write Feedback</button>' . '</td>';
 
@@ -94,7 +94,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 	    	echo '<table style="width:80%">';
 	        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 			    echo build_table(array('title'=>$row["title"], 'doc_link'=>$row["doc_link"], 'date'=>$row["date"], 'p_name'=>$row["p_name"], 's_id'=>$row["s_id"]));
-			}	 
+			}
 			echo '</table>';
 		}
 	?>
