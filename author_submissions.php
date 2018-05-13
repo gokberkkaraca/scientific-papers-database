@@ -1,4 +1,15 @@
-<!DOCTYPE html>
+<?php
+
+      require_once('config.php');
+      session_start();
+
+      if(isset($_SESSION['email'])){
+        $email = $_SESSION['email'];
+        $user_type = $_SESSION['type'];
+      }else{
+        header("location:index.php");
+      }
+ ?>
 <html>
     <head>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
@@ -7,9 +18,47 @@
             <script src="js/author_submissions.js"></script>
     </head>
     <body>
+      <div id="top-panel" align="center">
+  			<div id="nav-bar">
+  				<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  					<a class="navbar-brand" href="#">Scilib</a>
+  					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+  						<span class="navbar-toggler-icon"></span>
+  					</button>
+  					<div class="collapse navbar-collapse" id="navbarNavDropdown">
+  						<ul class="navbar-nav">
+  							<li class="nav-item active">
+  								<a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
+  							</li>
+  							<?php
+  									//Subscriber
+  									if($user_type == 0){
+  										//do nothing
+  									}else if($user_type == 1){
+  										echo '<li class="nav-item">
+  																	<a class="nav-link" id="author-submission" href="author_submissions.php">Submissions</a>
+  																</li>';
+  									}
+  									else if($user_type == 2){
+  										echo '<li class="nav-item">
+  														<a class="nav-link" id="submissions" href="#">Editor Submission</a>
+  													</li>';
+  									}else{ //editor
+  										echo '<li class="nav-item">
+  														<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
+  													</li>';
+  									}
+  							 ?>
+  							<li class="nav-item">
+  								<a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
+  							</li>
+  						</ul>
+  					</div>
+  				</nav>
+  			</div>
         <div class="container" align="center">
             <div class="author_submissions_div">
-                    
+
             <div class="feedback_div">
 
                 <div class="feedback-content">
@@ -20,15 +69,11 @@
             </div>
 
                     <?php
-
-                    require_once('config.php');
-                    session_start();
-                    $email = 'email2';
                     //$email = $_SESSION['email'];
 
                     getAuthorSubmissions();
 
-                    function getAuthorSubmissions() 
+                    function getAuthorSubmissions()
                     {
                         global $dbc;
                         global $email;
@@ -128,33 +173,33 @@
                     </div>
                     <div class="form-group row">
                         <input type="text" class="form-control col-6" name="nsubmission_link" placeholder="Google Doc Link" required>
-                        
+
                         <?php
 
                             //require_once('config.php');
                             getPublishers();
 
-                            function getPublishers() 
+                            function getPublishers()
                             {
                                 global $dbc;
-                            
+
                                 $selPublishers = "select p_name from publisher;";
-                            
+
                                 $stmt = @mysqli_query($dbc,$selPublishers) or die(mysqli_error($dbc));
-                            
+
                                 echo '<select class="form-control col-4 offset-2" name="nsubmission_publisher" placeholder="Publisher" required>';
                                 while($row = @mysqli_fetch_array($stmt))
                                 {
                                     echo '<option value="'.$row['p_name'].'">'.$row['p_name'].'</option>';
                                 }
                                 echo '</select>';
-                            
+
                                 @mysqli_stmt_close($stmt);
-                            
+
                             }
                         ?>
 
-                        
+
                     </div>
                     <div class="form-group row">
                         <input type="email" class="form-control" name="coauthors_emails" placeholder="Co-Authors emails seperated by comma">
@@ -167,7 +212,7 @@
                         //require_once('config.php');
                         getExpertises();
 
-                        function getExpertises() 
+                        function getExpertises()
                         {
                             global $dbc;
 
