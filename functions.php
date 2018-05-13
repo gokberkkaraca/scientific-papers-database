@@ -352,7 +352,7 @@
             {
                 // Link already exists
                 $_SESSION['validationMessage'] = 'This Link is already submitted';
-                header('Location: author_submissions.php');
+                header('Location: author-submissions.php');
                 exit();
             }
             else
@@ -381,7 +381,7 @@
                 @mysqli_stmt_close($stmt);
 
                 $_SESSION['validationMessage'] = 'Submission successfully added';
-                header('Location: author_submissions.php');
+                header('Location: author-submissions.php');
                 exit();
             }
 

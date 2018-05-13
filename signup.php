@@ -2,7 +2,7 @@
 <html>
     <head>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
-            <link rel="stylesheet" href="signup.css" />
+            <link rel="stylesheet" href="css/signup.css" />
             <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
             <script src="js/signup.js"></script>
     </head>
@@ -68,7 +68,7 @@ function getInstitutions()
                     <div class="form-group">
                         <button type="submit" name="submit_signup" class="form-control btn btn-primary">Sign Up</button>
                     </div>
-                    <a href="signin.html">Sign In</a>
+                    <a href="signin.php">Sign In</a>
                 </form>
             </div>
         </div>

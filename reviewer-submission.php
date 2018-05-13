@@ -27,26 +27,26 @@
 				<div class="collapse navbar-collapse" id="navbarNavDropdown">
 					<ul class="navbar-nav">
 						<li class="nav-item active">
-							<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-						</li>
-						<?php
-								//Subscriber
-								if($user_type == 0){
-									//do nothing
-								}else if($user_type == 1){ //reviewer
-									echo '<li class="nav-item">
-																<a class="nav-link" id="author-submission" href="#">Submissions</a>
-															</li>';
-								}
-								else if($user_type == 2){ //reviewer
-									echo '<li class="nav-item">
-													<a class="nav-link" id="submissions" href="#">Editor Submission</a>
-												</li>';
-								}else{ //editor
-									echo '<li class="nav-item">
-													<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
-												</li>';
-								}
+							<a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <?php
+                //Subscriber
+                if($user_type == 0){
+                  //do nothing
+                }else if($user_type == 1){
+                  echo '<li class="nav-item">
+                                <a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
+                              </li>';
+                }
+                else if($user_type == 2){
+                  echo '<li class="nav-item">
+                          <a class="nav-link" id="submissions" href="#">Editor Submission</a>
+                        </li>';
+                }else{ //editor
+                  echo '<li class="nav-item">
+                          <a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
+                        </li>';
+                }
 						 ?>
 						<li class="nav-item">
 							<a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>

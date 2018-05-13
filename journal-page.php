@@ -57,12 +57,12 @@
                 //Subscriber
                 if($user_type == 0){
                   //do nothing
-                }else if($user_type == 1){ //reviewer
+                }else if($user_type == 1){
                   echo '<li class="nav-item">
-                                <a class="nav-link" id="author-submission" href="#">Submissions</a>
+                                <a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
                               </li>';
                 }
-                else if($user_type == 2){ //reviewer
+                else if($user_type == 2){
                   echo '<li class="nav-item">
                           <a class="nav-link" id="submissions" href="#">Editor Submission</a>
                         </li>';
