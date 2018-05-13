@@ -59,9 +59,9 @@
         <div class="container" align="center">
             <div class="author_submissions_div">
 
-            <div class="feedback_div">
+            <div class="popup_div">
 
-                <div class="feedback-content">
+                <div class="popup-content">
                     <span class="close">&times;</span>
                     <h3>Feedback</h3>
                 </div>

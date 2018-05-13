@@ -3,7 +3,7 @@ $(document).ready(function(){
 
     window.onclick = function(event) 
     {
-        var feedback_div = $(".feedback_div")[0];
+        var feedback_div = $(".popup_div")[0];
         if (event.target == feedback_div) 
         {
             feedback_div.style.display = "none";
@@ -29,7 +29,7 @@ $(document).ready(function(){
 
                 if(arr.length > 0 )
                 {
-                    $(".feedback-content").append( '<div class="reviews_div">' +  
+                    $(".popup-content").append( '<div class="reviews_div">' +  
                     '<table class="table table-striped"><tbody class="reviews_tbody"></tbody></table></div>');
                     $table = $(".reviews_tbody");
                     arr.forEach(element => {
@@ -39,13 +39,13 @@ $(document).ready(function(){
             }
         });
 
-        $(".feedback_div")[0].style.display = "block";
+        $(".popup_div")[0].style.display = "block";
 
     });
 
     $(".close").on('click',function(){
 
-        $(".feedback_div")[0].style.display = "none";
+        $(".popup_div")[0].style.display = "none";
 
     });
 
@@ -57,7 +57,6 @@ $(document).ready(function(){
         var link = linkTD.find("a");
         var s_id = link.attr('id');
 
-        alert(s_id);
         $.ajax({
             type: "GET",
             url: "functions.php?publish=true",

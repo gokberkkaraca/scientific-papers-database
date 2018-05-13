@@ -440,6 +440,21 @@
         return 'success';
     }
 
+    function sendBackToAuthor()
+    {
+        global $dbc;
+        $s_id = intval($_GET['id']);
+
+        $changeState = "update submission set status = 3 where s_id = ".$s_id.";";
+
+        $stmt = @mysqli_prepare($dbc,$changeState) or die(mysqli_error($dbc));
+        @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
+
+        @mysqli_stmt_close($stmt);
+
+        return 'success';
+    }
+
     function getFeedbackJson()
     {
         global $dbc;
@@ -457,6 +472,59 @@
         }
 
         $jsonRes = json_encode($feedbacks);
+
+        @mysqli_stmt_close($stmt);
+
+        return $jsonRes;
+    }
+
+    function getFeedbackEditorJson()
+    {
+        global $dbc;
+        $s_id = intval($_GET['id']);
+
+        $selFeedbacks = "select CONCAT(s_name, ' ', s_surname) as fullName, feedback from reviews, subscriber where s_id = ".$s_id." and "
+        ."subscriber.email = reviews.reviewer_email";
+
+        $stmt = @mysqli_query($dbc,$selFeedbacks);
+
+        $feedbacks = array();
+
+        while($row = @mysqli_fetch_array($stmt))
+        {
+            array_push($feedbacks, $row['fullName']);
+            array_push($feedbacks, $row['feedback']);
+        }
+
+        $jsonRes = json_encode($feedbacks);
+
+        @mysqli_stmt_close($stmt);
+
+        return $jsonRes;
+    }
+
+    function getReviewersJson()
+    {
+        global $dbc;
+
+        $s_id = intval($_GET['id']);
+
+        $selReviewers = "select s_name, s_surname, subscriber.email as email, i_name from subscriber, reviews where s_id = ".$s_id." and "
+        ."subscriber.email = reviews.reviewer_email";
+
+        $stmt = @mysqli_query($dbc,$selReviewers);
+
+        $reviewers = array();
+
+        while($row = @mysqli_fetch_array($stmt))
+        {
+            array_push($reviewers, $row['s_name']);
+            array_push($reviewers, $row['s_surname']);
+            array_push($reviewers, $row['email']);
+            array_push($reviewers, $row['i_name']);
+        }
+
+        $jsonRes = json_encode($reviewers);
 
         @mysqli_stmt_close($stmt);
 
@@ -520,6 +588,16 @@
         $res = getFeedbackJson();
         echo $res;
     }
+    if (isset($_GET['getFeedbackEditor']))
+    {
+        $res = getFeedbackEditorJson();
+        echo $res;
+    }
+    if (isset($_GET['getReviewers']))
+    {
+        $res = getReviewersJson();
+        echo $res;
+    }
     if(isset($_POST['submit_signup']))
     {
         signup();
@@ -533,6 +611,11 @@
     if(isset($_GET['publish']))
     {
         $res = publishSubmission();
+        echo $res;
+    }
+    if(isset($_GET['sendBackToAuthor']))
+    {
+        $res = sendBackToAuthor();
         echo $res;
     }
 

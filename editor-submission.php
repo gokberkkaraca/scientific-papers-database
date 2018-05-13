@@ -10,7 +10,10 @@
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/author-submissions.css">
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab:400,700" rel="stylesheet">
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+	<script src="js/editor-submission.js"></script>
 
 </head>
 <body>
@@ -65,24 +68,107 @@
 				</form>
 			</div>
 	</div>
-	<script type="text/javascript">
-		
+	<script>
 		function invite_reviewer(s_id, status) {
     		
-  		}
-
-  		function see_reviewers(s_id) {
-    		
-  		}
-
-  		function see_feedback(s_id) {
-    		
-  		}
-
-  		function send_for_approval(s_id) {
-    		
-  		}
+		}
+	
+		function see_reviewers(s_id) {
+	
+			$(".added_div").remove();
+			$(".heading").text("Reviewers");
+	
+			$.ajax({
+				type: "GET",
+				url: "functions.php?getReviewers=true",
+				data: {id:s_id},
+				dataType: "json",
+				success: function(response){
+					var arr = ("" + response).split(",");
+	
+					if(arr.length > 0 )
+					{
+						$(".popup-content").append( '<div class="added_div">' +  
+						'<table class="table table-striped"><thead><tr><th>Name</th><th>Surname</th><th>Email</th><th>Institution</th></tr></thead>'+
+						'<tbody class="added_tbody"></tbody></table></div>');
+						$table = $(".added_tbody");
+						for ( var i = 0; i < arr.length; i = i + 4 )
+						{
+							$table.append('<tr><td>'+ arr[i] +'</td><td>'+ arr[i+1] +'</td><td>'+ arr[i+2] +'</td><td>'+ arr[i+3] +'</td></tr>');
+						}
+					}
+				}
+			});
+	
+			$(".popup_div")[0].style.display = "block";
+		}
+	
+		function see_feedback(s_id) {
+	
+			$(".added_div").remove();
+			$(".heading").text("Feedback");
+	
+			$.ajax({
+				type: "GET",
+				url: "functions.php?getFeedbackEditor=true",
+				data: {id:s_id},
+				dataType: "json",
+				success: function(response){
+					var arr = ("" + response).split(",");
+	
+					if(arr.length > 0 )
+					{
+						$(".popup-content").append( '<div class="added_div">' +  
+						'<table class="table table-striped"><thead><tr><th>Full Name</th><th>Feedback</th></tr></thead>'+
+						'<tbody class="added_tbody"></tbody></table></div>');
+						$table = $(".added_tbody");
+						for ( var i = 0; i < arr.length; i = i + 2 )
+						{
+							$table.append('<tr><td>'+ arr[i] +'</td><td>'+ arr[i+1] +'</td></tr>');
+						}
+					}
+				}
+			});
+	
+			$(".popup_div")[0].style.display = "block";
+		}
+	
+		function send_for_approval(s_id) {
+	
+			$.ajax({
+				type: "GET",
+				url: "functions.php?sendBackToAuthor=true",
+				data: {id:s_id},
+				success: function(response){
+					location.reload();
+				}
+			});
+		}
+	
+	
+		window.onclick = function(event) 
+		{
+			var popup_div = $(".popup_div")[0];
+			if (event.target == popup_div) 
+			{
+				popup_div.style.display = "none";
+			}
+		}
+	
+		$(".close").on('click',function(){
+	
+			$(".popup_div")[0].style.display = "none";
+	
+		});
 	</script>
+	<div class="popup_div">
+
+		<div class="popup-content">
+			<span class="close">&times;</span>
+			<h3 class="heading"></h3>
+		</div>
+
+	</div>
 	<?php
 	    if(isset($_GET['reject'])) {
 	      $rev_email = $_SESSION['email'];
