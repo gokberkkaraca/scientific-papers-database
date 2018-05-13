@@ -13,12 +13,23 @@ public class Connector {
 
         //Drop existing tables
         dropTables();
+        System.out.println("\nOld tables dropped");
 
         //Create tables
         createTables();
+        System.out.println("Tables created.");
+
+        //Create Triggers
+        createTriggers();
+        System.out.println("Triggers created.");
+
+        //Create Procedures
+        createProcedures();
+        System.out.println("Procedures created.");
 
         //Insertions
         insertRows();
+        System.out.println("Dummy data created.");
 
         //Close connection
         closeConnection();
@@ -86,7 +97,7 @@ public class Connector {
     }
 
     private static void dropTables() {
-        String tableNames[] = { "authorExpertise", "reviewerExpertise", "reviews", "editorPublisher","published_in",
+        String tableNames[] = { "co_authors","subscription", "authorExpertise", "reviewerExpertise", "reviews", "editorPublisher","published_in",
                 "cites", "invites",  "finances" , "sponsor",
                 "publication", "audience", "conference","journal_volume","journal", "expertise", "submits", "author","reviewer",
                 "publisher"," submission","editor","subscriber","institution" };
@@ -180,11 +191,11 @@ public class Connector {
                 "ENGINE=INNODB";
 
         String audience = "CREATE TABLE audience (" +
-                        "p_name VARCHAR(200)," +
-                        "a_name VARCHAR(200)," +
-                        "a_surname VARCHAR(200), " +
-                        "FOREIGN KEY (p_name) REFERENCES conference(p_name) ON DELETE CASCADE ON UPDATE CASCADE, " +
-                        "PRIMARY KEY(p_name, a_name, a_surname))" +
+                "p_name VARCHAR(200)," +
+                "a_name VARCHAR(200)," +
+                "a_surname VARCHAR(200), " +
+                "FOREIGN KEY (p_name) REFERENCES conference(p_name) ON DELETE CASCADE ON UPDATE CASCADE, " +
+                "PRIMARY KEY(p_name, a_name, a_surname))" +
                 "ENGINE=INNODB";
 
         String invites = "CREATE TABLE invites(\n" +
@@ -274,6 +285,24 @@ public class Connector {
                 "CREATE TABLE expertise( tag varchar(100) PRIMARY KEY)\n" +
                 "ENGINE = INNODB\n";
 
+        String coAuthors = "CREATE TABLE co_authors(\n" +
+                "        s_id INT,\n" +
+                "        email varchar(200),\n" +
+                "        FOREIGN KEY (s_id) REFERENCES submission(s_id) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
+                "        FOREIGN KEY (email) REFERENCES author(email) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
+                "                PRIMARY KEY(s_id, email))\n" +
+                "        ENGINE=INNODB";
+
+        String subscription = "CREATE TABLE subscription(\n" +
+                "        email varchar(200),\n" +
+                "        p_name varchar(200)," +
+                "        start_date DATE," +
+                "        end_date DATE," +
+                "        FOREIGN KEY (p_name) REFERENCES journal(p_name) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
+                "        FOREIGN KEY (email) REFERENCES subscriber(email) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
+                "                PRIMARY KEY(p_name, email))\n" +
+                "        ENGINE=INNODB";
+
         execQuery(institution);
         execQuery(subscriber);
         execQuery(publisher);
@@ -297,7 +326,8 @@ public class Connector {
         execQuery(journalVolume);
         execQuery(audience);
         execQuery(published_in);
-        System.out.println("Tables created");
+        execQuery(coAuthors);
+        execQuery(subscription);
     }
 
 
@@ -343,7 +373,6 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
-        System.out.println("Publication insertions completed.");
     }
 
     private static void insertConference() {
@@ -355,7 +384,6 @@ public class Connector {
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
         execQuery( insertQuery + query3);
-        System.out.println("Publication insertions completed.");
     }
 
 
@@ -368,7 +396,6 @@ public class Connector {
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
         execQuery( insertQuery + query3);
-        System.out.println("Publication insertions completed.");
     }
 
     private static void insertJournals() {
@@ -380,7 +407,6 @@ public class Connector {
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
         execQuery( insertQuery + query3);
-        System.out.println("Publication insertions completed.");
     }
     private static void insertSponsors() {
         String insertQuery = "INSERT INTO sponsor VALUES";
@@ -397,7 +423,6 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
-        System.out.println("Publication insertions completed.");
     }
 
     private static void insertFinances() {
@@ -415,7 +440,6 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
-        System.out.println("Publication insertions completed.");
     }
 
     private static void insertInvites() {
@@ -427,7 +451,6 @@ public class Connector {
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
         execQuery( insertQuery + query3);
-        System.out.println("Publication insertions completed.");
     }
 
     private static void insertInstitutions() {
@@ -446,7 +469,6 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
-        System.out.println("Publication insertions completed.");
     }
 
     private static void insertPublications() {
@@ -464,7 +486,6 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
-        System.out.println("Publication insertions completed.");
     }
 
     private static void insertAuthors() {
@@ -474,7 +495,6 @@ public class Connector {
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
-        System.out.println("Publisher insertions completed.");
     }
 
     private static void insertAuthorExpertises() {
@@ -484,7 +504,6 @@ public class Connector {
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
-        System.out.println("Publisher insertions completed.");
     }
 
     private static void insertReviewerExpertises() {
@@ -494,7 +513,6 @@ public class Connector {
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
-        System.out.println("Publisher insertions completed.");
     }
 
     private static void insertReviewers() {
@@ -504,7 +522,6 @@ public class Connector {
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
-        System.out.println("Publisher insertions completed.");
     }
 
     private static void insertReviews() {
@@ -522,7 +539,6 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
-        System.out.println("Publisher insertions completed.");
     }
 
 
@@ -541,7 +557,6 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
-        System.out.println("Publisher insertions completed.");
     }
 
 
@@ -562,7 +577,6 @@ public class Connector {
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
         execQuery( insertQuery + query7);
-        System.out.println("Publisher insertions completed.");
     }
 
 
@@ -581,7 +595,6 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
-        System.out.println("Publisher insertions completed.");
     }
 
     private static void insertEditors() {
@@ -591,7 +604,6 @@ public class Connector {
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
-        System.out.println("Publisher insertions completed.");
     }
 
     private static void insertSubmissions() {
@@ -626,7 +638,6 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
-        System.out.println("Publisher insertions completed.");
     }
 
     private static void insertJournalVolumes() {
@@ -650,7 +661,6 @@ public class Connector {
         execQuery( insertQuery + query7);
         execQuery( insertQuery + query8);
         execQuery( insertQuery + query9);
-        System.out.println("Publisher insertions completed.");
     }
 
     private static void insertPublishedIns() {
@@ -668,7 +678,6 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
-        System.out.println("Publisher insertions completed.");
     }
 
 
@@ -693,9 +702,51 @@ public class Connector {
         execQuery( insertQuery + query7);
         execQuery( insertQuery + query8);
         execQuery( insertQuery + query9);
-        System.out.println("Publisher insertions completed.");
     }
 
+    private static void createTriggers(){
+        String updateSubmissionStatus = "CREATE TRIGGER update_submission  \n" +
+                "AFTER DELETE ON  invites\n" +
+                "FOR EACH ROW  \n" +
+                "BEGIN\n" +
+                "update submission set status = 2 where s_id = old.s_id AND s_id not in( select s_id from invites);\n" +
+                "END;";
+        execQuery(updateSubmissionStatus);
+    }
+
+    private static void createProcedures(){
+        String dropInsertSubmission = "drop procedure if exists insert_submission";
+        String dropInsertPublication = "drop procedure if exists insert_publication";
+
+        execQuery(dropInsertSubmission);
+        execQuery(dropInsertPublication);
+
+        String insertSubmission = "CREATE PROCEDURE insert_submission\n" +
+                "     (IN title varchar(200), IN doc_link varchar(200), IN email varchar(200))\n" +
+                "BEGIN\n" +
+                "    DECLARE s_id_val INT DEFAULT 1;\n" +
+                "\n" +
+                "    SELECT (max(s_id) + 1) INTO s_id_val\n" +
+                "    FROM submission;\n" +
+                "\n" +
+                "    INSERT INTO submission\n" +
+                "    VALUES(s_id_val, 0, title, doc_link, CURDATE(), email);\n" +
+                "END";
+        String insertPublication = "CREATE PROCEDURE insert_publication\n" +
+                "     (IN p_id INT, IN title varchar(200), IN pages INT, IN doc_link varchar(200), IN s_id varchar(200))\n" +
+                "BEGIN\n" +
+                "    DECLARE p_id_val INT DEFAULT 1;\n" +
+                "\n" +
+                "    SELECT (max(p_id) + 1) INTO p_id_val\n" +
+                "    FROM publication;\n" +
+                "\n" +
+                "    INSERT INTO submission\n" +
+                "    VALUES(p_id_val, title, pages, CURDATE(), doc_link, 0, s_id);\n" +
+                "END";
+
+        execQuery(insertSubmission);
+        execQuery(insertPublication);
+    }
     private static void closeConnection() {
         try {
             conn.close();
