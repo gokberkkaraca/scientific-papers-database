@@ -455,6 +455,21 @@
         return 'success';
     }
 
+    function reject()
+    {
+        global $dbc;
+        $s_id = intval($_GET['id']);
+
+        $changeState = "update submission set status = 6 where s_id = ".$s_id.";";
+
+        $stmt = @mysqli_prepare($dbc,$changeState) or die(mysqli_error($dbc));
+        @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
+
+        @mysqli_stmt_close($stmt);
+
+        return 'success';
+    }
+
     function getFeedbackJson()
     {
         global $dbc;
@@ -616,6 +631,11 @@
     if(isset($_GET['sendBackToAuthor']))
     {
         $res = sendBackToAuthor();
+        echo $res;
+    }
+    if(isset($_GET['reject']))
+    {
+        $res = reject();
         echo $res;
     }
 

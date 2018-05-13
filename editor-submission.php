@@ -155,16 +155,28 @@
 			}
 		}
 	
-		$(".close").on('click',function(){
-	
+		function closePopup()
+		{
 			$(".popup_div")[0].style.display = "none";
-	
-		});
+		}
+
+		function reject(s_id)
+		{
+			$.ajax({
+				type: "GET",
+				url: "functions.php?reject=true",
+				data: {id:s_id},
+				success: function(response){
+					location.reload();
+				}
+			});
+		}
+
 	</script>
 	<div class="popup_div">
 
 		<div class="popup-content">
-			<span class="close">&times;</span>
+			<span class="close" onclick="closePopup();">&times;</span>
 			<h3 class="heading"></h3>
 		</div>
 
@@ -200,24 +212,30 @@
 	    	if ($array['status'] == 0) {
 	    		$html .= '<td>' 
 	    				. '<button class="btn btn-info" onclick="' . "invite_reviewer('$array[s_id]', '0')" 
-	    				. '">Invite Reviewer</button>' 
-	    				. "<a href=reviewer-submission.php?reject=true&s_id=$array[s_id]&editor_email=$email><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>";
+						. '">Invite Reviewer</button>' 
+						. "<button class=\"btn btn-danger\" style=\"margin-left: 10px\" onclick=" . "reject('$array[s_id]');" 
+	    				. ">Reject</button>";
+	    				//. "<a href=reviewer-submission.php?reject=true&s_id=$array[s_id]&editor_email=$email><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>";
 	    	}
 
 	    	// waiting for feedback -> see reviewers
 	    	else if ($array['status'] == 1) {
 	    		$html .= '<td>' 
 	    				. '<button class="btn btn-info" onclick="' . "see_reviewers('$array[s_id]');" 
-	    				. '">See Reviewers</button>' 
-	    				. "<a href=reviewer-submission.php?reject=true&s_id=$array[s_id]&editor_email=$email><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>";
+						. '">See Reviewers</button>'
+						. "<button class=\"btn btn-danger\" style=\"margin-left: 10px\" onclick=" . "reject('$array[s_id]');" 
+	    				. ">Reject</button>";
+	    				//. "<a href=reviewer-submission.php?reject=true&s_id=$array[s_id]&editor_email=$email><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>";
 	    	}
 
 	    	// ready for approval -> send for approval
 	    	else if ($array['status'] == 2) {
 	    		$html .= '<td>' 
 	    				. '<button class="btn btn-info" onclick="' . "see_feedback('$array[s_id]');" 
-	    				. '">See feedback</button>'
-	    				. "<a href=reviewer-submission.php?reject=true&s_id=$array[s_id]&editor_email=$email><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>"
+						. '">See feedback</button>'
+						. "<button class=\"btn btn-danger\" style=\"margin-left: 10px\" onclick=" . "reject('$array[s_id]');" 
+	    				. ">Reject</button>"
+	    				//. "<a href=reviewer-submission.php?reject=true&s_id=$array[s_id]&editor_email=$email><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>"
 	    				. '<p></p>' 
 	    				. '<button class="btn btn-info" onclick="' . "send_for_approval('$array[s_id]');" 
 	    				. '">Send for approval</button>';
