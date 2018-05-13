@@ -25,7 +25,7 @@
         <div class="scilib_theader col-4">
                 <h3>Find Conference</h3>
         </div>
-        <div class="signup_div col-4">
+        <div class="col-4">
             <form method="POST">
                 <div class="form-group">
                     <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
@@ -33,9 +33,9 @@
                 <div class="form-group">
                     <input type="text" class="form-control" name="surname" id="surname" placeholder="Surname" required>
                 </div>
-                <div class="form-group role_select_div">
+                <div class="form-group">
                         <label for="role">Select a conference</label>
-                        <select id="signup_role_select" class="form-control" name="conference" required>
+                        <select id="conferences_select" class="form-control" name="conference" required>
                             <?php
                                 if(isset($result)){
                                 while ( $row = mysqli_fetch_array($result, MYSQLI_NUM)) {
@@ -52,8 +52,40 @@
             <div>
                 <a href="index.php"><button type="submit" name="submit_signup" class="form-control btn btn-info">Go Home</button></a>
             </div>
-            <div id="info-modal" class="modal-dialog">
-        </div>
+            <script>
+
+                $("#register").on( "click", function(){
+
+                    var name1 = $("#name").val();
+                    var surname1 = $("#surname").val();
+                    var conf1 = $("#conferences_select option:selected").val();
+                    
+                    $.ajax({
+                        type: "GET",
+                        url: "register-conference.php?register=true",
+                        data: {name:name1,surname:surname1,conf:conf1},
+                        dataType: "text",
+                        success: function(response){
+                            
+                            var res = JSON.parse(response);
+                            if (res.result == 0)
+                            {
+                                alert(name1 + " " + surname1 + " is already registered!") 
+                                location.reload();
+                                
+                            }
+                            else if (res.result == 1)
+                            {
+                                alert(name1 + " " + surname1 + " was registered successfully!")
+                                location.replace("index.php");
+                                
+                            }
+                        }
+                    });
+
+                });
+
+            </script>
     </div>
   </body>
 </html>
