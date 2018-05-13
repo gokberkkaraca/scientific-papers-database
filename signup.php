@@ -68,7 +68,7 @@ function getInstitutions()
                     <div class="form-group">
                         <button type="submit" name="submit_signup" class="form-control btn btn-primary">Sign Up</button>
                     </div>
-                    <a href="signin.html">Sign In</a>
+                    <a href="signin.php">Sign In</a>
                 </form>
             </div>
         </div>
