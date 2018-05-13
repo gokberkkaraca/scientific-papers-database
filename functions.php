@@ -290,8 +290,8 @@
     function makeSubmission()
     {
         session_start();
-        $email = 'email2';
-        //$email = $_SESSION['email'];
+        //$email = 'email2';
+        $email = $_SESSION['email'];
 
         global $dbc;
 

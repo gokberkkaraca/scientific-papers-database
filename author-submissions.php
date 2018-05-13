@@ -69,7 +69,7 @@
             </div>
 
                     <?php
-                    //$email = $_SESSION['email'];
+                    $email = $_SESSION['email'];
 
                     getAuthorSubmissions();
 
