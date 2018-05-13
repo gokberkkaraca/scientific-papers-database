@@ -11,7 +11,7 @@ $(document).ready(function(){
             case "author":
             {
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     url: "functions.php?getExpertises=true",             
                     dataType: "json",                
                     success: function(response){
@@ -39,7 +39,7 @@ $(document).ready(function(){
             {
                 
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     url: "functions.php?getPublishers=true",             
                     dataType: "json",                
                     success: function(response){

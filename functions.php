@@ -552,42 +552,146 @@
     }
 
     function signin()
+    {
+        global $dbc;
+
+        if( isset($_POST['email']) && isset($_POST['password']) ) {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            // formulate the query
+            $findUser = "select usertype from subscriber where email='$email' and password='$password'";
+
+            // perform the query
+            $result = @mysqli_query($dbc,$findUser);
+
+            // check number of rows to see if user exists in db
+            $num_rows = mysqli_num_rows($result);
+
+            if ($num_rows == 1) {
+                $type = mysqli_fetch_object($result);
+                session_start();
+                $_SESSION['authenticated'] = 1;
+                $_SESSION['validationMessage'] = '';
+                $_SESSION['email'] = $email;
+                $_SESSION['type'] = $type->usertype;
+                header('Location: main.php');
+                session_write_close();
+                exit();
+            } else {
+                $_SESSION['validationMessage'] = 'Some fields are missing!';
+                header('Location: signin.php?error');
+                session_write_close();
+                exit();
+            }
+
+            @mysqli_stmt_close($result);
+        }
+    }
+
+    function loadReviewersJson()
+    {
+        global $dbc;
+
+        $name = $_GET['name'];
+        $expertise = $_GET['expertise'];
+
+        // change usertype to right one  = 1;
+        
+        $selReviewers = "select reviewers.fullName as fullName, tag from reviewerExpertise, (select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where"
+        ." usertype = 3 and (s_name like '%".$name."%' or s_surname like '%".$name."%') ) as reviewers"
+        ." where reviewers.email in (select distinct email from reviewerExpertise where tag = '".$expertise."') and"
+        ." reviewerExpertise.email = reviewers.email order by reviewers.fullName ASC";
+
+        $stmt = @mysqli_query($dbc,$selReviewers);
+
+        class Reviewer 
         {
-           global $dbc;
+            function Reviewer( $name ) 
+            {
+                $this->fullName = $name;
+                $this->expertises = array();
+            }
 
-           if( isset($_POST['email']) && isset($_POST['password']) ) {
-               $email = $_POST['email'];
-               $password = $_POST['password'];
+            function addExpertise( $expertise )
+            {
+                array_push($this->expertises, $expertise);
+            }
+        }
+        
+        $reviewers = array();
 
-               // formulate the query
-               $findUser = "select usertype from subscriber where email='$email' and password='$password'";
+        $res = '{ "reviewers" : ';
+        $nameTEMP = '';
+        $expertiseTEMP = '';
+        $counter = 1;
+        $reviewerObj = null;
+        while( $row = @mysqli_fetch_array($stmt) )
+        {
+            if ( $counter == 1 )
+            {
+                $res .= '[{ "name":"'.$row['fullName'].'", "expertises" : [ "'.$row['tag'].'"';
+                $nameTEMP = $row['fullName'];
+                $expertiseTEMP = $row['tag'];
+                $counter++;
+            }
+            else
+            {
+                if ( $row['fullName'] == $nameTEMP )
+                {
+                    $res .= ', "'.$row['tag'].'"';
+                }
+                else
+                {
+                    $res .= ']}';
+                    $res .= ',{ "name":"'.$row['fullName'].'", "expertises" : [ "'.$row['tag'].'"';
+                    $nameTEMP = $row['fullName'];
+                    $expertiseTEMP = $row['tag'];
+                }
+            }
+            /*
+            if ( $counter == 1 )
+            {
 
-               // perform the query
-               $result = @mysqli_query($dbc,$findUser);
+                $reviewerObj = new Reviewer( $row['fullName'] );
+                $reviewerObj->addExpertise($row['tag']);
+                $nameTEMP = $row['fullName'];
+                $expertiseTEMP = $row['tag'];
+                $counter++;
+            }
+            else
+            {
+                if ( $row['fullName'] == $nameTEMP )
+                {
+                    $reviewerObj->addExpertise($row['tag']);
+                }
+                else
+                {
+                    array_push($reviewers, $reviewerObj);
+                    $reviewerObj = new Reviewer( $row['fullName'] );
+                    $reviewerObj->addExpertise($row['tag']);
+                    $nameTEMP = $row['fullName'];
+                    $expertiseTEMP = $row['tag'];
+                }
+            }
+            */
+        }
+        if ($counter == 2)
+            $res .= ']} ]}';
+        else if ( $counter == 1)
+            $res .= '[] }';
 
-               // check number of rows to see if user exists in db
-               $num_rows = mysqli_num_rows($result);
+        
 
-               if ($num_rows == 1) {
-                   $type = mysqli_fetch_object($result);
-                   session_start();
-                   $_SESSION['authenticated'] = 1;
-                   $_SESSION['validationMessage'] = '';
-                   $_SESSION['email'] = $email;
-                   $_SESSION['type'] = $type->usertype;
-                   header('Location: main.php');
-                   session_write_close();
-                   exit();
-               } else {
-                   $_SESSION['validationMessage'] = 'Some fields are missing!';
-                   header('Location: signin.php?error');
-                   session_write_close();
-                   exit();
-               }
+        //$jsonRes = json_encode($reviewers);
 
-               @mysqli_stmt_close($result);
-           }
-       }
+        @mysqli_stmt_close($stmt);
+
+        return $res;
+
+        //return $jsonRes;
+    }
+
     if (isset($_GET['getPublishers']))
     {
         $res = getPublishersJson();
@@ -596,6 +700,11 @@
     if (isset($_GET['getExpertises']))
     {
         $res = getExpertisesJson();
+        echo $res;
+    }
+    if (isset($_GET['loadReviewers']))
+    {
+        $res = loadReviewersJson();
         echo $res;
     }
     if (isset($_GET['cancelSub']))
@@ -644,13 +753,13 @@
         echo $res;
     }
 
-   if (isset($_GET['getPublishers']))
+   if (isset($_POST['getPublishers']))
    {
        $res = getPublishersJson();
        echo $res;
        //getPublishersJson($_GET['closeID']);
    }
-   if (isset($_GET['getExpertises']))
+   if (isset($_POST['getExpertises']))
    {
        $res = getExpertisesJson();
        echo $res;

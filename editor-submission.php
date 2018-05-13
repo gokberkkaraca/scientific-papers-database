@@ -69,15 +69,113 @@
 			</div>
 	</div>
 	<script>
-		function invite_reviewer(s_id, status) {
-    		
+
+		
+		function invite_reviewer(s_id, status) 
+		{
+			// Adding structure HTML
+			$(".added_div").remove();
+			$(".heading").text("Invite Reviewer");
+					
+			
+					
+			$(".popup-content").append( '<div class="added_div"><div class="col-6 invite_input_div">'+
+			'<div class="form-group"><input class="form-control invite_input" type="text" name="reviewer_name" placeholder="Enter a name"></div>'+
+			'<div class="form-group"><select class="form-control expertise_select invite_input" name="expertise"></select></div>'+
+			'<button class="col-3 btn btn-primary" onclick="closePopup();">OK</button></div>'+
+			'<div class="matching_reviewers"></div></div>'); 
+
+			// Filling the expertises select
+			$.ajax({
+				type: "POST",
+				url: "functions.php?getExpertises=true",
+				dataType: "json",
+				success: function(response){
+
+					var arr = ("" + response).split(",");
+
+					if(arr.length > 0 )
+					{
+						$expertSel = $(".expertise_select");
+						var count = 1;
+						arr.forEach(element => {
+							$expertSel.append('<option value="'+ element +'">'+ element +'</option>');
+						});
+					}
+				}
+			});
+
+			loadReviewersJson();
+
+			// Adding event handlers to input and select
+			$(".invite_input").on("change", function(){
+				loadReviewersJson();
+			});
+
+/*
+			$("input.invite_input").on("onkeypress,onkeyup", function(){
+				loadReviewersJson();
+			});
+*/
+
+			// Displaying
+			$(".popup_div")[0].style.display = "block";
+
 		}
-	
+
+		function loadReviewersJson()
+		{
+			$( ".matching_reviewers" ).empty();
+
+			var revName = $("input.invite_input").val();
+			var selExpertise = $("select.invite_input > option:selected").val();
+			
+
+			$.ajax({
+					type: "GET",
+					url: "functions.php?loadReviewers=true",
+					data: {name:revName, expertise:selExpertise},
+					async: false,            
+					dataType: "json",                
+					success: function(response){
+
+//						alert(response.reviewers[0].name);
+						
+						var arr = Object.values(response.reviewers)
+
+						if(arr.length <= 0 )
+						{
+							alert("No reviewer with these info exists!");
+						}
+						else
+						{
+							
+							var toAdd = '';
+							arr.forEach(element => {
+
+								toAdd +=  '<div><label>'+ element.name +'</label><div><ul>';
+								
+								element.expertises.forEach( val => {
+
+									toAdd += '<li>'+ val +'</li>';
+								});
+
+								toAdd += '</ul></div></div>';
+								
+								$(".matching_reviewers").append( toAdd );
+							});
+						}
+						
+					}
+				});
+		}
+
+
 		function see_reviewers(s_id) {
-	
+
 			$(".added_div").remove();
 			$(".heading").text("Reviewers");
-	
+
 			$.ajax({
 				type: "GET",
 				url: "functions.php?getReviewers=true",
@@ -85,7 +183,7 @@
 				dataType: "json",
 				success: function(response){
 					var arr = ("" + response).split(",");
-	
+
 					if(arr.length > 0 )
 					{
 						$(".popup-content").append( '<div class="added_div">' +  
@@ -99,15 +197,16 @@
 					}
 				}
 			});
-	
+
 			$(".popup_div")[0].style.display = "block";
 		}
-	
+
 		function see_feedback(s_id) {
-	
+
+
 			$(".added_div").remove();
 			$(".heading").text("Feedback");
-	
+
 			$.ajax({
 				type: "GET",
 				url: "functions.php?getFeedbackEditor=true",
@@ -115,7 +214,7 @@
 				dataType: "json",
 				success: function(response){
 					var arr = ("" + response).split(",");
-	
+
 					if(arr.length > 0 )
 					{
 						$(".popup-content").append( '<div class="added_div">' +  
@@ -129,12 +228,13 @@
 					}
 				}
 			});
-	
+
 			$(".popup_div")[0].style.display = "block";
 		}
-	
+
 		function send_for_approval(s_id) {
-	
+
+
 			$.ajax({
 				type: "GET",
 				url: "functions.php?sendBackToAuthor=true",
@@ -144,8 +244,8 @@
 				}
 			});
 		}
-	
-	
+
+
 		window.onclick = function(event) 
 		{
 			var popup_div = $(".popup_div")[0];
@@ -154,7 +254,7 @@
 				popup_div.style.display = "none";
 			}
 		}
-	
+
 		function closePopup()
 		{
 			$(".popup_div")[0].style.display = "none";
@@ -162,6 +262,7 @@
 
 		function reject(s_id)
 		{
+
 			$.ajax({
 				type: "GET",
 				url: "functions.php?reject=true",
@@ -171,6 +272,7 @@
 				}
 			});
 		}
+
 
 	</script>
 	<div class="popup_div">
@@ -235,10 +337,10 @@
 						. '">See feedback</button>'
 						. "<button class=\"btn btn-danger\" style=\"margin-left: 10px\" onclick=" . "reject('$array[s_id]');" 
 	    				. ">Reject</button>"
-	    				//. "<a href=reviewer-submission.php?reject=true&s_id=$array[s_id]&editor_email=$email><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>"
 	    				. '<p></p>' 
 	    				. '<button class="btn btn-info" onclick="' . "send_for_approval('$array[s_id]');" 
-	    				. '">Send for approval</button>';
+						. '">Send for approval</button>';
+						//. "<a href=reviewer-submission.php?reject=true&s_id=$array[s_id]&editor_email=$email><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>"
 	    	}
 
 	    	// nothing for waiting for approval (status == 3)
