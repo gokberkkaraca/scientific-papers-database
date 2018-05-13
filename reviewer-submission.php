@@ -57,7 +57,7 @@
 		</div>
 	<div class="container-fluid">
 		  <div class="jumbotron">
-				<form name="search" id="search-form">
+				<form name="reviewer-submission" id="reviewer-submission-form">
 
 					<div class="row">
 						<div class="col-md-12"><h1 id="scilib-title">Waiting for review</h1></div>
@@ -67,7 +67,6 @@
 	</div>
 </div>
 <?php
-
     if(isset($_GET['reject'])) {
       $rev_email = $_SESSION['email'];
       $sid = $_GET['s_id'];
@@ -78,56 +77,55 @@
       mysqli_query($dbc, $sql);
     }
 
-		function build_table($array){
-			$i = 0;
-	    $email = $_SESSION["email"];
+	function build_table($array) {
+		$i = 0;
+    	$email = $_SESSION["email"];
 
     	$html = "<tr align='center'>";
 
     	$html .= '<td><a href="' . $array['doc_link'] . '">' . $array['title'] .'</td>';
     	$html .= '<td>' . htmlspecialchars($array['date']) . '</td>';
     	$html .= '<td>' . htmlspecialchars($array['p_name']) . '</td>';
-      $html .= '<td>' . '<button class="btn btn-info" onclick="' . "writeFeedback('$array[s_id]', '$array[email]');" . '">Write Feedback</button>' . "<a href=reviewer-submission.php?reject=true&reviewer_email=$email&s_id=$array[s_id]&editor_email=$array[email]><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>";
-      $html .= '</tr>';
+      	$html .= '<td>' . '<button class="btn btn-info" onclick="' . "writeFeedback('$array[s_id]', '$array[email]');" . '">Write Feedback</button>' . "<a href=reviewer-submission.php?reject=true&reviewer_email=$email&s_id=$array[s_id]&editor_email=$array[email]><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>";
+      	$html .= '</tr>';
 
 	    return $html;
-		}
+	}
 
-		if (isset($_SESSION["email"])) {
-			$email = $_SESSION["email"];
-	  	$user_type = $_SESSION["type"];
-			// formulate the query
-			$query = 	"SELECT S.title, S.doc_link, S.date, S2.p_name, I.editor_email, S.s_id
-						FROM invites AS I JOIN submission AS S JOIN submits as S2
-						WHERE I.s_id = S.s_id
-						AND S.s_id = S2.s_id
-						AND I.reviewer_email = \"$email\"";
-			// perform the query
-			$result = mysqli_query($dbc,$query);
-
-			// check number of rows to see if table is empty
-	        $num_rows = mysqli_num_rows($result);
+	if (isset($_SESSION["email"])) {
+		$email = $_SESSION["email"];
+  		$user_type = $_SESSION["type"];
+		
+		// formulate the query
+		$query = 	"SELECT S.title, S.doc_link, S.date, S2.p_name, I.editor_email, S.s_id
+					FROM invites AS I JOIN submission AS S JOIN submits as S2
+					WHERE I.s_id = S.s_id
+					AND S.s_id = S2.s_id
+					AND I.reviewer_email = \"$email\"
+					ORDER BY date ASC";
+		// perform the query
+		$result = mysqli_query($dbc,$query);
 
 	    echo "<div id=\"result-panel\" align=\"center\">";
-			echo "<div align=\"center\">";
-			echo "<table class=\"table table-striped\">";
-			echo "<thead class=\"thead-light\">";
-			echo "<tr align='center'>";
-			echo "<th scope=\"col\">Title</th>";
-			echo "<th scope=\"col\">Date</th>";
-			echo "<th scope=\"col\">Publisher Name</th>";
-			echo "<th scope=\"col\">Action</th>";
-			echo "</tr>";
-			echo "</thead>";
-			echo "<tbody>";
-	        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-			    echo build_table(array('title'=>$row["title"], 'doc_link'=>$row["doc_link"], 'date'=>$row["date"], 'p_name'=>$row["p_name"], 'email'=>$row["editor_email"], 's_id'=>$row["s_id"]));
-			}
-			echo "</tbody>";
-			echo "</table>";
-			echo "</div>";
-			echo "</div>";
+		echo "<div align=\"center\">";
+		echo "<table class=\"table table-striped\">";
+		echo "<thead class=\"thead-light\">";
+		echo "<tr align='center'>";
+		echo "<th scope=\"col\">Title</th>";
+		echo "<th scope=\"col\">Date</th>";
+		echo "<th scope=\"col\">Publisher Name</th>";
+		echo "<th scope=\"col\">Action</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tbody>";
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+		    echo build_table(array('title'=>$row["title"], 'doc_link'=>$row["doc_link"], 'date'=>$row["date"], 'p_name'=>$row["p_name"], 'email'=>$row["editor_email"], 's_id'=>$row["s_id"]));
 		}
-	?>
+		echo "</tbody>";
+		echo "</table>";
+		echo "</div>";
+		echo "</div>";
+	}
+?>
 </body>
 </html>
