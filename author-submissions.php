@@ -13,9 +13,9 @@
 <html>
     <head>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
-            <link rel="stylesheet" href="css/author_submissions.css" />
+            <link rel="stylesheet" href="css/author-submissions.css" />
             <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-            <script src="js/author_submissions.js"></script>
+            <script src="js/author-submissions.js"></script>
     </head>
     <body>
       <div id="top-panel" align="center">
@@ -36,7 +36,7 @@
   										//do nothing
   									}else if($user_type == 1){
   										echo '<li class="nav-item">
-  																	<a class="nav-link" id="author-submission" href="author_submissions.php">Submissions</a>
+  																	<a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
   																</li>';
   									}
   									else if($user_type == 2){
