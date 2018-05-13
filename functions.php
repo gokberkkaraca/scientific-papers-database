@@ -465,6 +465,11 @@
         $stmt = @mysqli_prepare($dbc,$changeState) or die(mysqli_error($dbc));
         @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
 
+        $deleteInvites = "delete from invites where s_id = ".$sid.";";
+
+        $stmt = @mysqli_prepare($dbc,$deleteInvites) or die(mysqli_error($dbc));
+        @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
+
         @mysqli_stmt_close($stmt);
 
         return 'success';
