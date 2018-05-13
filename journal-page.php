@@ -4,6 +4,7 @@
 
   if (isset($_GET["p_name"]) && isset($_SESSION["email"])) {
     $p_name = $_GET["p_name"];
+    $email = $_SESSION["email"];
     $user_type = $_SESSION["type"];
   }else{
     header("location: index.php");
@@ -21,11 +22,16 @@
     $journal_volumes = mysqli_query($dbc, $sql);
     $number_of_volumes = mysqli_num_rows($journal_volumes);
 
+    $sql = "SELECT * FROM subscription WHERE p_name = '$p_name' AND email = '$email'";
+    $subscription_result = mysqli_query($dbc,$sql);
+    $subscription_check = mysqli_num_rows($subscription_result);
+    
     if (isset($_GET["volume"])) {
       $volume = $_GET["volume"];
       $sql = "SELECT p_id, title FROM published_in NATURAL JOIN publication WHERE volume_no = '$volume' AND p_name='$p_name'";
       $result = mysqli_query($dbc,$sql);
     }
+
     $completed = "1";
   }else{
     header("location: notfound.html");
@@ -39,6 +45,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      function subscribe(email, p_name) {
+        // TODO: add to subscription table using this query
+        // INSERT INTO subscription VALUES(email, p_name, date today, date today + 1 month);
+      }
+
+      function unsubscribe(email, p_name) {
+        // TODO: remove from subscription table using this query
+        //DELETE FROM gokberk_karaca.subscription WHERE email = email AND p_name = p_name
+      }
+
+    </script>
     <title>Journal Page</title>
   </head>
   <body>
@@ -82,7 +100,16 @@
     <br />
     <div class="container">
       <div class="jumbotron">
-        <?php  echo "<h1 align='center'>$p_name</h1>"?>
+        <?php   echo "<h1 align='center'>$p_name<p></p>";
+                if (isset($completed)) {
+                  if ($subscription_check == 0) {
+                    echo "<button class='btn btn-success' onclick=\"subscribe('$email', '$p_name')\">Subscribe for 1 month</button></h1>";
+                  }
+                  else if ($subscription_check == 1) {
+                    echo "<button class='btn btn-warning' onclick=\"unsubscribe('$email', '$p_name')\">Unsubscribe</button></h1>";
+                  }
+                }
+        ?>
         <br />
         <div class="row">
           <div class="col-md-2">
