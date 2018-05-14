@@ -359,12 +359,12 @@ public class Connector {
 
     private static void insertSubscribers() {
         String insertQuery = "INSERT INTO subscriber VALUES";
-        String query1 = "('email1', 'institution1', 'password1', 'name1', 'surname1', '1')";
-        String query2 = "('email2', 'institution2', 'password2', 'name2', 'surname2', '1')";
-        String query3 = "('email3', 'institution3', 'password3', 'name3', 'surname3', '2')";
-        String query4 = "('email4', 'institution4', 'password4', 'name4', 'surname4', '2')";
-        String query5 = "('email5', 'institution5', 'password5', 'name5', 'surname5', '3')";
-        String query6 = "('email6', 'institution6', 'password6', 'name6', 'surname6', '3')";
+        String query1 = "('email1', 'institution1', 'password1', 'name1', 'surname1', '2')";
+        String query2 = "('email2', 'institution2', 'password2', 'name2', 'surname2', '2')";
+        String query3 = "('email3', 'institution3', 'password3', 'name3', 'surname3', '3')";
+        String query4 = "('email4', 'institution4', 'password4', 'name4', 'surname4', '3')";
+        String query5 = "('email5', 'institution5', 'password5', 'name5', 'surname5', '1')";
+        String query6 = "('email6', 'institution6', 'password6', 'name6', 'surname6', '1')";
 
 
         execQuery( insertQuery + query1);
