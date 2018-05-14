@@ -48,21 +48,23 @@
 							</li>
 							<?php
 									//Subscriber
-									if($user_type == 0){
+									if($user_type == 0){ // subscriber
 										//do nothing
-									}else if($user_type == 1){
-										echo '<li class="nav-item">
-																	<a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
-																</li>';
+									}else if($user_type == 1){ // reviewer
+										echo 	'<li class="nav-item">
+													<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
+												</li>';
+										
 									}
-									else if($user_type == 2){
-										echo '<li class="nav-item">
-														<a class="nav-link" id="submissions" href="#">Editor Submission</a>
-													</li>';
+									else if($user_type == 2){ // author
+										echo 	'<li class="nav-item">
+													<a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
+												</li>';
+																
 									}else{ //editor
-										echo '<li class="nav-item">
-														<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
-													</li>';
+										echo 	'<li class="nav-item">
+													<a class="nav-link" id="submissions" href="editor-submission.php">Editor Submissions</a>
+												</li>';
 									}
 							 ?>
 							<li class="nav-item">
