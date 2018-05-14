@@ -430,7 +430,7 @@
         global $dbc;
         $s_id = intval($_GET['publishID']);
 
-        $changeState = "update submission set status = 4 where s_id = ".$s_id.";";
+        /*$changeState = "update submission set status = 4 where s_id = ".$s_id.";";
         $addPublication = "insert into publication (title, pages,publication_date,doc_link,downloads,s_id)"
         ." values ('',0,CURDATE(),'',0,".$s_id.");";
 
@@ -440,6 +440,11 @@
 
         $stmt = @mysqli_query($dbc,$addPublication) or die(mysqli_error($dbc));
 
+        @mysqli_stmt_close($stmt); */
+
+        $number_of_pages = 0;
+        $insertPublication = "call insert_publication('$title', '$number_of_pages', '$link', '$s_id')";
+        $stmt = @mysqli_query($dbc,$insertPublication) or die(mysqli_error($dbc));
         @mysqli_stmt_close($stmt);
 
         return 'success';
