@@ -602,19 +602,28 @@
     function inviteRev()
     {
         global $dbc;
+        session_start();
 
         $revEmail = $_GET['email'];
         $s_id = intval($_GET['id']);
         $status = intval($_GET['stat']);
+        
         $editorEmail = $_SESSION['email'];
+        /*
+        $editorEmail = "abramson@harvard.edu";
 
+        if ( isset($_SESSION['email']) )
+            echo $editorEmail;
+        else
+            echo "not set";
+*/
         $addInvite = "insert into invites (reviewer_email,editor_email,s_id,status) values ('".$revEmail."', '".$editorEmail."', ".$s_id." , ".$status.");";
 
-        $stmt = @mysqli_query($dbc,$addInvite);
+        $stmt = @mysqli_prepare($dbc,$addInvite) or die(mysqli_error($dbc));
+        @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
+        @mysqli_stmt_close($stmt) or die(mysqli_error($dbc));
 
-        @mysqli_stmt_close($stmt);
-
-        return 'success';
+        return "success";
     }
 
     function loadReviewersJson()
@@ -628,7 +637,13 @@
         ." usertype = 1 and (s_name like '%".$name."%' or s_surname like '%".$name."%') ) as reviewers"
         ." where reviewers.email in (select distinct email from reviewerExpertise where tag = '".$expertise."') and"
         ." reviewerExpertise.email = reviewers.email order by reviewers.fullName ASC";
+/*
 
+        $selReviewers = "select reviewers.fullName as fullName, reviewers.email as email, tag, count() as invited from reviewerExpertise, (select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where"
+        ." usertype = 1 and (s_name like '%".$name."%' or s_surname like '%".$name."%') ) as reviewers,(select reviewer_email from invites, reviews where invites.reviewer_email = reviews.reviewer_email and  ) as alreadyInvited"
+        ." where reviewers.email in (select distinct email from reviewerExpertise where tag = '".$expertise."') and"
+        ." reviewerExpertise.email = reviewers.email order by reviewers.fullName ASC";
+*/
         $stmt = @mysqli_query($dbc,$selReviewers);
 
         class Reviewer
@@ -792,6 +807,8 @@
    }
    if (isset($_POST['getExpertises']))
    {
+       header('Location: yoyo.php');
+       exit();
        $res = getExpertisesJson();
        echo $res;
        //getExpertisesJson($_GET['closeID']);

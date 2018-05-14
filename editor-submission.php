@@ -83,8 +83,8 @@
 			$(".heading").text("Invite Reviewer");
 
 
-
-			$(".popup-content").append( '<div class="added_div"><div class="col-6 invite_input_div">'+
+			
+			$(".popup-content").append( '<div class="added_div" data-sid="'+ s_id +'" data-status="'+ status +'"><div class="col-6 invite_input_div">'+
 			'<div class="form-group"><input class="form-control invite_input" type="text" name="reviewer_name" placeholder="Enter a name"></div>'+
 			'<div class="form-group"><select class="form-control expertise_select invite_input" name="expertise"></select></div>'+
 			//'<button class="col-3 btn btn-primary" onclick="closePopup();">OK</button>
@@ -111,11 +111,11 @@
 				}
 			});
 
-			loadReviewersJson();
+			loadReviewersJson(s_id, status);
 
 			// Adding event handlers to input and select
 			$(".invite_input").on("change", function(){
-				loadReviewersJson();
+				loadReviewersJson(s_id, status);
 			});
 
 /*
@@ -129,7 +129,7 @@
 
 		}
 
-		function loadReviewersJson()
+		function loadReviewersJson(s_idArg, statusArg)
 		{
 			$( ".matching_reviewers" ).empty();
 
@@ -176,10 +176,19 @@
 					}
 				}
 			});
-			$("button.invite_btn").on("click",function(){
+			$("button.invite_btn").on("click", function(){
 
+				//var eventData = event.data;
 				var revEmail = $(this).attr("id");
-				alert(revEmail);
+				var s_id = s_idArg;
+				var status = statusArg;
+				//var s_id = $(".addedDiv").data("sid");
+				//var status = $(".addedDiv").data("status");
+
+				//attr('data-fruit')
+
+				alert( revEmail +  " " +  s_id +" " + status);
+
 				$.ajax({
 						type: "GET",
 						url: "functions.php?inviteRev=true",
@@ -187,7 +196,7 @@
 						dataType: "text",
 						success: function(response){
 							alert(response);
-							$("#" + revEmail).removeClass("btn-primary").addClass("btn-success").text('invited').prop('disabled',true);
+							$( "#" + $.escapeSelector(revEmail) ).removeClass("btn-primary").addClass("btn-success").text('invited').prop('disabled',true);
 
 						}
 				});
