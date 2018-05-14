@@ -595,11 +595,9 @@
 
         $name = $_GET['name'];
         $expertise = $_GET['expertise'];
-
-        // change usertype to right one  = 1;
         
         $selReviewers = "select reviewers.fullName as fullName, tag from reviewerExpertise, (select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where"
-        ." usertype = 3 and (s_name like '%".$name."%' or s_surname like '%".$name."%') ) as reviewers"
+        ." usertype = 1 and (s_name like '%".$name."%' or s_surname like '%".$name."%') ) as reviewers"
         ." where reviewers.email in (select distinct email from reviewerExpertise where tag = '".$expertise."') and"
         ." reviewerExpertise.email = reviewers.email order by reviewers.fullName ASC";
 
