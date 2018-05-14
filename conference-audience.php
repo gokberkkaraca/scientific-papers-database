@@ -36,22 +36,27 @@
               <a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
             </li>
             <?php
-                //Subscriber
-                if($user_type == 0){
-                  //do nothing
-                }else if($user_type == 1){
-                  echo '<li class="nav-item">
-                                <a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
-                              </li>';
-                }
-                else if($user_type == 2){
-                  echo '<li class="nav-item">
-                          <a class="nav-link" id="submissions" href="#">Editor Submission</a>
-                        </li>';
-                }else{ //editor
+                // Reviewer
+                if($user_type == 1){
                   echo '<li class="nav-item">
                           <a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
                         </li>';
+                // Author
+              }else if($user_type == 2){
+                  echo '<li class="nav-item">
+                                <a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
+                              </li>';
+                  echo '<li class="nav-item">
+                                <a class="nav-link" id="author-submission" href="author-publications.php">Publications</a>
+                              </li>';
+                }
+                // Editor
+                else if($user_type == 3){
+                  echo '<li class="nav-item">
+                          <a class="nav-link" id="submissions" href="editor-submission.php">Editor Submission</a>
+                        </li>';
+                }else{ // Subscriber
+
                 }
              ?>
             <li class="nav-item">

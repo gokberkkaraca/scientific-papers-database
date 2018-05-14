@@ -47,24 +47,27 @@
 								<a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
 							</li>
 							<?php
-									//Subscriber
-									if($user_type == 0){ // subscriber
-										//do nothing
-									}else if($user_type == 1){ // reviewer
-										echo 	'<li class="nav-item">
-													<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
-												</li>';
-										
+									// Reviewer
+									if($user_type == 1){
+										echo '<li class="nav-item">
+														<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
+													</li>';
+									// Author
+								}else if($user_type == 2){
+										echo '<li class="nav-item">
+																	<a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
+																</li>';
+										echo '<li class="nav-item">
+																	<a class="nav-link" id="author-submission" href="author-publications.php">Publications</a>
+																</li>';
 									}
-									else if($user_type == 2){ // author
-										echo 	'<li class="nav-item">
-													<a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
-												</li>';
-																
-									}else{ //editor
-										echo 	'<li class="nav-item">
-													<a class="nav-link" id="submissions" href="editor-submission.php">Editor Submissions</a>
-												</li>';
+									// Editor
+									else if($user_type == 3){
+										echo '<li class="nav-item">
+														<a class="nav-link" id="submissions" href="editor-submission.php">Editor Submission</a>
+													</li>';
+									}else{ // Subscriber
+
 									}
 							 ?>
 							<li class="nav-item">
@@ -74,7 +77,6 @@
 					</div>
 				</nav>
 			</div>
-			<br />
 			<div class="container-fluid">
 			  <div class="jumbotron">
 					<form name="search" id="search-form">

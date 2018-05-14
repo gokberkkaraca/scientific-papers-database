@@ -25,7 +25,7 @@
     $sql = "SELECT * FROM subscription WHERE p_name = '$p_name' AND email = '$email'";
     $subscription_result = mysqli_query($dbc,$sql);
     $subscription_check = mysqli_num_rows($subscription_result);
-    
+
     if (isset($_GET["volume"])) {
       $volume = $_GET["volume"];
       $sql = "SELECT p_id, title FROM published_in NATURAL JOIN publication WHERE volume_no = '$volume' AND p_name='$p_name'";
@@ -72,22 +72,27 @@
               <a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
             </li>
             <?php
-                //Subscriber
-                if($user_type == 0){
-                  //do nothing
-                }else if($user_type == 1){
-                  echo '<li class="nav-item">
-                                <a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
-                              </li>';
-                }
-                else if($user_type == 2){
-                  echo '<li class="nav-item">
-                          <a class="nav-link" id="submissions" href="#">Editor Submission</a>
-                        </li>';
-                }else{ //editor
+                // Reviewer
+                if($user_type == 1){
                   echo '<li class="nav-item">
                           <a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
                         </li>';
+                // Author
+              }else if($user_type == 2){
+                  echo '<li class="nav-item">
+                                <a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
+                              </li>';
+                  echo '<li class="nav-item">
+                                <a class="nav-link" id="author-submission" href="author-publications.php">Publications</a>
+                              </li>';
+                }
+                // Editor
+                else if($user_type == 3){
+                  echo '<li class="nav-item">
+                          <a class="nav-link" id="submissions" href="editor-submission.php">Editor Submission</a>
+                        </li>';
+                }else{ // Subscriber
+
                 }
              ?>
             <li class="nav-item">

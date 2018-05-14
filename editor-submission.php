@@ -32,22 +32,27 @@
 							<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
 						</li>
 						<?php
-								//Subscriber
-								if($user_type == 0){
-									//do nothing
-								}else if($user_type == 1){ //reviewer
-									echo '<li class="nav-item">
-																<a class="nav-link" id="author-submission" href="#">Submissions</a>
-															</li>';
-								}
-								else if($user_type == 2){ //reviewer
-									echo '<li class="nav-item">
-													<a class="nav-link" id="submissions" href="#">Editor Submission</a>
-												</li>';
-								}else{ //editor
+								// Reviewer
+								if($user_type == 1){
 									echo '<li class="nav-item">
 													<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
 												</li>';
+								// Author
+							}else if($user_type == 2){
+									echo '<li class="nav-item">
+																<a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
+															</li>';
+									echo '<li class="nav-item">
+																<a class="nav-link" id="author-submission" href="author-publications.php">Publications</a>
+															</li>';
+								}
+								// Editor
+								else if($user_type == 3){
+									echo '<li class="nav-item">
+													<a class="nav-link" id="submissions" href="editor-submission.php">Editor Submission</a>
+												</li>';
+								}else{ // Subscriber
+
 								}
 						 ?>
 						<li class="nav-item">
@@ -70,20 +75,20 @@
 	</div>
 	<script>
 
-		
-		function invite_reviewer(s_id, status) 
+
+		function invite_reviewer(s_id, status)
 		{
 			// Adding structure HTML
 			$(".added_div").remove();
 			$(".heading").text("Invite Reviewer");
-					
-			
-					
+
+
+
 			$(".popup-content").append( '<div class="added_div"><div class="col-6 invite_input_div">'+
 			'<div class="form-group"><input class="form-control invite_input" type="text" name="reviewer_name" placeholder="Enter a name"></div>'+
 			'<div class="form-group"><select class="form-control expertise_select invite_input" name="expertise"></select></div>'+
 			'<button class="col-3 btn btn-primary" onclick="closePopup();">OK</button></div>'+
-			'<div class="matching_reviewers"></div></div>'); 
+			'<div class="matching_reviewers"></div></div>');
 
 			// Filling the expertises select
 			$.ajax({
@@ -129,18 +134,18 @@
 
 			var revName = $("input.invite_input").val();
 			var selExpertise = $("select.invite_input > option:selected").val();
-			
+
 
 			$.ajax({
 					type: "GET",
 					url: "functions.php?loadReviewers=true",
 					data: {name:revName, expertise:selExpertise},
-					async: false,            
-					dataType: "json",                
+					async: false,
+					dataType: "json",
 					success: function(response){
 
 //						alert(response.reviewers[0].name);
-						
+
 						var arr = Object.values(response.reviewers)
 
 						if(arr.length <= 0 )
@@ -149,23 +154,23 @@
 						}
 						else
 						{
-							
+
 							var toAdd = '';
 							arr.forEach(element => {
 
 								toAdd +=  '<div><label>'+ element.name +'</label><div><ul>';
-								
+
 								element.expertises.forEach( val => {
 
 									toAdd += '<li>'+ val +'</li>';
 								});
 
 								toAdd += '</ul></div></div>';
-								
+
 								$(".matching_reviewers").append( toAdd );
 							});
 						}
-						
+
 					}
 				});
 		}
@@ -186,7 +191,7 @@
 
 					if(arr.length > 0 )
 					{
-						$(".popup-content").append( '<div class="added_div">' +  
+						$(".popup-content").append( '<div class="added_div">' +
 						'<table class="table table-striped"><thead><tr><th>Name</th><th>Surname</th><th>Email</th><th>Institution</th></tr></thead>'+
 						'<tbody class="added_tbody"></tbody></table></div>');
 						$table = $(".added_tbody");
@@ -217,7 +222,7 @@
 
 					if(arr.length > 0 )
 					{
-						$(".popup-content").append( '<div class="added_div">' +  
+						$(".popup-content").append( '<div class="added_div">' +
 						'<table class="table table-striped"><thead><tr><th>Full Name</th><th>Feedback</th></tr></thead>'+
 						'<tbody class="added_tbody"></tbody></table></div>');
 						$table = $(".added_tbody");
@@ -246,10 +251,10 @@
 		}
 
 
-		window.onclick = function(event) 
+		window.onclick = function(event)
 		{
 			var popup_div = $(".popup_div")[0];
-			if (event.target == popup_div) 
+			if (event.target == popup_div)
 			{
 				popup_div.style.display = "none";
 			}
@@ -301,7 +306,7 @@
 	    	$html = "<tr align='center'>";
 
 	    	$html .= '<td><a href="' . $array['doc_link'] . '">' . $array['title'] .'</td>';
-	    	$html .= '<td>' 
+	    	$html .= '<td>'
 	    				. htmlspecialchars($array['s_name'])
 						. " "
 						. htmlspecialchars($array['s_surname'])
@@ -309,36 +314,36 @@
 
 	    	$html .= '<td>' . htmlspecialchars($array['date']) . '</td>';
 	    	$html .= '<td>' . htmlspecialchars($array['p_name']) . '</td>';
-	      	
+
 	      	// new submission -> invite reviewer
 	    	if ($array['status'] == 0) {
-	    		$html .= '<td>' 
-	    				. '<button class="btn btn-info" onclick="' . "invite_reviewer('$array[s_id]', '0')" 
-						. '">Invite Reviewer</button>' 
-						. "<button class=\"btn btn-danger\" style=\"margin-left: 10px\" onclick=" . "reject('$array[s_id]');" 
+	    		$html .= '<td>'
+	    				. '<button class="btn btn-info" onclick="' . "invite_reviewer('$array[s_id]', '0')"
+						. '">Invite Reviewer</button>'
+						. "<button class=\"btn btn-danger\" style=\"margin-left: 10px\" onclick=" . "reject('$array[s_id]');"
 	    				. ">Reject</button>";
 	    				//. "<a href=reviewer-submission.php?reject=true&s_id=$array[s_id]&editor_email=$email><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>";
 	    	}
 
 	    	// waiting for feedback -> see reviewers
 	    	else if ($array['status'] == 1) {
-	    		$html .= '<td>' 
-	    				. '<button class="btn btn-info" onclick="' . "see_reviewers('$array[s_id]');" 
+	    		$html .= '<td>'
+	    				. '<button class="btn btn-info" onclick="' . "see_reviewers('$array[s_id]');"
 						. '">See Reviewers</button>'
-						. "<button class=\"btn btn-danger\" style=\"margin-left: 10px\" onclick=" . "reject('$array[s_id]');" 
+						. "<button class=\"btn btn-danger\" style=\"margin-left: 10px\" onclick=" . "reject('$array[s_id]');"
 	    				. ">Reject</button>";
 	    				//. "<a href=reviewer-submission.php?reject=true&s_id=$array[s_id]&editor_email=$email><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>";
 	    	}
 
 	    	// ready for approval -> send for approval
 	    	else if ($array['status'] == 2) {
-	    		$html .= '<td>' 
-	    				. '<button class="btn btn-info" onclick="' . "see_feedback('$array[s_id]');" 
+	    		$html .= '<td>'
+	    				. '<button class="btn btn-info" onclick="' . "see_feedback('$array[s_id]');"
 						. '">See feedback</button>'
-						. "<button class=\"btn btn-danger\" style=\"margin-left: 10px\" onclick=" . "reject('$array[s_id]');" 
+						. "<button class=\"btn btn-danger\" style=\"margin-left: 10px\" onclick=" . "reject('$array[s_id]');"
 	    				. ">Reject</button>"
-	    				. '<p></p>' 
-	    				. '<button class="btn btn-info" onclick="' . "send_for_approval('$array[s_id]');" 
+	    				. '<p></p>'
+	    				. '<button class="btn btn-info" onclick="' . "send_for_approval('$array[s_id]');"
 						. '">Send for approval</button>';
 						//. "<a href=reviewer-submission.php?reject=true&s_id=$array[s_id]&editor_email=$email><button class=\"btn btn-danger\" style=\"margin-left: 10px\">Reject</button></a>"
 	    	}
@@ -370,14 +375,14 @@
 		if (isset($_SESSION["email"])) {
 			$email = $_SESSION["email"];
 	  		$user_type = $_SESSION["type"];
-			
+
 			// formulate the query
 			$query =	"SELECT S.s_id, S.title, S.doc_link, S3.s_name, S3.s_surname, S.date,
-						S2.p_name 
-						FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3 
+						S2.p_name
+						FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3
 						WHERE S.s_id = S2.s_id AND S2.email = S3.email AND S.status = 0
 						ORDER BY date ASC";
-			
+
 			// perform the query
 			$result = mysqli_query($dbc, $query);
 
@@ -397,11 +402,11 @@
 
 			// formulate the query
 			$query =	"SELECT S.s_id, S.title, S.doc_link, S3.s_name, S3.s_surname, S.date,
-						S2.p_name 
-						FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3 
+						S2.p_name
+						FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3
 						WHERE S.s_id = S2.s_id AND S2.email = S3.email AND S.status = 1
 						ORDER BY date ASC";
-			
+
 			// perform the query
 			$result = mysqli_query($dbc, $query);
 
@@ -421,11 +426,11 @@
 
 			// formulate the query
 			$query =	"SELECT S.s_id, S.title, S.doc_link, S3.s_name, S3.s_surname, S.date,
-						S2.p_name 
-						FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3 
+						S2.p_name
+						FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3
 						WHERE S.s_id = S2.s_id AND S2.email = S3.email AND S.status = 2
 						ORDER BY date ASC";
-			
+
 			// perform the query
 			$result = mysqli_query($dbc, $query);
 
@@ -445,11 +450,11 @@
 
 			// formulate the query
 			$query =	"SELECT S.s_id, S.title, S.doc_link, S3.s_name, S3.s_surname, S.date,
-						S2.p_name 
-						FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3 
+						S2.p_name
+						FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3
 						WHERE S.s_id = S2.s_id AND S2.email = S3.email AND S.status = 3
 						ORDER BY date ASC";
-			
+
 			// perform the query
 			$result = mysqli_query($dbc, $query);
 
