@@ -338,7 +338,7 @@
             $expertises = $_POST['expertises'];
         }
 
-        session_start();
+        //session_start();
         $_SESSION['validationMessage'] = '';
 
         if(empty($data_missing))
@@ -357,7 +357,7 @@
             }
             else
             {
-                // Add submission
+                /*// Add submission
                 $getLeastEditor = "select email, count(email) as count from submission where status < 4 group by email order by count ASC limit 1;";
                 $stmt = @mysqli_query($dbc,$getLeastEditor) or die(mysqli_error($dbc));
                 $row = @mysqli_fetch_array($stmt);
@@ -378,6 +378,11 @@
                 $addsubmitsQuery = "insert into submits (email,s_id,p_name)"
                 ."values ( '".$email."', '".$s_id."', '".$publisher."' );";
                 $stmt = @mysqli_query($dbc,$addsubmitsQuery) or die(mysqli_error($dbc));
+                @mysqli_stmt_close($stmt); */
+
+                $insertSubmission = "call insert_submission('$title','$link')";
+                $stmt = @mysqli_query($dbc,$insertSubmission) or die(mysqli_error($dbc));
+                $row = @mysqli_fetch_array($stmt);
                 @mysqli_stmt_close($stmt);
 
                 $_SESSION['validationMessage'] = 'Submission successfully added';
@@ -425,7 +430,7 @@
         global $dbc;
         $s_id = intval($_GET['publishID']);
 
-        $changeState = "update submission set status = 4 where s_id = ".$s_id.";";
+        /*$changeState = "update submission set status = 4 where s_id = ".$s_id.";";
         $addPublication = "insert into publication (title, pages,publication_date,doc_link,downloads,s_id)"
         ." values ('',0,CURDATE(),'',0,".$s_id.");";
 
@@ -435,6 +440,11 @@
 
         $stmt = @mysqli_query($dbc,$addPublication) or die(mysqli_error($dbc));
 
+        @mysqli_stmt_close($stmt); */
+
+        $number_of_pages = 0;
+        $insertPublication = "call insert_publication('$title', '$number_of_pages', '$link', '$s_id')";
+        $stmt = @mysqli_query($dbc,$insertPublication) or die(mysqli_error($dbc));
         @mysqli_stmt_close($stmt);
 
         return 'success';
@@ -589,6 +599,24 @@
         }
     }
 
+    function inviteRev()
+    {
+        global $dbc;
+
+        $revEmail = $_GET['email'];
+        $s_id = intval($_GET['id']);
+        $status = intval($_GET['stat']);
+        $editorEmail = $_SESSION['email'];
+
+        $addInvite = "insert into invites (reviewer_email,editor_email,s_id,status) values ('".$revEmail."', '".$editorEmail."', ".$s_id." , ".$status.");";
+
+        $stmt = @mysqli_query($dbc,$addInvite);
+
+        @mysqli_stmt_close($stmt);
+
+        return 'success';
+    }
+
     function loadReviewersJson()
     {
         global $dbc;
@@ -596,7 +624,7 @@
         $name = $_GET['name'];
         $expertise = $_GET['expertise'];
         
-        $selReviewers = "select reviewers.fullName as fullName, tag from reviewerExpertise, (select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where"
+        $selReviewers = "select reviewers.fullName as fullName, reviewers.email as email, tag from reviewerExpertise, (select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where"
         ." usertype = 1 and (s_name like '%".$name."%' or s_surname like '%".$name."%') ) as reviewers"
         ." where reviewers.email in (select distinct email from reviewerExpertise where tag = '".$expertise."') and"
         ." reviewerExpertise.email = reviewers.email order by reviewers.fullName ASC";
@@ -628,7 +656,7 @@
         {
             if ( $counter == 1 )
             {
-                $res .= '[{ "name":"'.$row['fullName'].'", "expertises" : [ "'.$row['tag'].'"';
+                $res .= '[{ "name":"'.$row['fullName'].'", "email" : "'.$row['email'].'", "expertises" : [ "'.$row['tag'].'"';
                 $nameTEMP = $row['fullName'];
                 $expertiseTEMP = $row['tag'];
                 $counter++;
@@ -642,7 +670,7 @@
                 else
                 {
                     $res .= ']}';
-                    $res .= ',{ "name":"'.$row['fullName'].'", "expertises" : [ "'.$row['tag'].'"';
+                    $res .= ',{ "name":"'.$row['fullName'].'", "email" : "'.$row['email'].'", "expertises" : [ "'.$row['tag'].'"';
                     $nameTEMP = $row['fullName'];
                     $expertiseTEMP = $row['tag'];
                 }
@@ -750,7 +778,12 @@
         $res = reject();
         echo $res;
     }
-
+    if(isset($_GET['inviteRev']))
+    {
+        //echo "here";
+        $res = inviteRev();
+        echo $res;
+    }
    if (isset($_POST['getPublishers']))
    {
        $res = getPublishersJson();

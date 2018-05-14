@@ -1,3 +1,4 @@
+import java.awt.desktop.SystemSleepEvent;
 import java.sql.*;
 
 public class Connector {
@@ -22,6 +23,10 @@ public class Connector {
         //Create Triggers
         createTriggers();
         System.out.println("Triggers created.");
+
+        //Create Views
+        createViews();
+        System.out.println("Views created");
 
         //Create Procedures
         createProcedures();
@@ -56,9 +61,9 @@ public class Connector {
         //Init connection parameters
         String port = "3306";
         String hostName = "dijkstra.ug.bilkent.edu.tr";
-        String username = "gokberk.karaca";
-        String dbName = "gokberk_karaca";
-        String password = "pnsank5";
+        String username = "kenan.asadov";
+        String dbName = "kenan_asadov";
+        String password = "jdt63r3zi";
         String url = "jdbc:mysql://" + hostName + ":" + port + "/" + dbName;
 
         System.out.println("Trying to connect database...");
@@ -357,65 +362,37 @@ public class Connector {
         insertPublishedIns();
     }
 
-    private static void insertSubscribers() {
-        String insertQuery = "INSERT INTO subscriber VALUES";
-        String query1 = "('email1', 'institution1', 'password1', 'name1', 'surname1', '2')";
-        String query2 = "('email2', 'institution2', 'password2', 'name2', 'surname2', '2')";
-        String query3 = "('email3', 'institution3', 'password3', 'name3', 'surname3', '3')";
-        String query4 = "('email4', 'institution4', 'password4', 'name4', 'surname4', '3')";
-        String query5 = "('email5', 'institution5', 'password5', 'name5', 'surname5', '1')";
-        String query6 = "('email6', 'institution6', 'password6', 'name6', 'surname6', '1')";
-
+    private static void insertExpertises() {
+        System.out.println("In expertise");
+        String insertQuery = "INSERT INTO expertise VALUES";
+        String query1 = "('Computer Science')";
+        String query2 = "('Chemistry')";
+        String query3 = "('Economy')";
+        String query4 = "('Bioglogy')";
+        String query5 = "('Physics')";
+        String query6 = "('Law')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
         execQuery( insertQuery + query3);
+
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
     }
+
 
     private static void insertConference() {
+        System.out.println("In conference");
         String insertQuery = "INSERT INTO conference VALUES";
-        String query1 = "('2017.01.01', 'topic1', 'publisher1')";
-        String query2 = "('2018.01.02', 'topic2', 'publisher2')";
-        String query3 = "('2019.01.03', 'topic3', 'publisher3')";
-
-        execQuery( insertQuery + query1);
-        execQuery( insertQuery + query2);
-        execQuery( insertQuery + query3);
-    }
-
-
-    private static void insertExpertises() {
-        String insertQuery = "INSERT INTO expertise VALUES";
-        String query1 = "('expertise1')";
-        String query2 = "('expertise2')";
-        String query3 = "('expertise3')";
-
-        execQuery( insertQuery + query1);
-        execQuery( insertQuery + query2);
-        execQuery( insertQuery + query3);
-    }
-
-    private static void insertJournals() {
-        String insertQuery = "INSERT INTO journal VALUES";
-        String query1 = "('topic1', 'publisher4')";
-        String query2 = "('topic2', 'publisher5')";
-        String query3 = "('topic3', 'publisher6')";
-
-        execQuery( insertQuery + query1);
-        execQuery( insertQuery + query2);
-        execQuery( insertQuery + query3);
-    }
-    private static void insertSponsors() {
-        String insertQuery = "INSERT INTO sponsor VALUES";
-        String query1 = "('sponsor1', 'link1')";
-        String query2 = "('sponsor2', 'link2')";
-        String query3 = "('sponsor3', 'link3')";
-        String query4 = "('sponsor4', 'link4')";
-        String query5 = "('sponsor5', 'link5')";
-        String query6 = "('sponsor6', 'link6')";
+        String query1 = "('2017.01.01', 'NIPS : Neural Information Processing Systems (NIPS)', 'TED Conferences')";
+        String query2 = "('2018.01.02', '31st International Microprocesses and Nanotechnology Conference', 'Harvard Conferences')";
+        String query3 = "('2019.01.03', '45th annual European Physical Society Conference on Plasma Physics', 'Bilkent Conferences')";
+        String query4 = "('2019.01.03', 'ECCV : European Conference on Computer Vision', 'EPFL Conferences')";
+        String query5 = "('2019.01.03', 'EPoS 2018 The Early Phase of Star Formation - Archetypes', 'Sabanci Conferences')";
+        String query6 = "('2019.01.03', 'European Data Provider Forum and Training Event 2018', 'MIT Conferences')";
+        String query7 = "('2019.01.03', 'Mathematical General Relativity', 'ITU Conferences')";
+        String query8 = "('2019.01.03', 'AAAI : AAAI Conference on Artificial Intelligence', 'Oxford Conferences')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -423,16 +400,209 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+    }
+
+
+    private static void insertJournals() {
+        System.out.println("In journals");
+        String insertQuery = "INSERT INTO journal VALUES";
+        String query1 = "('Computer Science', 'Bilkent Journals')";
+        String query2 = "('Computer Science/Physics', 'Standford Journals')";
+        String query3 = "('Chemistry', 'METU Journals')";
+        String query4 = "('Law/Economy', 'Harvard Journals')";
+        String query5 = "('Computer Science', 'MIT Journals')";
+
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+    }
+
+    private static void insertPublishers() {
+        System.out.println("In publishers");
+        String insertQuery = "INSERT INTO publisher VALUES";
+        String query1 ="('TED Conferences')";
+        String query2 ="('Harvard Conferences')";
+        String query3 ="('Bilkent Conferences')";
+        String query4 ="('EPFL Conferences')";
+
+
+        String query5 ="('Sabanci Conferences')";
+        String query6 ="('MIT Conferences')";
+        String query7 ="('ITU Conferences')";
+        String query8 ="('Oxford Conferences')";
+
+        String query9 ="('Bilkent Journals')";
+        String query10 ="('Standford Journals')";
+        String query11 ="('METU Journals')";
+        String query12 ="('Harvard Journals')";
+        String query13 ="('MIT Journals')";
+
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+        execQuery( insertQuery + query9);
+        execQuery( insertQuery + query10);
+        execQuery( insertQuery + query11);
+        execQuery( insertQuery + query12);
+        execQuery( insertQuery + query13);
+    }
+
+    private static void insertReviewers() {
+        System.out.println("In reviews");
+        String insertQuery = "INSERT INTO reviewer VALUES";
+        String query1 ="('tonybarnosky@standford.edu')";
+        String query2 ="('poole@cs.epfl.edu')";
+        String query3 ="('guvenir@cs.bilent.edu.tr')";
+        String query4 ="('evans@cs.epfl.edu')";
+        String query5 ="('light@physics.harvard.edu')";
+        String query6 ="('isler@econ.bilkent.edu')";
+        String query7 ="('akkaya@bilkent.edu.tr')";
+        String query8 ="('oulusoy@cs.bilkent.edu.tr')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+    }
+
+    private static void insertAuthors() {
+        String insertQuery = "INSERT INTO author VALUES";
+        String query1 ="('acirpan@metu.edu.tr')";
+        String query2 ="('ugur@cs.bilkent.edu.tr')";
+        String query3 ="('cicek@cs.bilkent.edu.tr')";
+        String query4 ="('alford@hls.harvard.edu')";
+        String query5 ="('demler@physics.harvard.edu')";
+        String query6 ="('aiken@cs.strandford.edu')";
+        String query7 ="('bblock@standford.edu')";
+        String query8 ="('melisa.terazi@tto.re')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+    }
+
+    private static void insertEditors() {
+        String insertQuery = "INSERT INTO editor VALUES";
+        String query1 ="('1', 'kocabiyik@boun.edu.tr')";
+        String query2 ="('2', 'abramson@harvard.edu')";
+        String query3 ="('3', 'korpe@cs.bilkent.edu.tr')";
+        String query4 ="('4', 'abraham.donut@gmail.com')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+    }
+
+    private static void insertSubscribers() {
+        System.out.println("In subscribers");
+        String insertQuery = "INSERT INTO subscriber VALUES";
+
+        //Authors
+        String query1 = "('acirpan@metu.edu.tr', 'Middle East Techical University', 'alicirpan', 'Ali', 'Cirpan', '2')";
+        String query2 = "('ugur@cs.bilkent.edu.tr', 'Bilkent University', 'ugurdogrusoz', 'Ugur', 'Dogrusoz', '2')";
+        String query3 = "('cicek@cs.bilkent.edu.tr', 'Bilkent University', 'ercumentcicek', 'Abdullah Ercüment', 'Cicek', '2')";
+        String query4 = "('alford@hls.harvard.edu', 'Harvard University', 'williamalford', 'William', 'Alford', '2')";
+        String query5 = "('demler@physics.harvard.edu', 'Harvard University', 'eugenedemler', 'Eugune', 'Demler', '2')";
+        String query6 = "('aiken@cs.strandford.edu', 'Standford University', 'alexaiken', 'Alex', 'Aikent', '2');";
+        String query7 = "('bblock@standford.edu', 'Standford University', 'barbarablock', 'Barbara', 'Block', '2');";
+        String query8 = "('melisa.terazi@tto.re', 'Sabanci University', 'melisaterazi', 'Melisa', 'Terazi', '2')";
+
+        //Editors
+        String query9 = "('kocabiyik@boun.edu.tr', 'Bogazici University', 'ergunkocabiyik', 'Ergun', 'kocabiyik', '3')";
+        String query10 = "('abramson@harvard.edu', 'Harvard University', 'jillabramson', 'Jill', 'Abromson', '3')";
+        String query11 = "('korpe@cs.bilkent.edu.tr', 'Bilkent University', 'ibrahimkorpeoglu', 'Ibrahim', 'Korpeoglu', '3')";
+        String query12 = "('abraham.donut@gmail.com', 'Standford University', 'abrahamdonut', 'Abraham', 'DOnut', '3')";
+
+
+        //Reviewers
+        String query13 = "('tonybarnosky@standford.edu', 'Standford University', 'tonybarnosky', 'Tony', 'Barnosky', '1')";
+        String query14 = "('poole@cs.epfl.edu', 'Ecole Polytechnique Federale de Lausanne', 'chrispoole', 'Chris', 'Poole', '1')";
+        String query15 = "('guvenir@cs.bilent.edu.tr', 'Bilkent University', 'halilaltayguvenir', 'Halil Altay', 'Guvenir', '1')";
+        String query16 = "('evans@cs.epfl.edu', 'Ecole Polytechnique Federale de Lausanne', 'tonyevans', 'Tony', 'Evans', '1')";
+        String query17 = "('light@physics.harvard.edu', 'Harvard University', 'robertlight', 'Robert', 'Light', '1')";
+        String query18 = "('isler@econ.bilkent.edu', 'Bilkent University', 'gulisler', 'Gul', 'Isler', '1')";
+        String query19 = "('akkaya@bilkent.edu.tr', 'Bilkent University', 'sahinakkaya', 'Sahin', 'Akkaya', '1')";
+        String query20 = "('oulusoy@cs.bilkent.edu.tr', 'Bilkent University', 'ozgurulusoy', 'Ozgur', 'Ulusoy', '1')";
+
+        //Regular Users
+        String query21 = "('kaan.sancak@ug.bilkent.edu.tr', 'Bilkent University', 'kaan', 'Kaan', 'Sancak', '0')";
+        String query22 = "('ali.sabbagh@ug.bilkent.edu.tr', 'Bilkent University', 'ali', 'Ali', 'Sabbagh', '0')";
+        String query23 = "('gokberk.karaca@ug.bilkent.edu.tr', 'Bilkent University', 'gokberk', 'Gokberk', 'Karaca', '0')";
+        String query24 = "('kenan.asadov@ug.bilkent.edu.tr', 'Bilkent University', 'kenan', 'Kenan', 'Asadov', '0')";
+
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
+        execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+        execQuery( insertQuery + query9);
+        execQuery( insertQuery + query10);
+        execQuery( insertQuery + query11);
+        execQuery( insertQuery + query12);
+        execQuery( insertQuery + query13);
+        execQuery( insertQuery + query14);
+        execQuery( insertQuery + query15);
+        execQuery( insertQuery + query16);
+        execQuery( insertQuery + query17);
+        execQuery( insertQuery + query18);
+        execQuery( insertQuery + query19);
+        execQuery( insertQuery + query20);
+        execQuery( insertQuery + query21);
+        execQuery( insertQuery + query22);
+        execQuery( insertQuery + query23);
+        execQuery( insertQuery + query24);
+    }
+
+
+    private static void insertSponsors() {
+        System.out.println("In sponsors");
+        String insertQuery = "INSERT INTO sponsor VALUES";
+        String query1 = "('IEEE', 'https://www.ieee.org/')";
+        String query2 = "('Google', 'https://scholar.google.com')";
+        String query3 = "('Sage', 'https://us.sagepub.com/en-us/nam/change-location/0')";
+        String query4 = "('Elsevier', 'https://www.elsevier.com/events/conferences/world-congress-on-biosensors/exhibitors-and-sponsors/sponsors')";
+        String query5 = "('Bio Sensors', 'https://www.biosensors.com/intl/')";
+
+        execQuery( insertQuery + query1);
+        execQuery( insertQuery + query2);
+        execQuery( insertQuery + query3);
+        execQuery( insertQuery + query4);
+        execQuery( insertQuery + query5);
     }
 
     private static void insertFinances() {
         String insertQuery = "INSERT INTO finances VALUES";
-        String query1 = "('sponsor1', '11')";
-        String query2 = "('sponsor2', '12')";
-        String query3 = "('sponsor3', '13')";
-        String query4 = "('sponsor4', '14')";
-        String query5 = "('sponsor5', '15')";
-        String query6 = "('sponsor6', '16')";
+        String query1 = "('IEEE', '11')";
+        String query2 = "('Google', '12')";
+        String query3 = "('Sage', '13')";
+        String query4 = "('Elsevier', '14')";
+        String query5 = "('Bio Sensors', '15')";
+        String query6 = "('IEEE', '16')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -444,9 +614,9 @@ public class Connector {
 
     private static void insertInvites() {
         String insertQuery = "INSERT INTO invites VALUES";
-        String query1 = "('email5', 'email3', '4', '0')";
-        String query2 = "('email5', 'email4', '5', '1')";
-        String query3 = "('email6', 'email3', '6', '2')";
+        String query1 = "('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '4', '0')";
+        String query2 = "('tonybarnosky@standford.edu', 'abramson@harvard.edu', '5', '1')";
+        String query3 = "('poole@cs.epfl.edu', 'kocabiyik@boun.edu.tr', '6', '2')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -455,12 +625,13 @@ public class Connector {
 
     private static void insertInstitutions() {
         String insertQuery = "INSERT INTO institution VALUES";
-        String query1 = "('institution1', 'street1', 'zip1', 'city1', 'country1')";
-        String query2 = "('institution2', 'street2', 'zip2', 'city2', 'country2')";
-        String query3 = "('institution3', 'street3', 'zip3', 'city3', 'country3')";
-        String query4 = "('institution4', 'street4', 'zip4', 'city4', 'country4')";
-        String query5 = "('institution5', 'street5', 'zip5', 'city5', 'country5')";
-        String query6 = "('institution6', 'street6', 'zip6', 'city6', 'country6')";
+        String query1 = "('Middle East Techical University', 'Universiteler Mahallesi', '06800', 'Ankara', 'Turkey')";
+        String query2 = "('Bilkent University', 'Universiteler Mahallesi', '06800', 'Ankara', 'Turkey')";
+        String query3 = "('Bogazici University', 'Besiktas', '340000', 'Istanbul', 'Turkey')";
+        String query4 = "('Harvard University', 'Cambridge', '02138', 'Massachussets', 'USA')";
+        String query5 = "('Standford University', 'Serra Mall', '94305', 'California', 'USA')";
+        String query6 = "('Ecole Polytechnique Federale de Lausanne', 'Route Cantonale', '1015', 'Lausanne', 'Switzerland')";
+        String query7 = "('Sabanci University', 'Orhanli Mahallesi', '343456', 'Istanbul', 'Turkey')";
 
 
         execQuery( insertQuery + query1);
@@ -469,6 +640,7 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
     }
 
     private static void insertPublications() {
@@ -488,19 +660,12 @@ public class Connector {
         execQuery( insertQuery + query6);
     }
 
-    private static void insertAuthors() {
-        String insertQuery = "INSERT INTO author VALUES";
-        String query1 ="('email1')";
-        String query2 ="('email2')";
 
-        execQuery( insertQuery + query1);
-        execQuery( insertQuery + query2);
-    }
 
     private static void insertAuthorExpertises() {
         String insertQuery = "INSERT INTO authorExpertise VALUES";
-        String query1 ="('email1', 'expertise1')";
-        String query2 ="('email2', 'expertise2')";
+        String query1 ="('acirpan@metu.edu.tr', 'Computer Science')";
+        String query2 ="('ugur@cs.bilkent.edu.tr', 'Chemistry')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -508,30 +673,22 @@ public class Connector {
 
     private static void insertReviewerExpertises() {
         String insertQuery = "INSERT INTO reviewerExpertise VALUES";
-        String query1 ="('email5', 'expertise1')";
-        String query2 ="('email6', 'expertise2')";
+        String query1 ="('tonybarnosky@standford.edu', 'Computer Science')";
+        String query2 ="('poole@cs.epfl.edu', 'Chemistry')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
     }
 
-    private static void insertReviewers() {
-        String insertQuery = "INSERT INTO reviewer VALUES";
-        String query1 ="('email5')";
-        String query2 ="('email6')";
-
-        execQuery( insertQuery + query1);
-        execQuery( insertQuery + query2);
-    }
 
     private static void insertReviews() {
         String insertQuery = "INSERT INTO reviews VALUES";
-        String query1 ="('email5', 'email3', '1', 'feedback1')";
-        String query2 ="('email6', 'email4', '2', 'feedback2')";
-        String query3 ="('email5', 'email3', '3', 'feedback3')";
-        String query4 ="('email6', 'email3', '4', 'feedback4')";
-        String query5 ="('email5', 'email3', '5', 'feedback5')";
-        String query6 ="('email6', 'email4', '6', 'feedback6')";
+        String query1 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '1', 'feedback1')";
+        String query2 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '2', 'feedback2')";
+        String query3 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '3', 'feedback3')";
+        String query4 ="('poole@cs.epfl.edu', 'kocabiyik@boun.edu.tr', '4', 'feedback4')";
+        String query5 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '5', 'feedback5')";
+        String query6 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '6', 'feedback6')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -544,12 +701,12 @@ public class Connector {
 
     private static void insertEditorPublishers() {
         String insertQuery = "INSERT INTO editorPublisher VALUES";
-        String query1 ="('email3', 'publisher1')";
-        String query2 ="('email4', 'publisher2')";
-        String query3 ="('email3', 'publisher3')";
-        String query4 ="('email4', 'publisher4')";
-        String query5 ="('email3', 'publisher5')";
-        String query6 ="('email4', 'publisher6')";
+        String query1 ="('kocabiyik@boun.edu.tr', 'TED Conferences')";
+        String query2 ="('abramson@harvard.edu', 'Harvard Conferences')";
+        String query3 ="('kocabiyik@boun.edu.tr', 'Bilkent Conferences')";
+        String query4 ="('abramson@harvard.edu', 'Bilkent Journals')";
+        String query5 ="('kocabiyik@boun.edu.tr', 'Standford Journals')";
+        String query6 ="('abramson@harvard.edu', 'METU Journals')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -580,40 +737,14 @@ public class Connector {
     }
 
 
-    private static void insertPublishers() {
-        String insertQuery = "INSERT INTO publisher VALUES";
-        String query1 ="('publisher1')";
-        String query2 ="('publisher2')";
-        String query3 ="('publisher3')";
-        String query4 ="('publisher4')";
-        String query5 ="('publisher5')";
-        String query6 ="('publisher6')";
-
-        execQuery( insertQuery + query1);
-        execQuery( insertQuery + query2);
-        execQuery( insertQuery + query3);
-        execQuery( insertQuery + query4);
-        execQuery( insertQuery + query5);
-        execQuery( insertQuery + query6);
-    }
-
-    private static void insertEditors() {
-        String insertQuery = "INSERT INTO editor VALUES";
-        String query1 ="('1', 'email3')";
-        String query2 ="('2', 'email4')";
-
-        execQuery( insertQuery + query1);
-        execQuery( insertQuery + query2);
-    }
-
     private static void insertSubmissions() {
         String insertQuery = "INSERT INTO submission VALUES";
-        String query1 ="('1', '0', 'sub1', 'link1', '1970.01.01', 'email3')";
-        String query2 ="('2', '1', 'sub2',  'link2', '1970.01.02','email4')";
-        String query3 ="('3', '0', 'sub3', 'link3','1970.01.03',  'email3')";
-        String query4 ="('4', '1', 'sub4', 'link4','1970.01.04',  'email4')";
-        String query5 ="('5', '2', 'sub5', 'link5', '1970.01.05',  'email3')";
-        String query6 ="('6', '1', 'sub6', 'link6','1970.01.06',  'email4')";
+        String query1 ="('1', '0', 'sub1', 'link1', '1970.01.01', 'kocabiyik@boun.edu.tr')";
+        String query2 ="('2', '1', 'sub2',  'link2', '1970.01.02','abramson@harvard.edu')";
+        String query3 ="('3', '0', 'sub3', 'link3','1970.01.03',  'kocabiyik@boun.edu.tr')";
+        String query4 ="('4', '1', 'sub4', 'link4','1970.01.04',  'abramson@harvard.edu')";
+        String query5 ="('5', '2', 'sub5', 'link5', '1970.01.05',  'kocabiyik@boun.edu.tr')";
+        String query6 ="('6', '1', 'sub6', 'link6','1970.01.06',  'abramson@harvard.edu')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -625,12 +756,12 @@ public class Connector {
 
     private static void insertSubmits() {
         String insertQuery = "INSERT INTO submits VALUES";
-        String query1 ="('email1', '1', 'publisher1')";
-        String query2 ="('email2', '2', 'publisher2')";
-        String query3 ="('email1', '3', 'publisher3')";
-        String query4 ="('email2', '4', 'publisher4')";
-        String query5 ="('email1', '5', 'publisher5')";
-        String query6 ="('email2', '6', 'publisher6')";
+        String query1 ="('acirpan@metu.edu.tr', '1', 'TED Conferences')";
+        String query2 ="('ugur@cs.bilkent.edu.tr', '2', 'Harvard Conferences')";
+        String query3 ="('acirpan@metu.edu.tr', '3', 'Bilkent Conferences')";
+        String query4 ="('ugur@cs.bilkent.edu.tr', '4', 'Bilkent Journals')";
+        String query5 ="('acirpan@metu.edu.tr', '5', 'Standford Journals')";
+        String query6 ="('ugur@cs.bilkent.edu.tr', '6', 'METU Journals')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -642,15 +773,15 @@ public class Connector {
 
     private static void insertJournalVolumes() {
         String insertQuery = "INSERT INTO journal_volume VALUES";
-        String query1 ="('publisher4', '1')";
-        String query2 ="('publisher4', '2')";
-        String query3 ="('publisher4', '3')";
-        String query4 ="('publisher5', '1')";
-        String query5 ="('publisher5', '2')";
-        String query6 ="('publisher5', '3')";
-        String query7 ="('publisher6', '1')";
-        String query8 ="('publisher6', '2')";
-        String query9 ="('publisher6', '3')";
+        String query1 ="('Bilkent Journals', '1')";
+        String query2 ="('Bilkent Journals', '2')";
+        String query3 ="('Bilkent Journals', '3')";
+        String query4 ="('Standford Journals', '1')";
+        String query5 ="('Standford Journals', '2')";
+        String query6 ="('Standford Journals', '3')";
+        String query7 ="('METU Journals', '1')";
+        String query8 ="('METU Journals', '2')";
+        String query9 ="('METU Journals', '3')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -665,12 +796,12 @@ public class Connector {
 
     private static void insertPublishedIns() {
         String insertQuery = "INSERT INTO published_in VALUES";
-        String query1 ="('publisher4', '1', 11)";
-        String query2 ="('publisher4', '2', 12)";
-        String query3 ="('publisher4', '3', 13)";
-        String query4 ="('publisher5', '1', 14)";
-        String query5 ="('publisher5', '2', 15)";
-        String query6 ="('publisher5', '3', 16)";
+        String query1 ="('Bilkent Journals', '1', 11)";
+        String query2 ="('Bilkent Journals', '2', 12)";
+        String query3 ="('Bilkent Journals', '3', 13)";
+        String query4 ="('Standford Journals', '1', 14)";
+        String query5 ="('Standford Journals', '2', 15)";
+        String query6 ="('Standford Journals', '3', 16)";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -683,15 +814,15 @@ public class Connector {
 
     private static void insertAudiences() {
         String insertQuery = "INSERT INTO audience VALUES";
-        String query1 ="('publisher1', 'audience_name1', 'audience_surname1')";
-        String query2 ="('publisher1', 'audience_name2', 'audience_surname2')";
-        String query3 ="('publisher1', 'audience_name3', 'audience_surname3')";
-        String query4 ="('publisher2', 'audience_name4', 'audience_surname4')";
-        String query5 ="('publisher2', 'audience_name5', 'audience_surname5')";
-        String query6 ="('publisher2', 'audience_name6', 'audience_surname6')";
-        String query7 ="('publisher3', 'audience_name7', 'audience_surname7')";
-        String query8 ="('publisher3', 'audience_name8', 'audience_surname8')";
-        String query9 ="('publisher3', 'audience_name9', 'audience_surname9')";
+        String query1 ="('TED Conferences', 'Ahmet', 'Candiroglu')";
+        String query2 ="('TED Conferences', 'Clara', 'Book')";
+        String query3 ="('TED Conferences', 'William', 'Sawyer')";
+        String query4 ="('Harvard Conferences', 'Tomas', 'Alone')";
+        String query5 ="('Harvard Conferences', 'Ali', 'Demler')";
+        String query6 ="('Harvard Conferences', 'Deniz', 'Alniacik')";
+        String query7 ="('Bilkent Conferences', 'Meltem', 'Rüzgar')";
+        String query8 ="('Bilkent Conferences', 'Ulas', 'Yoluacik')";
+        String query9 ="('Bilkent Conferences', 'Danny', 'Unforgettable')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -713,14 +844,19 @@ public class Connector {
                 "AND s_id in( select s_id from reviews );\n" +
                 "END;";
         execQuery(updateSubmissionStatus);
+        System.out.println(updateSubmissionStatus);
     }
 
     private static void createProcedures(){
         String dropInsertSubmission = "drop procedure if exists insert_submission";
         String dropInsertPublication = "drop procedure if exists insert_publication";
+        String dropPublicationCount = "drop procedure if exists find_number_of_publications";
+        String dropFindNumberOfCitations = "drop procedure if exists find_author_total_citations";
 
         execQuery(dropInsertSubmission);
         execQuery(dropInsertPublication);
+        execQuery(dropPublicationCount);
+        execQuery(dropFindNumberOfCitations);
 
         String insertSubmission = "CREATE PROCEDURE insert_submission\n" +
                 "     (IN title varchar(200), IN doc_link varchar(200), IN email varchar(200))\n" +
@@ -734,20 +870,92 @@ public class Connector {
                 "    VALUES(s_id_val, 0, title, doc_link, CURDATE(), email);\n" +
                 "END";
         String insertPublication = "CREATE PROCEDURE insert_publication\n" +
-                "     (IN p_id INT, IN title varchar(200), IN pages INT, IN doc_link varchar(200), IN s_id varchar(200))\n" +
+                "     (IN title varchar(200), IN pages INT, IN doc_link varchar(200), IN in_s_id varchar(200))\n" +
                 "BEGIN\n" +
                 "    DECLARE p_id_val INT DEFAULT 1;\n" +
                 "\n" +
                 "    SELECT (max(p_id) + 1) INTO p_id_val\n" +
                 "    FROM publication;\n" +
-                "\n" +
-                "    INSERT INTO submission\n" +
-                "    VALUES(p_id_val, title, pages, CURDATE(), doc_link, 0, s_id);\n" +
+                "\t\n" +
+                "    UPDATE submission set status = 4 WHERE s_id = in_s_id;\n" +
+                "    INSERT INTO publication\n" +
+                "    VALUES(p_id_val, title, pages, CURDATE(), doc_link, 0, in_s_id);\n" +
                 "END";
 
+        String publicationCount =
+                "\n" +
+                        "CREATE PROCEDURE find_number_of_publications\n" +
+                        "     (IN author_email VARCHAR(200), OUT total_count INT)\n" +
+                        "BEGIN\n" +
+                        "    DECLARE author_count INT DEFAULT 0;\n" +
+                        "    DECLARE co_author_count INT DEFAULT 0;\n" +
+                        "\n" +
+                        "    SELECT count(*) as count INTO author_count\n" +
+                        "    FROM publication NATURAL JOIN submits\n" +
+                        "    WHERE email = author_email;\n" +
+                        "    \n" +
+                        "    SELECT count(*) as count INTO co_author_count\n" +
+                        "    FROM co_authors\n" +
+                        "    WHERE email = author_email;\n" +
+                        "\n" +
+                        "    SET total_count = author_count + co_author_count;\n" +
+                        "END\n";
+
+
+
+        String citationCount = "CREATE PROCEDURE find_author_total_citations\n" +
+                "     (IN author_email VARCHAR(200), OUT author_total_cited INT)\n" +
+                "BEGIN\n" +
+                "    DECLARE total_count INT DEFAULT 0;\n" +
+                "    \n" +
+                "    SELECT count(cited) into total_count\n" +
+                "    FROM authors_cited\n" +
+                "    GROUP BY email\n" +
+                "    HAVING email = author_email;\n" +
+                "    SET author_total_cited = total_count;\n" +
+                "    \n" +
+                "    END";
+
+        String mostPopular = "CREATE PROCEDURE find_most_popular\n" +
+                "     (IN author_email VARCHAR(200), OUT most_popular_p_id INT)\n" +
+                "BEGIN\n" +
+                "    DECLARE popular INT DEFAULT 0;\n" +
+                "    \n" +
+                "    SELECT cited into popular FROM(\n" +
+                "\t\tSELECT cited, count(*) as total_count\n" +
+                "\t\tFROM authors_cited\n" +
+                "\t\tGROUP BY cited\n" +
+                "\t\tORDER BY total_count DESC limit 1) as popular_cited;\n" +
+                "    \n" +
+                "    \n" +
+                "    SET most_popular = popular;\n" +
+                "    \n" +
+                "END";
+
+        System.out.println(citationCount);
         execQuery(insertSubmission);
         execQuery(insertPublication);
+        execQuery(publicationCount);
+        execQuery(citationCount);
+        //execQuery(mostPopular);
     }
+
+    private static void createViews(){
+        String drop = "drop view if exists authors_cited";
+        execQuery(drop);
+
+        String view = "\tCREATE VIEW authors_cited(email, cited) AS\n" +
+                "\t(SELECT co_authors.email, cited \n" +
+                "\tFROM (cites, publication, co_authors)\n" +
+                "\tWHERE cited = publication.p_id AND co_authors.s_id = publication.s_id\n" +
+                "\t) UNION \n" +
+                "\t(SELECT submits.email, cited\n" +
+                "\tFROM cites, publication, submits\n" +
+                "\tWHERE cited = publication.p_id AND submits.s_id = publication.s_id );";
+        execQuery(view);
+    }
+
+
     private static void closeConnection() {
         try {
             conn.close();
