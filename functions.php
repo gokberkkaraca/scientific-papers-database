@@ -338,7 +338,7 @@
             $expertises = $_POST['expertises'];
         }
 
-        session_start();
+        //session_start();
         $_SESSION['validationMessage'] = '';
 
         if(empty($data_missing))
