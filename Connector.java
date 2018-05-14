@@ -718,9 +718,13 @@ public class Connector {
     private static void createProcedures(){
         String dropInsertSubmission = "drop procedure if exists insert_submission";
         String dropInsertPublication = "drop procedure if exists insert_publication";
+        String dropPublicationCount = "drop procedure if exists find_number_of_publications";
+        String dropFindNumberOfCitations = "drop procedure if exists find_author_total_citations";
 
         execQuery(dropInsertSubmission);
         execQuery(dropInsertPublication);
+        execQuery(dropPublicationCount);
+        execQuery(dropFindNumberOfCitations);
 
         String insertSubmission = "CREATE PROCEDURE insert_submission\n" +
                 "     (IN title varchar(200), IN doc_link varchar(200), IN email varchar(200))\n" +
@@ -745,9 +749,59 @@ public class Connector {
                 "    VALUES(p_id_val, title, pages, CURDATE(), doc_link, 0, s_id);\n" +
                 "END";
 
+        String publicationCount =
+                "\n" +
+                "CREATE PROCEDURE find_number_of_publications\n" +
+                "     (IN author_email VARCHAR(200), OUT total_count INT)\n" +
+                "BEGIN\n" +
+                "    DECLARE author_count INT DEFAULT 0;\n" +
+                "    DECLARE co_author_count INT DEFAULT 0;\n" +
+                "\n" +
+                "    SELECT count(*) as count INTO author_count\n" +
+                "    FROM publication NATURAL JOIN submits\n" +
+                "    WHERE email = author_email;\n" +
+                "    \n" +
+                "    SELECT count(*) as count INTO co_author_count\n" +
+                "    FROM co_authors\n" +
+                "    WHERE email = author_email;\n" +
+                "\n" +
+                "    SET total_count = author_count + co_author_count;\n" +
+                "END\n";
+
+
+
+        String citationCount = "CREATE PROCEDURE find_author_total_citations\n" +
+                "     (IN author_email VARCHAR(200), OUT author_total_cited INT)\n" +
+                "BEGIN\n" +
+                "    DECLARE total_count INT DEFAULT 0;\n" +
+                "    \n" +
+                "\tDROP VIEW IF EXISTS authors_cited;\n" +
+                "    \n" +
+                "    CREATE VIEW authors_cited(email, cited) AS\n" +
+                "\t(SELECT co_authors.email, cited \n" +
+                "\tFROM (cites, publication, co_authors)\n" +
+                "\tWHERE cited = publication.p_id AND co_authors.s_id = publication.s_id\n" +
+                "\t) UNION \n" +
+                "\t(SELECT submits.email, cited\n" +
+                "\tFROM cites, publication, submits\n" +
+                "\tWHERE cited = publication.p_id AND submits.s_id = publication.s_id);\n" +
+                "    \n" +
+                "    SELECT count(cited) into total_count\n" +
+                "    FROM authors_cited\n" +
+                "    GROUP BY email\n" +
+                "    HAVING email = author_email;\n" +
+                "    SET author_total_cited = total_count;\n" +
+                "    \n" +
+                "    DROP VIEW IF EXISTS authors_cited;" +
+                "    END";
+
         execQuery(insertSubmission);
         execQuery(insertPublication);
+        execQuery(publicationCount);
+        execQuery(citationCount);
     }
+
+
     private static void closeConnection() {
         try {
             conn.close();
