@@ -357,7 +357,7 @@
             }
             else
             {
-                // Add submission
+                /*// Add submission
                 $getLeastEditor = "select email, count(email) as count from submission where status < 4 group by email order by count ASC limit 1;";
                 $stmt = @mysqli_query($dbc,$getLeastEditor) or die(mysqli_error($dbc));
                 $row = @mysqli_fetch_array($stmt);
@@ -378,6 +378,11 @@
                 $addsubmitsQuery = "insert into submits (email,s_id,p_name)"
                 ."values ( '".$email."', '".$s_id."', '".$publisher."' );";
                 $stmt = @mysqli_query($dbc,$addsubmitsQuery) or die(mysqli_error($dbc));
+                @mysqli_stmt_close($stmt); */
+
+                $insertSubmission = "call insert_submission('$title','$link')";
+                $stmt = @mysqli_query($dbc,$insertSubmission) or die(mysqli_error($dbc));
+                $row = @mysqli_fetch_array($stmt);
                 @mysqli_stmt_close($stmt);
 
                 $_SESSION['validationMessage'] = 'Submission successfully added';
