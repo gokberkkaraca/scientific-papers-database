@@ -23,6 +23,10 @@ public class Connector {
         createTriggers();
         System.out.println("Triggers created.");
 
+        //Create Views
+        createViews();
+        System.out.println("Views created");
+
         //Create Procedures
         createProcedures();
         System.out.println("Procedures created.");
@@ -359,12 +363,33 @@ public class Connector {
 
     private static void insertSubscribers() {
         String insertQuery = "INSERT INTO subscriber VALUES";
-        String query1 = "('email1', 'institution1', 'password1', 'name1', 'surname1', '2')";
-        String query2 = "('email2', 'institution2', 'password2', 'name2', 'surname2', '2')";
-        String query3 = "('email3', 'institution3', 'password3', 'name3', 'surname3', '3')";
-        String query4 = "('email4', 'institution4', 'password4', 'name4', 'surname4', '3')";
-        String query5 = "('email5', 'institution5', 'password5', 'name5', 'surname5', '1')";
-        String query6 = "('email6', 'institution6', 'password6', 'name6', 'surname6', '1')";
+
+        //Authors
+        String query1 = "('acirpan@metu.edu.tr', 'Middle East Techical University', 'alicirpan', 'Ali', 'Cirpan', '2')";
+        String query2 = "('ugur@cs.bilkent.edu.tr', 'Bilkent University', 'ugurdogrusoz', 'Ugur', 'Dogrusoz', '2')";
+        String query3 = "('cicek@cs.bilkent.edu.tr', 'Bilkent University', 'ercumentcicek', 'Abdullah Ercüment', 'Cicek', '2')";
+        String query4 = "('alford@hls.harvard.edu', 'Harvard University', 'williamalford', 'William', 'Alford', '2')";
+        String query5 = "('demler@physics.harvard.edu', 'Harvard University', 'eugenedemler', 'Eugune', 'Demler', '2')";
+        String query6 = "('aiken@cs.strandford.edu', 'Standford University', 'alexaiken', 'Alex', 'Aikent', '2');";
+        String query7 = "('bblock@standford.edu', 'Standford University', 'barbarablock', 'Barbara', 'Block', '2');";
+        String query8 = "('melisa.terazi@tto.re', 'Sabanci University', 'melisaterazi', 'Melisa', 'Terazi', '2')";
+
+        //Editors
+        String query9 = "('kocabiyik@boun.edu.tr', 'Bogazici University', 'ergunkocabiyik', 'Ergun', 'kocabiyik', '3')";
+        String query10 = "('abramson@harvard.edu', 'Harvard University', 'jillabramson', 'Jill', 'Abromson', '3')";
+        String query11 = "('korpe@cs.bilkent.edu.tr', 'Bilkent University', 'ibrahimkorpeoglu', 'Ibrahim', 'Korpeoglu', '3')";
+        String query12 = "('abraham.donut@gmail.com', 'Standford University', 'abrahamdonut', 'Abraham', 'DOnut', '3')";
+
+
+        //Reviewers
+        String query13 = "('tonybarnosky@standford.edu', 'Standford University', 'tonybarnosky', 'Tony', 'Barnosky', '1')";
+        String query14 = "('poole@cs.epfl.edu', 'Ecole Polytechnique Federale de Lausanne', 'chrispoole', 'Chris', 'Poole', '1')";
+        String query15 = "('guvenir@cs.bilent.edu.tr', 'Bilkent University', 'halilaltayguvenir', 'Halil Altay', 'Guvenir', '1')";
+        String query16 = "('evans@cs.epfl.edu', 'Ecole Polytechnique Federale de Lausanne', 'tonyevans', 'Tony', 'Evans', '1')";
+        String query17 = "('light@physics.harvard.edu', 'Harvard University', 'robertlight', 'Robert', 'Light', '1')";
+        String query18 = "('isler@econ.bilkent.edu', 'Bilkent University', 'gulisler', 'Gul', 'Isler', '1')";
+        String query19 = "('akkaya@bilkent.edu.tr', 'Bilkent University', 'sahinakkaya', 'Sahin', 'Akkaya', '1')";
+        String query20 = "('oulusoy@cs.bilkent.edu.tr', 'Bilkent University', 'ozgurulusoy', 'Ozgur', 'Ulusoy', '1')";
 
 
         execQuery( insertQuery + query1);
@@ -373,6 +398,20 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+        execQuery( insertQuery + query9);
+        execQuery( insertQuery + query10);
+        execQuery( insertQuery + query11);
+        execQuery( insertQuery + query12);
+        execQuery( insertQuery + query13);
+        execQuery( insertQuery + query14);
+        execQuery( insertQuery + query15);
+        execQuery( insertQuery + query16);
+        execQuery( insertQuery + query17);
+        execQuery( insertQuery + query18);
+        execQuery( insertQuery + query19);
+        execQuery( insertQuery + query20);
     }
 
     private static void insertConference() {
@@ -444,9 +483,9 @@ public class Connector {
 
     private static void insertInvites() {
         String insertQuery = "INSERT INTO invites VALUES";
-        String query1 = "('email5', 'email3', '4', '0')";
-        String query2 = "('email5', 'email4', '5', '1')";
-        String query3 = "('email6', 'email3', '6', '2')";
+        String query1 = "('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '4', '0')";
+        String query2 = "('tonybarnosky@standford.edu', 'abramson@harvard.edu', '5', '1')";
+        String query3 = "('poole@cs.epfl.edu', 'kocabiyik@boun.edu.tr', '6', '2')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -455,12 +494,13 @@ public class Connector {
 
     private static void insertInstitutions() {
         String insertQuery = "INSERT INTO institution VALUES";
-        String query1 = "('institution1', 'street1', 'zip1', 'city1', 'country1')";
-        String query2 = "('institution2', 'street2', 'zip2', 'city2', 'country2')";
-        String query3 = "('institution3', 'street3', 'zip3', 'city3', 'country3')";
-        String query4 = "('institution4', 'street4', 'zip4', 'city4', 'country4')";
-        String query5 = "('institution5', 'street5', 'zip5', 'city5', 'country5')";
-        String query6 = "('institution6', 'street6', 'zip6', 'city6', 'country6')";
+        String query1 = "('Middle East Techical University', 'Universiteler Mahallesi', '06800', 'Ankara', 'Turkey')";
+        String query2 = "('Bilkent University', 'Universiteler Mahallesi', '06800', 'Ankara', 'Turkey')";
+        String query3 = "('Bogazici University', 'Besiktas', '340000', 'Istanbul', 'Turkey')";
+        String query4 = "('Harvard University', 'Cambridge', '02138', 'Massachussets', 'USA')";
+        String query5 = "('Standford University', 'Serra Mall', '94305', 'California', 'USA')";
+        String query6 = "('Ecole Polytechnique Federale de Lausanne', 'Route Cantonale', '1015', 'Lausanne', 'Switzerland')";
+        String query7 = "('Sabanci University', 'Orhanli Mahallesi', '343456', 'Istanbul', 'Turkey')";
 
 
         execQuery( insertQuery + query1);
@@ -469,6 +509,7 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
     }
 
     private static void insertPublications() {
@@ -490,8 +531,8 @@ public class Connector {
 
     private static void insertAuthors() {
         String insertQuery = "INSERT INTO author VALUES";
-        String query1 ="('email1')";
-        String query2 ="('email2')";
+        String query1 ="('acirpan@metu.edu.tr')";
+        String query2 ="('ugur@cs.bilkent.edu.tr')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -499,8 +540,8 @@ public class Connector {
 
     private static void insertAuthorExpertises() {
         String insertQuery = "INSERT INTO authorExpertise VALUES";
-        String query1 ="('email1', 'expertise1')";
-        String query2 ="('email2', 'expertise2')";
+        String query1 ="('acirpan@metu.edu.tr', 'expertise1')";
+        String query2 ="('ugur@cs.bilkent.edu.tr', 'expertise2')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -508,8 +549,8 @@ public class Connector {
 
     private static void insertReviewerExpertises() {
         String insertQuery = "INSERT INTO reviewerExpertise VALUES";
-        String query1 ="('email5', 'expertise1')";
-        String query2 ="('email6', 'expertise2')";
+        String query1 ="('tonybarnosky@standford.edu', 'expertise1')";
+        String query2 ="('poole@cs.epfl.edu', 'expertise2')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -517,8 +558,8 @@ public class Connector {
 
     private static void insertReviewers() {
         String insertQuery = "INSERT INTO reviewer VALUES";
-        String query1 ="('email5')";
-        String query2 ="('email6')";
+        String query1 ="('tonybarnosky@standford.edu')";
+        String query2 ="('poole@cs.epfl.edu')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -526,12 +567,12 @@ public class Connector {
 
     private static void insertReviews() {
         String insertQuery = "INSERT INTO reviews VALUES";
-        String query1 ="('email5', 'email3', '1', 'feedback1')";
-        String query2 ="('email6', 'email4', '2', 'feedback2')";
-        String query3 ="('email5', 'email3', '3', 'feedback3')";
-        String query4 ="('email6', 'email3', '4', 'feedback4')";
-        String query5 ="('email5', 'email3', '5', 'feedback5')";
-        String query6 ="('email6', 'email4', '6', 'feedback6')";
+        String query1 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '1', 'feedback1')";
+        String query2 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '2', 'feedback2')";
+        String query3 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '3', 'feedback3')";
+        String query4 ="('poole@cs.epfl.edu', 'kocabiyik@boun.edu.tr', '4', 'feedback4')";
+        String query5 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '5', 'feedback5')";
+        String query6 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '6', 'feedback6')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -544,12 +585,12 @@ public class Connector {
 
     private static void insertEditorPublishers() {
         String insertQuery = "INSERT INTO editorPublisher VALUES";
-        String query1 ="('email3', 'publisher1')";
-        String query2 ="('email4', 'publisher2')";
-        String query3 ="('email3', 'publisher3')";
-        String query4 ="('email4', 'publisher4')";
-        String query5 ="('email3', 'publisher5')";
-        String query6 ="('email4', 'publisher6')";
+        String query1 ="('kocabiyik@boun.edu.tr', 'publisher1')";
+        String query2 ="('abramson@harvard.edu', 'publisher2')";
+        String query3 ="('kocabiyik@boun.edu.tr', 'publisher3')";
+        String query4 ="('abramson@harvard.edu', 'publisher4')";
+        String query5 ="('kocabiyik@boun.edu.tr', 'publisher5')";
+        String query6 ="('abramson@harvard.edu', 'publisher6')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -599,8 +640,8 @@ public class Connector {
 
     private static void insertEditors() {
         String insertQuery = "INSERT INTO editor VALUES";
-        String query1 ="('1', 'email3')";
-        String query2 ="('2', 'email4')";
+        String query1 ="('1', 'kocabiyik@boun.edu.tr')";
+        String query2 ="('2', 'abramson@harvard.edu')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -608,12 +649,12 @@ public class Connector {
 
     private static void insertSubmissions() {
         String insertQuery = "INSERT INTO submission VALUES";
-        String query1 ="('1', '0', 'sub1', 'link1', '1970.01.01', 'email3')";
-        String query2 ="('2', '1', 'sub2',  'link2', '1970.01.02','email4')";
-        String query3 ="('3', '0', 'sub3', 'link3','1970.01.03',  'email3')";
-        String query4 ="('4', '1', 'sub4', 'link4','1970.01.04',  'email4')";
-        String query5 ="('5', '2', 'sub5', 'link5', '1970.01.05',  'email3')";
-        String query6 ="('6', '1', 'sub6', 'link6','1970.01.06',  'email4')";
+        String query1 ="('1', '0', 'sub1', 'link1', '1970.01.01', 'kocabiyik@boun.edu.tr')";
+        String query2 ="('2', '1', 'sub2',  'link2', '1970.01.02','abramson@harvard.edu')";
+        String query3 ="('3', '0', 'sub3', 'link3','1970.01.03',  'kocabiyik@boun.edu.tr')";
+        String query4 ="('4', '1', 'sub4', 'link4','1970.01.04',  'abramson@harvard.edu')";
+        String query5 ="('5', '2', 'sub5', 'link5', '1970.01.05',  'kocabiyik@boun.edu.tr')";
+        String query6 ="('6', '1', 'sub6', 'link6','1970.01.06',  'abramson@harvard.edu')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -625,12 +666,12 @@ public class Connector {
 
     private static void insertSubmits() {
         String insertQuery = "INSERT INTO submits VALUES";
-        String query1 ="('email1', '1', 'publisher1')";
-        String query2 ="('email2', '2', 'publisher2')";
-        String query3 ="('email1', '3', 'publisher3')";
-        String query4 ="('email2', '4', 'publisher4')";
-        String query5 ="('email1', '5', 'publisher5')";
-        String query6 ="('email2', '6', 'publisher6')";
+        String query1 ="('acirpan@metu.edu.tr', '1', 'publisher1')";
+        String query2 ="('ugur@cs.bilkent.edu.tr', '2', 'publisher2')";
+        String query3 ="('acirpan@metu.edu.tr', '3', 'publisher3')";
+        String query4 ="('ugur@cs.bilkent.edu.tr', '4', 'publisher4')";
+        String query5 ="('acirpan@metu.edu.tr', '5', 'publisher5')";
+        String query6 ="('ugur@cs.bilkent.edu.tr', '6', 'publisher6')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -713,6 +754,7 @@ public class Connector {
                 "AND s_id in( select s_id from reviews );\n" +
                 "END;";
         execQuery(updateSubmissionStatus);
+        System.out.println(updateSubmissionStatus);
     }
 
     private static void createProcedures(){
@@ -738,7 +780,7 @@ public class Connector {
                 "    VALUES(s_id_val, 0, title, doc_link, CURDATE(), email);\n" +
                 "END";
         String insertPublication = "CREATE PROCEDURE insert_publication\n" +
-                "     (IN p_id INT, IN title varchar(200), IN pages INT, IN doc_link varchar(200), IN s_id varchar(200))\n" +
+                "     (IN title varchar(200), IN pages INT, IN doc_link varchar(200), IN s_id varchar(200))\n" +
                 "BEGIN\n" +
                 "    DECLARE p_id_val INT DEFAULT 1;\n" +
                 "\n" +
@@ -751,22 +793,22 @@ public class Connector {
 
         String publicationCount =
                 "\n" +
-                "CREATE PROCEDURE find_number_of_publications\n" +
-                "     (IN author_email VARCHAR(200), OUT total_count INT)\n" +
-                "BEGIN\n" +
-                "    DECLARE author_count INT DEFAULT 0;\n" +
-                "    DECLARE co_author_count INT DEFAULT 0;\n" +
-                "\n" +
-                "    SELECT count(*) as count INTO author_count\n" +
-                "    FROM publication NATURAL JOIN submits\n" +
-                "    WHERE email = author_email;\n" +
-                "    \n" +
-                "    SELECT count(*) as count INTO co_author_count\n" +
-                "    FROM co_authors\n" +
-                "    WHERE email = author_email;\n" +
-                "\n" +
-                "    SET total_count = author_count + co_author_count;\n" +
-                "END\n";
+                        "CREATE PROCEDURE find_number_of_publications\n" +
+                        "     (IN author_email VARCHAR(200), OUT total_count INT)\n" +
+                        "BEGIN\n" +
+                        "    DECLARE author_count INT DEFAULT 0;\n" +
+                        "    DECLARE co_author_count INT DEFAULT 0;\n" +
+                        "\n" +
+                        "    SELECT count(*) as count INTO author_count\n" +
+                        "    FROM publication NATURAL JOIN submits\n" +
+                        "    WHERE email = author_email;\n" +
+                        "    \n" +
+                        "    SELECT count(*) as count INTO co_author_count\n" +
+                        "    FROM co_authors\n" +
+                        "    WHERE email = author_email;\n" +
+                        "\n" +
+                        "    SET total_count = author_count + co_author_count;\n" +
+                        "END\n";
 
 
 
@@ -775,30 +817,51 @@ public class Connector {
                 "BEGIN\n" +
                 "    DECLARE total_count INT DEFAULT 0;\n" +
                 "    \n" +
-                "\tDROP VIEW IF EXISTS authors_cited;\n" +
-                "    \n" +
-                "    CREATE VIEW authors_cited(email, cited) AS\n" +
-                "\t(SELECT co_authors.email, cited \n" +
-                "\tFROM (cites, publication, co_authors)\n" +
-                "\tWHERE cited = publication.p_id AND co_authors.s_id = publication.s_id\n" +
-                "\t) UNION \n" +
-                "\t(SELECT submits.email, cited\n" +
-                "\tFROM cites, publication, submits\n" +
-                "\tWHERE cited = publication.p_id AND submits.s_id = publication.s_id);\n" +
-                "    \n" +
                 "    SELECT count(cited) into total_count\n" +
                 "    FROM authors_cited\n" +
                 "    GROUP BY email\n" +
                 "    HAVING email = author_email;\n" +
                 "    SET author_total_cited = total_count;\n" +
                 "    \n" +
-                "    DROP VIEW IF EXISTS authors_cited;" +
                 "    END";
 
+        String mostPopular = "CREATE PROCEDURE find_most_popular\n" +
+                "     (IN author_email VARCHAR(200), OUT most_popular_p_id INT)\n" +
+                "BEGIN\n" +
+                "    DECLARE popular INT DEFAULT 0;\n" +
+                "    \n" +
+                "    SELECT cited into popular FROM(\n" +
+                "\t\tSELECT cited, count(*) as total_count\n" +
+                "\t\tFROM authors_cited\n" +
+                "\t\tGROUP BY cited\n" +
+                "\t\tORDER BY total_count DESC limit 1) as popular_cited;\n" +
+                "    \n" +
+                "    \n" +
+                "    SET most_popular = popular;\n" +
+                "    \n" +
+                "END";
+
+        System.out.println(citationCount);
         execQuery(insertSubmission);
         execQuery(insertPublication);
         execQuery(publicationCount);
         execQuery(citationCount);
+        //execQuery(mostPopular);
+    }
+
+    private static void createViews(){
+        String drop = "drop view if exists authors_cited";
+        execQuery(drop);
+
+        String view = "\tCREATE VIEW authors_cited(email, cited) AS\n" +
+                "\t(SELECT co_authors.email, cited \n" +
+                "\tFROM (cites, publication, co_authors)\n" +
+                "\tWHERE cited = publication.p_id AND co_authors.s_id = publication.s_id\n" +
+                "\t) UNION \n" +
+                "\t(SELECT submits.email, cited\n" +
+                "\tFROM cites, publication, submits\n" +
+                "\tWHERE cited = publication.p_id AND submits.s_id = publication.s_id );";
+        execQuery(view);
     }
 
 
