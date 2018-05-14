@@ -61,6 +61,7 @@
   					</div>
   				</nav>
   			</div>
+        <br />
         <div class="container" align="center">
             <div class="author_submissions_div">
 
@@ -88,10 +89,10 @@
                         and submits.email = '".$email."' order by date DESC;";
 
                         $stmt = @mysqli_query($dbc,$selAuthSubmissions) or die(mysqli_error($dbc));
-
-                        echo '<table class="table table-striped table-bordered">
-                        <thead align="center"><tr><th>Title</th><th>Publisher</th><th>Status</th><th>Feedback</th><th colspan="2">Options</th></tr></thead><tbody align="center">';
-
+                        if (mysqli_num_rows($stmt) > 0) {
+                          echo '<table class="table table-striped table-bordered">
+                          <thead align="center"><tr><th>Title</th><th>Publisher</th><th>Status</th><th>Feedback</th><th colspan="2">Options</th></tr></thead><tbody align="center">';
+                        }
                         while($row = @mysqli_fetch_array($stmt))
                         {
                             $publishBtn = 'disabled';
@@ -171,6 +172,7 @@
 
                     ?>
             </div>
+            <br />
             <div class="make_nsubmission_div col-6">
                 <form method="post" action="functions.php">
                     <div class="form-group row">
