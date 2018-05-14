@@ -13,13 +13,13 @@
 			$search_key = $_GET["search-key"];
 			$search_type = $_GET["search-type"];
 			if ($search_type == "publication") {
-				$sql = "SELECT p_id, title, p_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%'";
+				$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%'";
 				$result = mysqli_query($dbc,$sql);
 			}else if ($search_type == "publisher") {
-				$sql = "SELECT p_id, title, p_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%'";
+				$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%'";
 				$result = mysqli_query($dbc,$sql);
 			}else{
-				$sql = "SELECT p_id, title, p_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%'";
+				$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%'";
 				$result = mysqli_query($dbc,$sql);
 			}
 			$search_completed = 1;
@@ -72,6 +72,7 @@
 					</div>
 				</nav>
 			</div>
+			<br />
 			<div class="container-fluid">
 			  <div class="jumbotron">
 					<form name="search" id="search-form">
@@ -126,7 +127,7 @@
 							echo "<tr>";
 							echo "<td><a href='publication-page.php?p_id=$row[0]'>$row[1]</a></td>";
 							echo "<td><a href='find-publisher.php?p_name=$row[2]'>$row[2]</a></td>";
-							echo "<td></td>";
+							echo "<td>$row[3]</td>";
 							echo "</tr>";
 						}
 						echo "</tbody>";
