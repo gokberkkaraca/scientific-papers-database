@@ -589,6 +589,24 @@
         }
     }
 
+    function inviteRev()
+    {
+        global $dbc;
+
+        $revEmail = $_GET['email'];
+        $s_id = intval($_GET['id']);
+        $status = intval($_GET['stat']);
+        $editorEmail = $_SESSION['email'];
+
+        $addInvite = "insert into invites (reviewer_email,editor_email,s_id,status) values ('".$revEmail."', '".$editorEmail."', ".$s_id." , ".$status.");";
+
+        $stmt = @mysqli_query($dbc,$addInvite);
+
+        @mysqli_stmt_close($stmt);
+
+        return 'success';
+    }
+
     function loadReviewersJson()
     {
         global $dbc;
@@ -596,7 +614,7 @@
         $name = $_GET['name'];
         $expertise = $_GET['expertise'];
         
-        $selReviewers = "select reviewers.fullName as fullName, tag from reviewerExpertise, (select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where"
+        $selReviewers = "select reviewers.fullName as fullName, reviewers.email as email, tag from reviewerExpertise, (select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where"
         ." usertype = 1 and (s_name like '%".$name."%' or s_surname like '%".$name."%') ) as reviewers"
         ." where reviewers.email in (select distinct email from reviewerExpertise where tag = '".$expertise."') and"
         ." reviewerExpertise.email = reviewers.email order by reviewers.fullName ASC";
@@ -628,7 +646,7 @@
         {
             if ( $counter == 1 )
             {
-                $res .= '[{ "name":"'.$row['fullName'].'", "expertises" : [ "'.$row['tag'].'"';
+                $res .= '[{ "name":"'.$row['fullName'].'", "email" : "'.$row['email'].'", "expertises" : [ "'.$row['tag'].'"';
                 $nameTEMP = $row['fullName'];
                 $expertiseTEMP = $row['tag'];
                 $counter++;
@@ -642,7 +660,7 @@
                 else
                 {
                     $res .= ']}';
-                    $res .= ',{ "name":"'.$row['fullName'].'", "expertises" : [ "'.$row['tag'].'"';
+                    $res .= ',{ "name":"'.$row['fullName'].'", "email" : "'.$row['email'].'", "expertises" : [ "'.$row['tag'].'"';
                     $nameTEMP = $row['fullName'];
                     $expertiseTEMP = $row['tag'];
                 }
@@ -750,7 +768,12 @@
         $res = reject();
         echo $res;
     }
-
+    if(isset($_GET['inviteRev']))
+    {
+        //echo "here";
+        $res = inviteRev();
+        echo $res;
+    }
    if (isset($_POST['getPublishers']))
    {
        $res = getPublishersJson();
