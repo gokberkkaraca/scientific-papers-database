@@ -87,7 +87,8 @@
 			$(".popup-content").append( '<div class="added_div"><div class="col-6 invite_input_div">'+
 			'<div class="form-group"><input class="form-control invite_input" type="text" name="reviewer_name" placeholder="Enter a name"></div>'+
 			'<div class="form-group"><select class="form-control expertise_select invite_input" name="expertise"></select></div>'+
-			'<button class="col-3 btn btn-primary" onclick="closePopup();">OK</button></div>'+
+			//'<button class="col-3 btn btn-primary" onclick="closePopup();">OK</button>
+			'</div>'+
 			'<div class="matching_reviewers"></div></div>');
 
 			// Filling the expertises select
@@ -137,42 +138,61 @@
 
 
 			$.ajax({
-					type: "GET",
-					url: "functions.php?loadReviewers=true",
-					data: {name:revName, expertise:selExpertise},
-					async: false,
-					dataType: "json",
-					success: function(response){
+				type: "GET",
+				url: "functions.php?loadReviewers=true",
+				data: {name:revName, expertise:selExpertise},
+				async: false,
+				dataType: "json",
+				success: function(response){
 
 //						alert(response.reviewers[0].name);
 
-						var arr = Object.values(response.reviewers)
+					var arr = Object.values(response.reviewers)
 
-						if(arr.length <= 0 )
-						{
-							alert("No reviewer with these info exists!");
-						}
-						else
-						{
-
-							var toAdd = '';
-							arr.forEach(element => {
-
-								toAdd +=  '<div><label>'+ element.name +'</label><div><ul>';
-
-								element.expertises.forEach( val => {
-
-									toAdd += '<li>'+ val +'</li>';
-								});
-
-								toAdd += '</ul></div></div>';
-
-								$(".matching_reviewers").append( toAdd );
-							});
-						}
-
+					if(arr.length <= 0 )
+					{
+						alert("No reviewer with these info exists!");
 					}
+					else
+					{
+
+						var toAdd = '<table class="table table-striped"><tbody>';
+						arr.forEach(element => {
+
+							toAdd +=  '<tr><td><div><label>'+ element.name +'</label><div><ul>';
+
+							element.expertises.forEach( val => {
+
+								toAdd += '<li>'+ val +'</li>';
+							});
+
+							toAdd += '</ul></div</div></td><td>'+
+							'<button id="'+ element.email +'" class="invite_btn btn btn-primary">Invite</button>'+
+							'</td></tr>';
+							
+						});
+						toAdd += '</tbody></table>';
+						$(".matching_reviewers").append( toAdd );
+					}
+				}
+			});
+			$("button.invite_btn").on("click",function(){
+
+				var revEmail = $(this).attr("id");
+				alert(revEmail);
+				$.ajax({
+						type: "GET",
+						url: "functions.php?inviteRev=true",
+						data: {email:revEmail, id:s_id, stat:status},
+						dataType: "text",
+						success: function(response){
+							alert(response);
+							$("#" + revEmail).removeClass("btn-primary").addClass("btn-success").text('invited').prop('disabled',true);
+
+						}
 				});
+
+			});
 		}
 
 
