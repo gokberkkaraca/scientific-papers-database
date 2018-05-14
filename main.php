@@ -9,17 +9,35 @@
 		else {
 		 	header("location: index.php");
 		}
+
+		if (isset($_GET["date"])) {
+			$date = $_GET["date"];
+			$month = strtok($date, "/");
+			$day = strtok("/");
+			$year = strtok("/");
+			$date = $year."-".$month."-".$day;
+			$date;
+		}
 		if(isset($_GET["search-key"])) {
 			$search_key = $_GET["search-key"];
 			$search_type = $_GET["search-type"];
 			if ($search_type == "publication") {
 				$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%'";
+				if (isset($date)) {
+					$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%' AND DATE(publication_date) >= '$date'";
+				}
 				$result = mysqli_query($dbc,$sql);
 			}else if ($search_type == "publisher") {
 				$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%'";
+				if (isset($date)) {
+					 $sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%' AND DATE(publication_date) >= '$date'";
+				}
 				$result = mysqli_query($dbc,$sql);
 			}else{
 				$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%'";
+				if (isset($date)) {
+					$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%' AND DATE(publication_date) >= '$date'";
+				}
 				$result = mysqli_query($dbc,$sql);
 			}
 			$search_completed = 1;
@@ -32,6 +50,15 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 		<link rel="stylesheet" href="css/main.css">
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab:400,700" rel="stylesheet">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	  <link rel="stylesheet" href="/resources/demos/style.css">
+	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	  <script>
+	  $( function() {
+	    $( "#datepicker" ).datepicker();
+	  } );
+	  </script>
 	</head>
 	<body>
 		<div id="top-panel" align="center">
@@ -98,6 +125,9 @@
 								<div class="custom-control custom-radio custom-control-inline">
 									<input type="radio" id="by-author" name="search-type" class="custom-control-input" value="author">
 									<label class="custom-control-label" for="by-author">By Author Name</label>
+								</div>
+								<div>
+									Filter by date: <input type="text" id="datepicker" name="date" class="rounded" style="margin-top: 10px">
 								</div>
 							</div>
 						</div>
