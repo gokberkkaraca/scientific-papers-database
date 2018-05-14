@@ -709,7 +709,8 @@ public class Connector {
                 "AFTER DELETE ON  invites\n" +
                 "FOR EACH ROW  \n" +
                 "BEGIN\n" +
-                "update submission set status = 2 where s_id = old.s_id AND s_id not in( select s_id from invites);\n" +
+                "update submission set status = 2 where s_id = old.s_id AND s_id not in( select s_id from invites)" +
+                "AND s_id in( select s_id from reviews );\n" +
                 "END;";
         execQuery(updateSubmissionStatus);
     }
