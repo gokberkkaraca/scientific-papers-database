@@ -26,7 +26,7 @@
     $sql = "SELECT s_name, s_surname FROM subscriber WHERE email = '$email'";
     $name = mysqli_query($dbc, $sql);
     $name = mysqli_fetch_array($name, MYSQLI_NUM);
-    $name = $name[0];
+    $name = "$name[0] $name[1]";
 
     $sql = "SELECT count(*) FROM cites WHERE cited = '$p_id'";
     $cited_result = mysqli_query($dbc,$sql);
