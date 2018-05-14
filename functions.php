@@ -323,7 +323,7 @@
         }
         if(empty($_POST['coauthors_emails']))
         {
-            $data_missing[] = 'AuthorsEmails';
+          // It can be empty
         }
         else
         {
@@ -331,13 +331,13 @@
         }
         if(empty($_POST['expertises']))
         {
+            echo "expertises missing";
             $data_missing[] = 'Expertises';
         }
         else
         {
             $expertises = $_POST['expertises'];
         }
-
         //session_start();
         $_SESSION['validationMessage'] = '';
 
@@ -357,7 +357,7 @@
             }
             else
             {
-                /*// Add submission
+                // Add submission
                 $getLeastEditor = "select email, count(email) as count from submission where status < 4 group by email order by count ASC limit 1;";
                 $stmt = @mysqli_query($dbc,$getLeastEditor) or die(mysqli_error($dbc));
                 $row = @mysqli_fetch_array($stmt);
@@ -378,15 +378,15 @@
                 $addsubmitsQuery = "insert into submits (email,s_id,p_name)"
                 ."values ( '".$email."', '".$s_id."', '".$publisher."' );";
                 $stmt = @mysqli_query($dbc,$addsubmitsQuery) or die(mysqli_error($dbc));
-                @mysqli_stmt_close($stmt); */
-
-                $insertSubmission = "call insert_submission('$title','$link')";
-                $stmt = @mysqli_query($dbc,$insertSubmission) or die(mysqli_error($dbc));
-                $row = @mysqli_fetch_array($stmt);
                 @mysqli_stmt_close($stmt);
 
+                // $insertSubmission = "call insert_submission('$title','$link', $email, $publisher)";
+                // $stmt = @mysqli_query($dbc,$insertSubmission) or die(mysqli_error($dbc));
+                // $row = @mysqli_fetch_array($stmt);
+                // @mysqli_stmt_close($stmt);
+
                 $_SESSION['validationMessage'] = 'Submission successfully added';
-                header('Location: author-submissions.php');
+                header('Location: author-submissions.php?success=true');
                 exit();
             }
 
@@ -623,7 +623,7 @@
 
         $name = $_GET['name'];
         $expertise = $_GET['expertise'];
-        
+
         $selReviewers = "select reviewers.fullName as fullName, reviewers.email as email, tag from reviewerExpertise, (select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where"
         ." usertype = 1 and (s_name like '%".$name."%' or s_surname like '%".$name."%') ) as reviewers"
         ." where reviewers.email in (select distinct email from reviewerExpertise where tag = '".$expertise."') and"
@@ -631,9 +631,9 @@
 
         $stmt = @mysqli_query($dbc,$selReviewers);
 
-        class Reviewer 
+        class Reviewer
         {
-            function Reviewer( $name ) 
+            function Reviewer( $name )
             {
                 $this->fullName = $name;
                 $this->expertises = array();
@@ -644,7 +644,7 @@
                 array_push($this->expertises, $expertise);
             }
         }
-        
+
         $reviewers = array();
 
         $res = '{ "reviewers" : ';
@@ -707,7 +707,7 @@
         else if ( $counter == 1)
             $res .= '[] }';
 
-        
+
 
         //$jsonRes = json_encode($reviewers);
 
