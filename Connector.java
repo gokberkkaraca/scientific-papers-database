@@ -408,7 +408,7 @@ public class Connector {
         System.out.println("In journals");
         String insertQuery = "INSERT INTO journal VALUES";
         String query1 = "('Computer Science', 'Bilkent Journals')";
-        String query2 = "('Computer Science/Physics', 'Standford Journals')";
+        String query2 = "('Computer Science/Physics', 'Stanford Journals')";
         String query3 = "('Chemistry', 'METU Journals')";
         String query4 = "('Law/Economy', 'Harvard Journals')";
         String query5 = "('Computer Science', 'MIT Journals')";
@@ -436,7 +436,7 @@ public class Connector {
         String query8 ="('Oxford Conferences')";
 
         String query9 ="('Bilkent Journals')";
-        String query10 ="('Standford Journals')";
+        String query10 ="('Stanford Journals')";
         String query11 ="('METU Journals')";
         String query12 ="('Harvard Journals')";
         String query13 ="('MIT Journals')";
@@ -520,22 +520,22 @@ public class Connector {
         //Authors
         String query1 = "('acirpan@metu.edu.tr', 'Middle East Techical University', 'alicirpan', 'Ali', 'Cirpan', '2')";
         String query2 = "('ugur@cs.bilkent.edu.tr', 'Bilkent University', 'ugurdogrusoz', 'Ugur', 'Dogrusoz', '2')";
-        String query3 = "('cicek@cs.bilkent.edu.tr', 'Bilkent University', 'ercumentcicek', 'Abdullah Ercüment', 'Cicek', '2')";
+        String query3 = "('cicek@cs.bilkent.edu.tr', 'Bilkent University', 'ercumentcicek', 'Abdullah Ercument', 'Cicek', '2')";
         String query4 = "('alford@hls.harvard.edu', 'Harvard University', 'williamalford', 'William', 'Alford', '2')";
         String query5 = "('demler@physics.harvard.edu', 'Harvard University', 'eugenedemler', 'Eugune', 'Demler', '2')";
-        String query6 = "('aiken@cs.strandford.edu', 'Standford University', 'alexaiken', 'Alex', 'Aikent', '2');";
-        String query7 = "('bblock@standford.edu', 'Standford University', 'barbarablock', 'Barbara', 'Block', '2');";
+        String query6 = "('aiken@cs.strandford.edu', 'Stanford University', 'alexaiken', 'Alex', 'Aikent', '2');";
+        String query7 = "('bblock@standford.edu', 'Stanford University', 'barbarablock', 'Barbara', 'Block', '2');";
         String query8 = "('melisa.terazi@tto.re', 'Sabanci University', 'melisaterazi', 'Melisa', 'Terazi', '2')";
 
         //Editors
         String query9 = "('kocabiyik@boun.edu.tr', 'Bogazici University', 'ergunkocabiyik', 'Ergun', 'kocabiyik', '3')";
         String query10 = "('abramson@harvard.edu', 'Harvard University', 'jillabramson', 'Jill', 'Abromson', '3')";
         String query11 = "('korpe@cs.bilkent.edu.tr', 'Bilkent University', 'ibrahimkorpeoglu', 'Ibrahim', 'Korpeoglu', '3')";
-        String query12 = "('abraham.donut@gmail.com', 'Standford University', 'abrahamdonut', 'Abraham', 'DOnut', '3')";
+        String query12 = "('abraham.donut@gmail.com', 'Stanford University', 'abrahamdonut', 'Abraham', 'DOnut', '3')";
 
 
         //Reviewers
-        String query13 = "('tonybarnosky@standford.edu', 'Standford University', 'tonybarnosky', 'Tony', 'Barnosky', '1')";
+        String query13 = "('tonybarnosky@standford.edu', 'Stanford University', 'tonybarnosky', 'Tony', 'Barnosky', '1')";
         String query14 = "('poole@cs.epfl.edu', 'Ecole Polytechnique Federale de Lausanne', 'chrispoole', 'Chris', 'Poole', '1')";
         String query15 = "('guvenir@cs.bilent.edu.tr', 'Bilkent University', 'halilaltayguvenir', 'Halil Altay', 'Guvenir', '1')";
         String query16 = "('evans@cs.epfl.edu', 'Ecole Polytechnique Federale de Lausanne', 'tonyevans', 'Tony', 'Evans', '1')";
@@ -628,7 +628,7 @@ public class Connector {
         String query2 = "('Bilkent University', 'Universiteler Mahallesi', '06800', 'Ankara', 'Turkey')";
         String query3 = "('Bogazici University', 'Besiktas', '340000', 'Istanbul', 'Turkey')";
         String query4 = "('Harvard University', 'Cambridge', '02138', 'Massachussets', 'USA')";
-        String query5 = "('Standford University', 'Serra Mall', '94305', 'California', 'USA')";
+        String query5 = "('Stanford University', 'Serra Mall', '94305', 'California', 'USA')";
         String query6 = "('Ecole Polytechnique Federale de Lausanne', 'Route Cantonale', '1015', 'Lausanne', 'Switzerland')";
         String query7 = "('Sabanci University', 'Orhanli Mahallesi', '343456', 'Istanbul', 'Turkey')";
 
@@ -649,7 +649,10 @@ public class Connector {
         String query3 ="('13', 'Development of Interest Estimation Tool for Effective HAI', '321', '1970.01.03', 'link3', '3', '3')";
         String query4 ="('14', 'SynFlo: A Tangible Museum Exhibit', '432', '1970.01.04', 'link4', '4', '4')";
         String query5 ="('15', 'Database research at Bilkent University', '542', '1970.01.05', 'link5', '5', '5')";
-        String query6 ="('16', 'Compressed Representations of Conjunctive Query Results', '145', '1970.01.06', 'link6', '6', '6')";
+        String query6 ="('16', 'LTE radio analytics made easy and accessible', '145', '1970.01.06', 'link6', '6', '6')";
+        String query7 ="('17', 'Accurate indoor localization with zero start-up cost', '122', '2018.01.05', 'link1', '1', '1')";
+        String query8 ="('18', 'Full duplex radios: from impossibility to practice', '431', '2018.03.30', 'link2', '2', '2')";
+        String query9 ="('19', 'Dynamic assembly of views in data cubes', '321', '1970.01.03', 'link3', '3', '3')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -657,6 +660,9 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+        execQuery( insertQuery + query9);
     }
 
 
@@ -704,7 +710,7 @@ public class Connector {
         String query2 ="('abramson@harvard.edu', 'Harvard Conferences')";
         String query3 ="('kocabiyik@boun.edu.tr', 'Bilkent Conferences')";
         String query4 ="('abramson@harvard.edu', 'Bilkent Journals')";
-        String query5 ="('kocabiyik@boun.edu.tr', 'Standford Journals')";
+        String query5 ="('kocabiyik@boun.edu.tr', 'Stanford Journals')";
         String query6 ="('abramson@harvard.edu', 'METU Journals')";
 
         execQuery( insertQuery + query1);
@@ -721,10 +727,14 @@ public class Connector {
         String query1 ="('11', '12')";
         String query2 ="('11', '13')";
         String query3 ="('13', '12')";
-        String query4 ="('14', '15')";
-        String query5 ="('14', '16')";
+        String query4 ="('11', '18')";
+        String query5 ="('14', '12')";
         String query6 ="('14', '11')";
         String query7 ="('15', '16')";
+        String query8 ="('11', '15')";
+        String query9 ="('14', '16')";
+        String query10 ="('14', '18')";
+        String query11 ="('15', '12')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -733,17 +743,24 @@ public class Connector {
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
         execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+        execQuery( insertQuery + query9);
+        execQuery( insertQuery + query10);
+        execQuery( insertQuery + query11);
     }
 
 
     private static void insertSubmissions() {
         String insertQuery = "INSERT INTO submission VALUES";
-        String query1 ="('1', '0', 'Influence Estimation and Maximization', 'link1', '1970.01.01', 'kocabiyik@boun.edu.tr')";
-        String query2 ="('2', '1', 'Highly-Scalable Deep Convolutional Neural Network',  'link2', '1970.01.02','abramson@harvard.edu')";
-        String query3 ="('3', '3', 'Development of Interest Estimation Tool for Effective HAI', 'link3','1970.01.03',  'kocabiyik@boun.edu.tr')";
-        String query4 ="('4', '3', 'SynFlo: A Tangible Museum Exhibit', 'link4','1970.01.04',  'abramson@harvard.edu')";
-        String query5 ="('5', '2', 'Database research at Bilkent University', 'link5', '1970.01.05',  'kocabiyik@boun.edu.tr')";
-        String query6 ="('6', '1', 'Compressed Representations of Conjunctive Query Results', 'link6','1970.01.06',  'abramson@harvard.edu')";
+        String query1 ="('1', '4', 'Influence Estimation and Maximization', 'link1', '1970.01.01', 'kocabiyik@boun.edu.tr')";
+        String query2 ="('2', '4', 'Highly-Scalable Deep Convolutional Neural Network',  'link2', '1970.01.02','abramson@harvard.edu')";
+        String query3 ="('3', '4', 'Development of Interest Estimation Tool for Effective HAI', 'link3','1970.01.03',  'kocabiyik@boun.edu.tr')";
+        String query4 ="('4', '4', 'SynFlo: A Tangible Museum Exhibit', 'link4','1970.01.04',  'abramson@harvard.edu')";
+        String query5 ="('5', '4', 'Database research at Bilkent University', 'link5', '1970.01.05',  'kocabiyik@boun.edu.tr')";
+        String query6 ="('6', '4', 'LTE radio analytics made easy and accessible', 'link6','1970.01.06',  'abramson@harvard.edu')";
+        String query7 ="('7', '4', 'Accurate indoor localization with zero start-up cost', 'link7','1970.01.07',  'kocabiyik@boun.edu.tr')";
+        String query8 ="('8', '4', 'Full duplex radios: from impossibility to practice', 'link8','1970.01.08',  'abramson@harvard.edu')";
+        String query9 ="('9', '4', 'Dynamic assembly of views in data cubes', 'link9', '1970.01.09', 'kocabiyik@boun.edu.tr')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -751,6 +768,9 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+        execQuery( insertQuery + query9);
     }
 
     private static void insertSubmits() {
@@ -759,8 +779,11 @@ public class Connector {
         String query2 ="('ugur@cs.bilkent.edu.tr', '2', 'Harvard Conferences')";
         String query3 ="('acirpan@metu.edu.tr', '3', 'Bilkent Conferences')";
         String query4 ="('ugur@cs.bilkent.edu.tr', '4', 'Bilkent Journals')";
-        String query5 ="('acirpan@metu.edu.tr', '5', 'Standford Journals')";
+        String query5 ="('acirpan@metu.edu.tr', '5', 'Stanford Journals')";
         String query6 ="('ugur@cs.bilkent.edu.tr', '6', 'METU Journals')";
+        String query7 ="('acirpan@metu.edu.tr', '7', 'TED Conferences')";
+        String query8 ="('ugur@cs.bilkent.edu.tr', '8', 'Harvard Conferences')";
+        String query9 ="('acirpan@metu.edu.tr', '9', 'Bilkent Conferences')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -768,6 +791,9 @@ public class Connector {
         execQuery( insertQuery + query4);
         execQuery( insertQuery + query5);
         execQuery( insertQuery + query6);
+        execQuery( insertQuery + query7);
+        execQuery( insertQuery + query8);
+        execQuery( insertQuery + query9);
     }
 
     private static void insertJournalVolumes() {
@@ -775,9 +801,9 @@ public class Connector {
         String query1 ="('Bilkent Journals', '1')";
         String query2 ="('Bilkent Journals', '2')";
         String query3 ="('Bilkent Journals', '3')";
-        String query4 ="('Standford Journals', '1')";
-        String query5 ="('Standford Journals', '2')";
-        String query6 ="('Standford Journals', '3')";
+        String query4 ="('Stanford Journals', '1')";
+        String query5 ="('Stanford Journals', '2')";
+        String query6 ="('Stanford Journals', '3')";
         String query7 ="('METU Journals', '1')";
         String query8 ="('METU Journals', '2')";
         String query9 ="('METU Journals', '3')";
@@ -795,19 +821,13 @@ public class Connector {
 
     private static void insertPublishedIns() {
         String insertQuery = "INSERT INTO published_in VALUES";
-        String query1 ="('Bilkent Journals', '1', 11)";
-        String query2 ="('Bilkent Journals', '2', 12)";
-        String query3 ="('Bilkent Journals', '3', 13)";
-        String query4 ="('Standford Journals', '1', 14)";
-        String query5 ="('Standford Journals', '2', 15)";
-        String query6 ="('Standford Journals', '3', 16)";
+        String query1 ="('Bilkent Journals', '3', 14)";
+        String query2 ="('Stanford Journals', '3', 15)";
+        String query3 ="('METU Journals', '3', 16)";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
         execQuery( insertQuery + query3);
-        execQuery( insertQuery + query4);
-        execQuery( insertQuery + query5);
-        execQuery( insertQuery + query6);
     }
 
 
