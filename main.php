@@ -10,33 +10,50 @@
 		 	header("location: index.php");
 		}
 
-		if (isset($_GET["date"])) {
-			$date = $_GET["date"];
-			$month = strtok($date, "/");
-			$day = strtok("/");
-			$year = strtok("/");
-			$date = $year."-".$month."-".$day;
-			$date;
+		if (isset($_GET["from-date"])) {
+			$from_date = $_GET["from-date"];
+			$from_month = strtok($from_date, "/");
+			$from_day = strtok("/");
+			$from_year = strtok("/");
+			$from_date = $from_year."-".$from_month."-".$from_day;
 		}
+
+		if (isset($_GET["to-date"])) {
+			$to_date = $_GET["to-date"];
+			$to_month = strtok($to_date, "/");
+			$to_day = strtok("/");
+			$to_year = strtok("/");
+			$to_date = $to_year."-".$to_month."-".$to_day;
+		}
+
 		if(isset($_GET["search-key"])) {
 			$search_key = $_GET["search-key"];
 			$search_type = $_GET["search-type"];
 			if ($search_type == "publication") {
-				$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%'";
-				if (isset($date)) {
-					$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%' AND DATE(publication_date) >= '$date'";
+				$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%'";
+				if ($from_date != "--") {
+					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%' AND DATE(publication_date) >= '$from_date'";
+				}
+				if ($from_date != "--" && $to_date != "--") {
+					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%' AND DATE(publication_date) BETWEEN '$from_date' AND '$to_date'";
 				}
 				$result = mysqli_query($dbc,$sql);
 			}else if ($search_type == "publisher") {
-				$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%'";
-				if (isset($date)) {
-					 $sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%' AND DATE(publication_date) >= '$date'";
+				$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%'";
+				if ($from_date != "--") {
+					 $sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%' AND DATE(publication_date) >= '$from_date'";
+				}
+				if ($from_date != "--" && $to_date != "--") {
+					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%' AND DATE(publication_date) BETWEEN '$from_date' AND '$to_date'";
 				}
 				$result = mysqli_query($dbc,$sql);
 			}else{
-				$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%'";
-				if (isset($date)) {
-					$sql = "SELECT p_id, title, p_name, s_name FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%' AND DATE(publication_date) >= '$date'";
+				$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%'";
+				if ($from_date != "--") {
+					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%' AND DATE(publication_date) >= '$date'";
+				}
+				if ($from_date != "--" && $to_date != "--") {
+					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%' AND DATE(publication_date) BETWEEN '$from_date' AND '$to_date'";
 				}
 				$result = mysqli_query($dbc,$sql);
 			}
@@ -56,7 +73,8 @@
 	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	  <script>
 	  $( function() {
-	    $( "#datepicker" ).datepicker();
+	    $( "#datepicker-from" ).datepicker();
+			$( "#datepicker-to" ).datepicker();
 	  } );
 	  </script>
 	</head>
@@ -127,7 +145,10 @@
 									<label class="custom-control-label" for="by-author">By Author Name</label>
 								</div>
 								<div>
-									Filter by date: <input type="text" id="datepicker" name="date" class="rounded" style="margin-top: 10px">
+									<label for="from-date">From: </label>
+									<input type="text" id="datepicker-from" name="from-date" class="rounded" style="margin-top: 10px">
+									<label for="to-date">To: </label>
+									<input type="text" id="datepicker-to" name="to-date" class="rounded" style="margin-top: 10px">
 								</div>
 							</div>
 						</div>
@@ -150,18 +171,20 @@
 						echo "<div align=\"center\">";
 						echo "<table class=\"table table-striped\">";
 						echo "<thead class=\"thead-light\">";
-						echo "<tr>";
+						echo "<tr align='center'>";
 						echo "<th scope=\"col\">Publication</th>";
 						echo "<th scope=\"col\">Publisher</th>";
 						echo "<th scope=\"col\">Author</th>";
+						echo "<th scope=\"col\">Publication Date</th>";
 						echo "</tr>";
 						echo "</thead>";
 						echo "<tbody>";
 						while ( $row = mysqli_fetch_array($result,MYSQLI_NUM)) {
-							echo "<tr>";
+							echo "<tr align='center'>";
 							echo "<td><a href='publication-page.php?p_id=$row[0]'>$row[1]</a></td>";
 							echo "<td><a href='find-publisher.php?p_name=$row[2]'>$row[2]</a></td>";
-							echo "<td>$row[3]</td>";
+							echo "<td>$row[3] $row[4]</td>";
+							echo "<td>$row[5]</td>";
 							echo "</tr>";
 						}
 						echo "</tbody>";

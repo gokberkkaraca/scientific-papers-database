@@ -87,7 +87,7 @@
                         global $email;
 
                         $selAuthSubmissions = "select submission.s_id as s_id, title, p_name, status from submission, submits
-                        where submission.s_id = submits.s_id
+                        where submission.s_id = submits.s_id and submission.status < 4
                         and submits.email = '".$email."' order by date DESC;";
 
                         $stmt = @mysqli_query($dbc,$selAuthSubmissions) or die(mysqli_error($dbc));
@@ -156,7 +156,7 @@
                                 break;
                             }
 
-                            echo '<tr><td><a id="'.$row['s_id'].'" href="publication-page.php?id='.$row['s_id'].'">'.$row['title'].'</a></td>
+                            echo '<tr><td><a id="'.$row['s_id'].'">'.$row['title'].'</a></td>
                                     <td>'.$row['p_name'].'</td>
                                     <td>'.$statusStr.'</td>
                                     <td><button class="see_feedback_btn" '.$feedbackBtn.'>See feedback</button></td>

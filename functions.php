@@ -358,6 +358,7 @@
             else
             {
                 // Add submission
+                /*
                 $getLeastEditor = "select email, count(email) as count from submission where status < 4 group by email order by count ASC limit 1;";
                 $stmt = @mysqli_query($dbc,$getLeastEditor) or die(mysqli_error($dbc));
                 $row = @mysqli_fetch_array($stmt);
@@ -378,12 +379,12 @@
                 $addsubmitsQuery = "insert into submits (email,s_id,p_name)"
                 ."values ( '".$email."', '".$s_id."', '".$publisher."' );";
                 $stmt = @mysqli_query($dbc,$addsubmitsQuery) or die(mysqli_error($dbc));
-                @mysqli_stmt_close($stmt);
+                @mysqli_stmt_close($stmt);*/
 
-                // $insertSubmission = "call insert_submission('$title','$link', $email, $publisher)";
-                // $stmt = @mysqli_query($dbc,$insertSubmission) or die(mysqli_error($dbc));
-                // $row = @mysqli_fetch_array($stmt);
-                // @mysqli_stmt_close($stmt);
+                $insertSubmission = "call insert_submission('$title','$link', '$email', '$publisher')";
+                $stmt = @mysqli_query($dbc,$insertSubmission) or die(mysqli_error($dbc));
+                $row = @mysqli_fetch_array($stmt);
+                @mysqli_stmt_close($stmt);
 
                 /*
 
@@ -468,8 +469,13 @@
 
         @mysqli_stmt_close($stmt); */
 
+        $submissionInfo = "SELECT title, doc_link from submission WHERE s_id = ".$s_id.";";
+        $query = @mysqli_query($dbc,$submissionInfo) or die(mysqli_error($dbc));
+        $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
+        @mysqli_stmt_close($query);
+
         $number_of_pages = 0;
-        $insertPublication = "call insert_publication('$title', '$number_of_pages', '$link', '$s_id')";
+        $insertPublication = "call insert_publication('".$row['title']."', '$number_of_pages', '".$row['doc_link']."', '$s_id')";
         $stmt = @mysqli_query($dbc,$insertPublication) or die(mysqli_error($dbc));
         @mysqli_stmt_close($stmt);
 
@@ -501,7 +507,7 @@
         $stmt = @mysqli_prepare($dbc,$changeState) or die(mysqli_error($dbc));
         @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
 
-        $deleteInvites = "delete from invites where s_id = ".$sid.";";
+        $deleteInvites = "delete from invites where s_id = ".$s_id.";";
 
         $stmt = @mysqli_prepare($dbc,$deleteInvites) or die(mysqli_error($dbc));
         @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
@@ -633,7 +639,7 @@
         $revEmail = $_GET['email'];
         $s_id = intval($_GET['id']);
         $status = intval($_GET['stat']);
-        
+
         $editorEmail = $_SESSION['email'];
         /*
         $editorEmail = "abramson@harvard.edu";
