@@ -131,12 +131,12 @@
                 if (isset($completed)) {
                   if ($subscription_check == 0) {
                     echo "<form method=\"post\" action=\"journal-page.php?p_name=".$p_name."&subscribe=true\">";
-                    echo '<button type="submit" name="subscribe">Subscribe for 1 month</button></h1>';
+                    echo '<button type="submit" class="btn btn-info" name="subscribe">Subscribe for 1 month</button></h1>';
                     echo '</form>';
                   }
                   else if ($subscription_check == 1) {
                     echo "<form method=\"post\" action=\"journal-page.php?p_name=".$p_name."&unsubscribe=true\">";
-                    echo '<button type="submit" name="subscribe">Unsubscribe</button></h1>';
+                    echo '<button type="submit" class="btn btn-warning" name="subscribe">Unsubscribe</button></h1>';
                     echo '</form>';
                   }
                 }
