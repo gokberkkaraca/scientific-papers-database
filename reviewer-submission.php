@@ -122,25 +122,30 @@
 		// perform the query
 		$result = mysqli_query($dbc,$query);
 
-	    echo "<div id=\"result-panel\" align=\"center\">";
-		echo "<div align=\"center\">";
-		echo "<table class=\"table table-striped\">";
-		echo "<thead class=\"thead-light\">";
-		echo "<tr align='center'>";
-		echo "<th scope=\"col\">Title</th>";
-		echo "<th scope=\"col\">Date</th>";
-		echo "<th scope=\"col\">Publisher Name</th>";
-		echo "<th scope=\"col\">Action</th>";
-		echo "</tr>";
-		echo "</thead>";
-		echo "<tbody>";
-        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-		    echo build_table(array('title'=>$row["title"], 'doc_link'=>$row["doc_link"], 'date'=>$row["date"], 'p_name'=>$row["p_name"], 'email'=>$row["editor_email"], 's_id'=>$row["s_id"]));
+		if (mysqli_num_rows($result) != 0) {
+		    echo "<div id=\"result-panel\" align=\"center\">";
+			echo "<div align=\"center\">";
+			echo "<table class=\"table table-striped\">";
+			echo "<thead class=\"thead-light\">";
+			echo "<tr align='center'>";
+			echo "<th scope=\"col\">Title</th>";
+			echo "<th scope=\"col\">Date</th>";
+			echo "<th scope=\"col\">Publisher Name</th>";
+			echo "<th scope=\"col\">Action</th>";
+			echo "</tr>";
+			echo "</thead>";
+			echo "<tbody>";
+	        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+			    echo build_table(array('title'=>$row["title"], 'doc_link'=>$row["doc_link"], 'date'=>$row["date"], 'p_name'=>$row["p_name"], 'email'=>$row["editor_email"], 's_id'=>$row["s_id"]));
+			}
+			echo "</tbody>";
+			echo "</table>";
+			echo "</div>";
+			echo "</div>";
 		}
-		echo "</tbody>";
-		echo "</table>";
-		echo "</div>";
-		echo "</div>";
+		else {
+			echo "<h4 align='center'>There are no submissions assigned to you</h4>";
+		}
 	}
 ?>
 </body>

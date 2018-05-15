@@ -424,6 +424,7 @@
 			// perform the query
 			$result = mysqli_query($dbc, $query);
 
+			$is_empty = 0;
 
 			// new submissions
 			if (mysqli_num_rows($result) != 0) {
@@ -436,6 +437,7 @@
 				echo "</table>";
 				echo "</div>";
 				echo "</div>";
+				$is_empty = 1;	
 			}
 
 			// formulate the query
@@ -448,7 +450,6 @@
 			// perform the query
 			$result = mysqli_query($dbc, $query);
 
-
 			// waiting for feedback
 			if (mysqli_num_rows($result) != 0) {
 				echo "<h4 align='center'>Waiting for feedback</h4>";
@@ -460,6 +461,7 @@
 				echo "</table>";
 				echo "</div>";
 				echo "</div>";
+				$is_empty = 1;
 			}
 
 			// formulate the query
@@ -484,6 +486,7 @@
 				echo "</table>";
 				echo "</div>";
 				echo "</div>";
+				$is_empty = 1;
 			}
 
 			// formulate the query
@@ -508,6 +511,11 @@
 				echo "</table>";
 				echo "</div>";
 				echo "</div>";
+				$is_empty = 1;
+			}
+
+			if ($is_empty == 0) {
+				echo "<h4 align='center'>There are no submissions assigned to you</h4>";
 			}
 		}
 	?>
