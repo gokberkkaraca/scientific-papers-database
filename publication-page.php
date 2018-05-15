@@ -11,11 +11,11 @@
   }
 
   /*if (isset($_GET["download"])) {
-      
+
     }*/
 
 
-  
+
 
   $sql = "SELECT publication_date, title, pages, downloads, p_name, email, doc_link  FROM publication NATURAL JOIN submits WHERE p_id = '$p_id'";
   $info_result = mysqli_query($dbc,$sql);
@@ -34,7 +34,7 @@
     }
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
-     $sql =  "UPDATE publication 
+     $sql =  "UPDATE publication
               SET downloads = downloads + 1
               WHERE p_id = ".$p_id.";";
       mysqli_query($dbc,$sql);
@@ -156,8 +156,8 @@
                 if(isset($completed)) {
                   echo "<table>";
                   //echo "<tr align='center'><th>Download</th></tr>";
-                  echo "<tr><td><i class='fas fa-arrow-alt-circle-down fa-7x'></i></a></td></tr>";
-                  echo '<tr><td><button type="submit" name="download" class="form-control btn btn-primary">Download</button></td></tr>';
+                  echo "<tr align='center'><th>Download</th></tr>";
+                  echo '<tr><td><button type="submit" name="download" class="form-control btn btn-primary fas fa-arrow-alt-circle-down fa-5x"></button></td></tr>';
                   echo "</table>";
                 }
                  ?>
