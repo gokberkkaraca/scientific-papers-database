@@ -3,6 +3,10 @@
 	session_start();
 	if (isset($_SESSION['email'])) {
 		$user_type = $_SESSION['type'];
+
+		if ($user_type != 1) {
+			header('Location: main.php');
+		}
 	}
  ?>
 <html>

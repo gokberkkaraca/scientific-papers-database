@@ -6,6 +6,11 @@
       if(isset($_SESSION['email'])){
         $email = $_SESSION['email'];
         $user_type = $_SESSION['type'];
+
+        if ($user_type != 2) {
+            header('Location: main.php');
+        }
+        
       }else{
         header("location:index.php");
       }
@@ -227,7 +232,7 @@
                     </div>
                     
                     <div class="form-group row">
-                        <label for="expertises" style="display: block; text-align: left;">Field(s) of expertise</label>
+                        <label for="expertises" style="display: block; text-align: left;">Field(s) of expertise (Hold CTRL to select more)</label>
 
                         <?php
 
