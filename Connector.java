@@ -682,12 +682,12 @@ public class Connector {
 
     private static void insertReviews() {
         String insertQuery = "INSERT INTO reviews VALUES";
-        String query1 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '1', 'feedback1')";
-        String query2 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '2', 'feedback2')";
-        String query3 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '3', 'feedback3')";
-        String query4 ="('poole@cs.epfl.edu', 'kocabiyik@boun.edu.tr', '4', 'feedback4')";
-        String query5 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '5', 'feedback5')";
-        String query6 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '6', 'feedback6')";
+        String query1 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '1', 'Good job.')";
+        String query2 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '2', 'Please change the title.')";
+        String query3 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '3', 'Can you add more references?')";
+        String query4 ="('poole@cs.epfl.edu', 'kocabiyik@boun.edu.tr', '4', 'This topic does not seem relevant.')";
+        String query5 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '5', 'Font size is not suitable for that publisher.')";
+        String query6 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '6', 'Submission is approved.')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);

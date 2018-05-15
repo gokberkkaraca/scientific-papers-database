@@ -154,7 +154,7 @@
                                 break;
                             }
 
-                            echo '<tr><td><a id="'.$row['s_id'].'" href="publication-page.php?id='.$row['s_id'].'">'.$row['title'].'</a></td>
+                            echo '<tr><td><a id="'.$row['s_id'].'">'.$row['title'].'</a></td>
                                     <td>'.$row['p_name'].'</td>
                                     <td>'.$statusStr.'</td>
                                     <td><button class="see_feedback_btn" '.$feedbackBtn.'>See feedback</button></td>
