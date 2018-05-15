@@ -13,8 +13,6 @@
 
   $sql = "SELECT i_name, city_name, country, count(email) FROM institution NATURAL JOIN subscriber GROUP BY i_name";
   $result = mysqli_query($dbc, $sql);
-
-  $sql = "SELECT i_name, city_name, country, count(title) as total_publications FROM submits NATURAL JOIN publication NATURAL JOIN subscriber NATURAL JOIN institution GROUP BY i_name";
  ?>
 <html>
   <head>
