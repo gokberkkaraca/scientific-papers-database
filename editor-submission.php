@@ -10,7 +10,15 @@
 		}
 
 		// if (isset($_GET["end_volume"])) {
-  //     		$query = "INSERT INTO subscription VALUES( '$email','$p_name', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 30 DAY));";
+  //     		$query = 	"UPDATE journal_volume 
+		// 			    SET volume_no = volume_no + 1
+		// 			    WHERE p_name IN (SELECT p_name
+		// 				FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3
+		// 				WHERE S.s_id = S2.s_id AND S2.email = S3.email AND S.status = 0 AND S.email = ".$email."
+		// 				ORDER BY date ASC)";
+
+					    
+
   //     		mysqli_query($dbc,$query);
   //   	} 
 	}
@@ -432,7 +440,7 @@
 			$query =	"SELECT S.s_id, S.title, S.doc_link, S3.s_name, S3.s_surname, S.date,
 						S2.p_name
 						FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3
-						WHERE S.s_id = S2.s_id AND S2.email = S3.email AND S.status = 0 AND S.email = ".$email."
+						WHERE S.s_id = S2.s_id AND S2.email = S3.email AND S.status = 0 AND S.email = \"$email\"
 						ORDER BY date ASC";
 
 			// perform the query
