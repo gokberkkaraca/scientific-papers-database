@@ -479,7 +479,7 @@
         $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
         @mysqli_stmt_close($query);
 
-        $number_of_pages = 0;
+        $number_of_pages = rand(50, 200);
         $insertPublication = "call insert_publication('".$row['title']."', '$number_of_pages', '".$row['doc_link']."', '$s_id')";
         $stmt = @mysqli_query($dbc,$insertPublication) or die(mysqli_error($dbc));
         @mysqli_stmt_close($stmt);

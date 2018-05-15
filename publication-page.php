@@ -5,13 +5,22 @@
   if (isset($_GET["p_id"]) && isset($_SESSION["email"])) {
     $p_id = $_GET["p_id"];
     $user_type = $_SESSION["type"];
+
   }else{
     header("location: index.php");
   }
 
-  $sql = "SELECT publication_date, title, pages, downloads, p_name, email  FROM publication NATURAL JOIN submits WHERE p_id = '$p_id'";
+  /*if (isset($_GET["download"])) {
+
+    }*/
+
+
+
+
+  $sql = "SELECT publication_date, title, pages, downloads, p_name, email, doc_link  FROM publication NATURAL JOIN submits WHERE p_id = '$p_id'";
   $info_result = mysqli_query($dbc,$sql);
   $count = mysqli_num_rows($info_result);
+
 
   if($count == 1){
     while ( $row = mysqli_fetch_array($info_result, MYSQLI_NUM)) {
@@ -21,7 +30,16 @@
         $downloads = $row[3];
         $publisher_name = $row[4];
         $email = $row[5];
+        $doc_link = $row[6];
     }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+     $sql =  "UPDATE publication
+              SET downloads = downloads + 1
+              WHERE p_id = ".$p_id.";";
+      mysqli_query($dbc,$sql);
+      header("location: $doc_link");
+   }
 
     $sql = "SELECT s_name, s_surname FROM subscriber WHERE email = '$email'";
     $name = mysqli_query($dbc, $sql);
@@ -133,14 +151,17 @@
                ?>
             </div>
             <div class="col-md-2">
-              <?php
-              if(isset($completed)) {
-                echo "<table>";
-                echo "<tr align='center'><th>Download</th></tr>";
-                echo "<tr><td><a href='documentlink.html'><i class='fas fa-arrow-alt-circle-down fa-7x'></i></a></td></tr>";
-                echo "</table>";
-              }
-               ?>
+                <?php
+                echo "<form method=\"post\" action=\"publication-page.php?p_id=".$p_id."\">";
+                if(isset($completed)) {
+                  echo "<table>";
+                  //echo "<tr align='center'><th>Download</th></tr>";
+                  echo "<tr align='center'><th>Download</th></tr>";
+                  echo '<tr><td><button type="submit" name="download" class="form-control btn btn-primary fas fa-arrow-alt-circle-down fa-5x"></button></td></tr>';
+                  echo "</table>";
+                }
+                 ?>
+             </form>
             </div>
           </div>
       </div>
