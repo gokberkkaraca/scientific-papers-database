@@ -367,7 +367,7 @@ public class Connector {
         String query1 = "('Computer Science')";
         String query2 = "('Chemistry')";
         String query3 = "('Economy')";
-        String query4 = "('Bioglogy')";
+        String query4 = "('Biology')";
         String query5 = "('Physics')";
         String query6 = "('Law')";
 
@@ -679,7 +679,12 @@ public class Connector {
     private static void insertReviewerExpertises() {
         String insertQuery = "INSERT INTO reviewerExpertise VALUES";
         String query1 ="('tonybarnosky@standford.edu', 'Computer Science')";
-        String query2 ="('poole@cs.epfl.edu', 'Chemistry')";
+        String query2 ="('tonybarnosky@standford.edu', 'Biology')";
+        String query3 ="('tonybarnosky@standford.edu', 'Physics')";
+        String query4 ="('poole@cs.epfl.edu', 'Computer Science')";
+        String query5 ="('poole@cs.epfl.edu', 'Biology')";
+        String query6 ="('poole@cs.epfl.edu', 'Chemistry')";
+
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -879,22 +884,23 @@ public class Connector {
 
 
         String insertSubmission = "CREATE PROCEDURE insert_submission\n" +
-                " (IN title varchar(200), IN doc_link varchar(200), IN email_in VARCHAR(200), IN in_publisher_name VARCHAR(200))\n" +
-                "BEGIN\n" +
-                "DECLARE s_id_val INT DEFAULT 1;\n" +
-                "DECLARE email_editor VARCHAR(200);\n" +
-                "\n" +
-                "SELECT (max(s_id) + 1) INTO s_id_val\n" +
-                "FROM submission;\n" +
-                "\n" +
-                "select  email into email_editor FROM editor natural join publisher WHERE p_name = in_publisher_name ORDER BY RAND() limit 1;\n" +
-                "\n" +
-                "INSERT INTO submission(s_id, `status`, title, doc_link, `date`, email)\n" +
-                "VALUES(`s_id_val`, 0, `title`, `doc_link`, CURDATE(), `email_editor`);\n" +
-                "\n" +
-                "INSERT INTO submits (email,s_id_p_name)\n" +
-                "\tVALUES(`email_in`,`s_id_val`, `in_publisher_name`);\n" +
-                "END";
+        "                 (IN title varchar(200), IN doc_link varchar(200), IN email_in VARCHAR(200), IN in_publisher_name VARCHAR(200))\n" +
+        "                BEGIN\n" +
+        "                DECLARE s_id_val INT DEFAULT 1;\n" +
+        "                DECLARE email_editor VARCHAR(200);\n" +
+        "\n" +
+        "                SELECT (max(s_id) + 1) INTO s_id_val\n" +
+        "                FROM submission;\n" +
+        "\n" +
+        "                select  email into email_editor FROM editor natural join publisher WHERE p_name = in_publisher_name ORDER BY RAND() limit 1;\n" +
+        "\n" +
+        "                INSERT INTO submission(s_id, `status`, title, doc_link, `date`, email)\n" +
+        "                VALUES(`s_id_val`, 0, `title`, `doc_link`, CURDATE(), `email_editor`);\n" +
+        "\n" +
+        "                INSERT INTO submits (email,s_id, p_name)\n" +
+        "                \tVALUES(`email_in`,`s_id_val`, `in_publisher_name`);\n" +
+        "                END";
+
 
         String insertPublication = "CREATE PROCEDURE insert_publication\n" +
                 "     (IN title varchar(200), IN pages INT, IN doc_link varchar(200), IN in_s_id varchar(200))\n" +
