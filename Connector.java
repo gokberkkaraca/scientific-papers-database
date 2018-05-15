@@ -857,6 +857,7 @@ public class Connector {
         execQuery(dropPublicationCount);
         execQuery(dropFindNumberOfCitations);
 
+
         String insertSubmission = "CREATE PROCEDURE insert_submission\n" +
                 " (IN title varchar(200), IN doc_link varchar(200), IN email_in VARCHAR(200), IN in_publisher_name VARCHAR(200))\n" +
                 "BEGIN\n" +
@@ -866,8 +867,7 @@ public class Connector {
                 "SELECT (max(s_id) + 1) INTO s_id_val\n" +
                 "FROM submission;\n" +
                 "\n" +
-                "select  email into email_editor FROM( SELECT\n" +
-                "\temail, count(email) as count from submission where status < 4 group by email order by count ASC limit 1) as emails;\n" +
+                "select  email into email_editor FROM editor natural join publisher WHERE p_name = in_publisher_name ORDER BY RAND() limit 1;\n" +
                 "\n" +
                 "INSERT INTO submission(s_id, `status`, title, doc_link, `date`, email)\n" +
                 "VALUES(`s_id_val`, 0, `title`, `doc_link`, CURDATE(), `email_editor`);\n" +
