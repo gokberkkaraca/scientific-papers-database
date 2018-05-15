@@ -94,6 +94,7 @@ $(document).ready(function(){
             //type: "GET",
             delay: 250,
             dataType: 'json',
+            minimumInputLength: 1,
             data: function (term) {
                 //alert(term.term);
                 return {

@@ -323,7 +323,7 @@
         }
         if(empty($_POST['coauthors_emails']))
         {
-          // It can be empty
+            $authorsEmails = -1;
         }
         else
         {
@@ -386,31 +386,36 @@
                 $row = @mysqli_fetch_array($stmt);
                 @mysqli_stmt_close($stmt);
 
-                /*
+                if ( $addCoauthor != -1 )
+                {
+                    $getMaxID = "select s_id from submission order by s_id DESC limit 1;";
+                    $stmt = @mysqli_query($dbc,$getMaxID) or die(mysqli_error($dbc));
+                    $row = @mysqli_fetch_array($stmt);
+                    $s_id = $row['s_id'];
+                    @mysqli_stmt_close($stmt);
 
-                $expertises = $_POST['expertise'];
-                    $addExpertise = "insert into authorExpertise (email, tag) values ('".$email."','".$expertises[0]."')";
+                    $addCoauthor = "insert into co_authors (s_id, email) values (".$s_id.",'".$authorsEmails[0]."')";
 
                     $count = 0;
-                    if (is_array($expertises) || is_object($expertises))
+                    if (is_array($authorsEmails) || is_object($authorsEmails))
                     {
-                        foreach ($expertises as $expertise) {
+                        foreach ($authorsEmails as $author) {
                             if( $count != 0)
                             {
-                                $addExpertise .= ", ('".$email."','".$expertise."')";
+                                $addCoauthor .= ", (".$s_id.",'".$author."')";
                             }
                             $count++;
                         }
                     }
 
-                    $addExpertise .= ";";
+                    $addCoauthor .= ";";
 
-                    $stmt2 = @mysqli_prepare($dbc,$addExpertise) or die(mysqli_error($dbc));
+                    echo $addCoauthor;
+                    $stmt2 = @mysqli_prepare($dbc,$addCoauthor) or die(mysqli_error($dbc));
                     @mysqli_stmt_execute($stmt2) or die(mysqli_error($dbc));
                     @mysqli_stmt_close($stmt2) or die(mysqli_error($dbc));
-
-                    
-                */
+                }
+                
 
                 $_SESSION['validationMessage'] = 'Submission successfully added';
                 header('Location: author-submissions.php?success=true');
