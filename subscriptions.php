@@ -1,41 +1,24 @@
 <?php
-  include("config.php");
+  require('config.php');
   session_start();
 
-  if (isset($_GET["p_name"]) && isset($_SESSION["email"])) {
-    $p_name = $_GET["p_name"];
+  if (isset($_SESSION["email"])) {
+    $email = $_SESSION["email"];
     $user_type = $_SESSION["type"];
-  }else{
+  }
+  else {
     header("location: index.php");
   }
 
-  $sql = "SELECT date, conference_topic  FROM publisher NATURAL JOIN conference WHERE p_name= '$p_name'";
-  $info_result = mysqli_query($dbc,$sql);
-  $count = mysqli_num_rows($info_result);
-
-  if($count == 1){
-    while ( $row = mysqli_fetch_array($info_result, MYSQLI_NUM)) {
-        $date = $row[0];
-        $conference_topic = $row[1];
-    }
-
-    $sql = "SELECT p_id, title FROM publication NATURAL JOIN submits WHERE p_name='$p_name'";
-    $publication_result = mysqli_query($dbc, $sql);
-    $publication_count = mysqli_num_rows($publication_result);
-    $completed = "1";
-  }else{
-    header("location: notfound.html");
-  }
-
+  $sql = "SELECT p_name, start_date, end_date FROM subscription Where email = '$email'";
+  $result = mysqli_query($dbc, $sql);
+  
  ?>
-
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Publication Page</title>
+    <title>Subscriptions</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
   </head>
   <body>
     <div id="nav-bar">
@@ -49,7 +32,7 @@
             <li class="nav-item active">
               <a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
             </li>
-                         <li class="nav-item">
+             <li class="nav-item">
                <a class="nav-link" id="navbar-subscriptions" href="subscriptions.php">My Subscriptions</a>
              </li>
             <?php
@@ -94,48 +77,37 @@
         </div>
       </nav>
     </div>
-    <br />
-    <div class="container">
-      <div class="jumbotron">
-          <?php  echo "<h1 align='center'>$p_name</h1>"?>
-          <br />
-          <div class="row">
-            <div class="col-md-5">
-              <?php
-                if(isset($completed)){
-                  echo "<table>";
-                  echo "<tr align='center'><th>Details</th></tr>";
-                  echo "<tr><td><strong>Number of Publications: </strong> $publication_count</td></tr>";
-                  echo "<tr><td><strong>Date: </strong> $date</td></tr>";
-                  echo "<tr><td><strong>Topic: </strong> $conference_topic</td></tr>";
-                  echo "</table>";
-                  }
-               ?>
-            </div>
-            <div class="col-md-5">
-              <?php
-              if(isset($completed)) {
-                echo "<table>";
-                echo "<tr align='center'><th>Publications</th></tr>";
-                while ( $row = mysqli_fetch_array($publication_result, MYSQLI_NUM)) {
-                  echo "<tr><td><a href='publication-page.php?p_id=$row[0]'>$row[1]</a></td></tr>";
-                }
-                echo "</table>";
-              }
-               ?>
-            </div>
-            <div class="col-md-2">
-              <?php
-                if(isset($completed)) {
-                  echo "<table>";
-                  echo "<tr align='center'><th>View Audience</th></tr>";
-                  echo "<tr><td align='center'><a href='conference-audience.php?p_name=$p_name'><i class='fas fa-user fa-5x'></i></a></td></tr>";
-                  echo "</table>";
-                }
-               ?>
-            </div>
-          </div>
-      </div>
+    <div class="container" style="margin-top: 30px">
+      <?php
+          echo "<div id=\"result-panel\" align=\"center\">";
+          echo "<div align=\"center\">";
+          echo "<table class=\"table table-striped\">";
+          echo "<thead class=\"thead-light\">";
+          echo "<tr align='center'>";
+          echo "<th scope=\"col\">Journal Name</th>";
+          echo "<th scope=\"col\">Subscription Start Date</th>";
+          echo "<th scope=\"col\">Subscription End Date</th>";
+          echo "<th scope=\"col\">Total Subscriptions to Journal</th>";
+          echo "</tr>";
+          echo "</thead>";
+          echo "<tbody>";
+          while ( $row = mysqli_fetch_array($result,MYSQLI_NUM)) {
+            echo "<tr align='center'>";
+            echo "<td><a href='find-publisher.php?p_name=$row[0]'>$row[0]</a></td>";
+            echo "<td>$row[1]</td>";
+            echo "<td>$row[2]</td>";
+            $sql = "SELECT count(p_name) as total_subscriptions FROM subscription WHERE p_name='$row[0]'";
+            $total_subscriptions = mysqli_query($dbc, $sql);
+            $total_subscriptions = mysqli_fetch_array($total_subscriptions, MYSQLI_NUM);
+
+            echo "<td>$total_subscriptions[0]</td>";
+            echo "</tr>";
+          }
+          echo "</tbody>";
+          echo "</table>";
+          echo "</div>";
+          echo "</div>";
+      ?>
     </div>
   </body>
 </html>
