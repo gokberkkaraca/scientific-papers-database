@@ -3,9 +3,16 @@
 	session_start();
 	if (isset($_SESSION['email'])) {
 		$user_type = $_SESSION['type'];
+		$email = $_SESSION['email'];
+
 		if ($user_type != 3) {
 			header('Location: main.php');
 		}
+
+		// if (isset($_GET["end_volume"])) {
+  //     		$query = "INSERT INTO subscription VALUES( '$email','$p_name', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 30 DAY));";
+  //     		mysqli_query($dbc,$query);
+  //   	} 
 	}
  ?>
 <html>
@@ -80,10 +87,11 @@
 	</div>
 	<div class="container-fluid" align="center">
 		  <div class="jumbotron">
-				<form name="editor-submission" id="editor-submission-form">
-
+				<form method="post" action="editor-submission.php?end_volume=true" name="editor-submission" id="editor-submission-form">
 					<div class="row">
-						<div class="col-md-12"><h1 id="scilib-title">Submissions</h1></div>
+						<div class="col-md-12"><h1 id="scilib-title">Submissions</h1>
+						<button type="submit" class="btn btn-danger" name="end_volume">End volume</button>
+						</div>
 					</div>
 				</form>
 			</div>
@@ -424,7 +432,7 @@
 			$query =	"SELECT S.s_id, S.title, S.doc_link, S3.s_name, S3.s_surname, S.date,
 						S2.p_name
 						FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3
-						WHERE S.s_id = S2.s_id AND S2.email = S3.email AND S.status = 0
+						WHERE S.s_id = S2.s_id AND S2.email = S3.email AND S.status = 0 AND S.email = ".$email."
 						ORDER BY date ASC";
 
 			// perform the query

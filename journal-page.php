@@ -56,18 +56,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-      function subscribe(email, p_name) {
-        // TODO: add to subscription table using this query
-        // INSERT INTO subscription VALUES(email, p_name, date today, date today + 1 month);
-      }
-
-      function unsubscribe(email, p_name) {
-        // TODO: remove from subscription table using this query
-        //DELETE FROM gokberk_karaca.subscription WHERE email = email AND p_name = p_name
-      }
-
-    </script>
     <title>Journal Page</title>
   </head>
   <body>
