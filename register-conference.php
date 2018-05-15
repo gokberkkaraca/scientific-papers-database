@@ -21,8 +21,8 @@
         }
         else
         {
-            $addConfMember = "insert into audience (p_name, a_name,a_surname) values ('".$p_name."', '".$name."', '".$surname."');";
-            $stmt = @mysqli_query($dbc,$addConfMember);
+            //$addConfMember = "insert into audience (p_name, a_name,a_surname) values ('".$p_name."', '".$name."', '".$surname."');";
+            //$stmt = @mysqli_query($dbc,$addConfMember);
             return '{ "result":1 }';
         }
         
