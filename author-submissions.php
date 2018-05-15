@@ -82,7 +82,7 @@
 
                 <div class="popup-content">
                     <span class="close">&times;</span>
-                    <h3>Feedback</h3>
+                    <h3 class="heading"></h3>
                 </div>
 
             </div>
@@ -225,9 +225,7 @@
                         <select class="form-control coauthors_select" name="coauthors_emails[]" multiple></select>
                         <!--<input type="email" class="form-control" name="coauthors_emails" placeholder="Co-Authors emails seperated by comma">-->
                     </div>
-                    <div class="form-group row">
-                        <select class="form-control citations_select" name="citations[]" multiple></select>
-                    </div>
+                    
                     <div class="form-group row">
                         <label for="expertises" style="display: block; text-align: left;">Field(s) of expertise</label>
 

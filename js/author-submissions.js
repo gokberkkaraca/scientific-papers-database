@@ -12,8 +12,9 @@ $(document).ready(function(){
 
     $( ".see_feedback_btn" ).on( "click", function() {
       
-        $(".reviews_div").remove();
-        
+        $(".added_div").remove();
+        $(".heading").text("Feedback");
+
         var parentTD = $(this).parent();
         var linkTD = parentTD.prev().prev().prev();
         var link = linkTD.find("a");
@@ -29,7 +30,7 @@ $(document).ready(function(){
 
                 if(arr.length > 0 )
                 {
-                    $(".popup-content").append( '<div class="reviews_div">' +  
+                    $(".popup-content").append( '<div class="added_div">' +  
                     '<table class="table table-striped"><tbody class="reviews_tbody"></tbody></table></div>');
                     $table = $(".reviews_tbody");
                     arr.forEach(element => {
@@ -52,20 +53,54 @@ $(document).ready(function(){
 
     $( ".publish_btn" ).on( "click", function() {
 
+        $(".added_div").remove();
+        $(".heading").text("Add Citations");
+
         var parentTD = $(this).parent();
         var linkTD = parentTD.prev().prev().prev().prev();
         var link = linkTD.find("a");
         var s_id = link.attr('id');
 
-        $.ajax({
-            type: "GET",
-            url: "functions.php?publish=true",
-            data: {publishID:s_id},
-            //dataType: "html",
-            success: function(response){
-                location.reload();
+        
+        $(".popup-content").append( '<div class="added_div"><form method="POST" action="functions.php">' +  
+        '<div class="form-group"><select style="width: 500px" class="form-control citations_select" name="citations[]" multiple></select></div>'+
+        '<input type="hidden" name="publishID" value="'+ s_id +'">'+
+        '<div class="form-group"><button type="submit" name="publish" class=" publish_popup_btn btn btn-primary">Publish</button></div></form></div>');
+
+        $(".citations_select").select2({
+            placeholder: 'Type cited publication title',
+            ajax: {
+                url: 'functions.php?getPublications=true',
+                //type: "GET",
+                delay: 250,
+                dataType: 'json',
+                minimumInputLength: 1,
+                data: function (term) {
+                    //alert(term.term);
+                    return {
+                        searchTerm: term.term // search term
+                    };
+                }
             }
+    
         });
+/*
+        $(".publish_popup_btn").on("click", function(){
+
+            $.ajax({
+                type: "GET",
+                url: "functions.php?publish=true",
+                data: {publishID:s_id},
+                //dataType: "html",
+                success: function(response){
+                    location.reload();
+                }
+            });
+
+        });
+*/
+
+        $(".popup_div")[0].style.display = "block";
     });
 
     $( ".cancel_btn" ).on( "click", function() {
@@ -104,23 +139,5 @@ $(document).ready(function(){
         }
 
     });
-    $(".citations_select").select2({
-        placeholder: 'Type cited publication title',
-        ajax: {
-            url: 'functions.php?getPublications=true',
-            //type: "GET",
-            delay: 250,
-            dataType: 'json',
-            minimumInputLength: 1,
-            data: function (term) {
-                //alert(term.term);
-                return {
-                    searchTerm: term.term // search term
-                };
-            }
-        }
-
-    });
-    
     
 });
