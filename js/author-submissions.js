@@ -86,4 +86,22 @@ $(document).ready(function(){
         });
 
     });
+
+    $(".coauthors_select").select2({
+        placeholder: 'Type an author email',
+        ajax: {
+            url: 'functions.php?getAuthorsEmails=true',
+            //type: "GET",
+            delay: 250,
+            dataType: 'json',
+            data: function (term) {
+                //alert(term.term);
+                return {
+                    searchTerm: term.term // search term
+                };
+            }
+        }
+
+    });
+    
 });

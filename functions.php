@@ -386,6 +386,32 @@
                 $row = @mysqli_fetch_array($stmt);
                 @mysqli_stmt_close($stmt);
 
+                /*
+
+                $expertises = $_POST['expertise'];
+                    $addExpertise = "insert into authorExpertise (email, tag) values ('".$email."','".$expertises[0]."')";
+
+                    $count = 0;
+                    if (is_array($expertises) || is_object($expertises))
+                    {
+                        foreach ($expertises as $expertise) {
+                            if( $count != 0)
+                            {
+                                $addExpertise .= ", ('".$email."','".$expertise."')";
+                            }
+                            $count++;
+                        }
+                    }
+
+                    $addExpertise .= ";";
+
+                    $stmt2 = @mysqli_prepare($dbc,$addExpertise) or die(mysqli_error($dbc));
+                    @mysqli_stmt_execute($stmt2) or die(mysqli_error($dbc));
+                    @mysqli_stmt_close($stmt2) or die(mysqli_error($dbc));
+
+                    
+                */
+
                 $_SESSION['validationMessage'] = 'Submission successfully added';
                 header('Location: author-submissions.php?success=true');
                 exit();
@@ -739,6 +765,78 @@
         //return $jsonRes;
     }
 
+    function getAuthorsEmails()
+    {
+        global $dbc;
+        /*
+        $testres = '{ "results": [{"id": 1,"text": "Option 1"},{"id": 2,"text": "Option 2"}]}';
+        //return $testres;
+        $term = '';
+
+        if (isset($_GET['searchTerm']))
+            $term = $_GET['searchTerm'];
+        else
+        {
+            return $testres;
+        }
+        */
+        $term = '';
+        $term = $_GET['searchTerm'];
+
+        $selAuthors = "select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where usertype = 2 and (email like '%".$term."%' or s_name like '%".$term."%' or s_surname like '%".$term."%')";
+
+        $stmt = @mysqli_query($dbc,$selAuthors) or die(mysqli_error($dbc));
+
+    /*
+        $testres = '{
+            "results": [
+              {
+                "id": 1,
+                "text": "Option 1"
+              },
+              {
+                "id": 2,
+                "text": "Option 2"
+              }
+            ]}';
+
+            $json = [];
+            while($row = @mysqli_fetch_array($stmt) )
+            {
+                $text = $row['fullName'].", ".$row['email'];
+                $json[] = ['id'=>$row['email'], 'text'=>$text];
+            }
+*/
+
+           
+        $res = '{ "results" : ';
+        $counter = 1;
+        while( $row = @mysqli_fetch_array($stmt) )
+        {
+            $text = $row['fullName'].", ".$row['email'];
+
+            if ( $counter == 1 )
+            {
+                $res .= '[{ "id":"'.$row['email'].'", "text" : "'.$text.'" }';
+                $counter++;
+            }
+            else
+            {
+                $res .= ',{ "id":"'.$row['email'].'", "text" : "'.$text.'" }';
+            }
+        }
+        if ($counter == 2)
+            $res .= ']}';
+        else if ( $counter == 1)
+            $res .= '[] }';
+
+        @mysqli_stmt_close($stmt);
+
+        //return json_encode($json);
+        return $res;
+
+    }
+
     if (isset($_GET['getPublishers']))
     {
         $res = getPublishersJson();
@@ -813,8 +911,6 @@
    }
    if (isset($_POST['getExpertises']))
    {
-       header('Location: yoyo.php');
-       exit();
        $res = getExpertisesJson();
        echo $res;
        //getExpertisesJson($_GET['closeID']);
@@ -829,6 +925,13 @@
    {
        signin();
    }
+   if(isset($_GET['getAuthorsEmails']))
+   {
+        $res = getAuthorsEmails();
+        echo $res;
+   }
+   
+   
 
    @mysqli_close($dbc);
 ?>

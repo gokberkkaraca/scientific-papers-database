@@ -16,6 +16,8 @@
             <link rel="stylesheet" href="css/author-submissions.css" />
             <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
             <script src="js/author-submissions.js"></script>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     </head>
     <body>
       <div id="top-panel" align="center">
@@ -85,7 +87,7 @@
                         global $email;
 
                         $selAuthSubmissions = "select submission.s_id as s_id, title, p_name, status from submission, submits
-                        where submission.s_id = submits.s_id
+                        where submission.s_id = submits.s_id and submission.status < 4
                         and submits.email = '".$email."' order by date DESC;";
 
                         $stmt = @mysqli_query($dbc,$selAuthSubmissions) or die(mysqli_error($dbc));
@@ -209,7 +211,8 @@
 
                     </div>
                     <div class="form-group row">
-                        <input type="email" class="form-control" name="coauthors_emails" placeholder="Co-Authors emails seperated by comma">
+                        <select class="form-control coauthors_select" name="coauthors_emails[]" multiple></select>
+                        <!--<input type="email" class="form-control" name="coauthors_emails" placeholder="Co-Authors emails seperated by comma">-->
                     </div>
                     <div class="form-group row">
                         <label for="expertises" style="display: block; text-align: left;">Field(s) of expertise</label>

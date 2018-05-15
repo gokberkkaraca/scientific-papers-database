@@ -156,7 +156,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<br>
-								<input type="text" name="search-key" placeholder="Type keyword here..." id="search-bar" required class="rounded">
+								<input type="text" name="search-key" placeholder="Type keyword here..." id="search-bar" class="rounded">
 								<br>
 								<br>
 								<button id="search-button" class="btn btn-primary btn-sm" type="submit">Search</button>
