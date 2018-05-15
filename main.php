@@ -30,30 +30,30 @@
 			$search_key = $_GET["search-key"];
 			$search_type = $_GET["search-type"];
 			if ($search_type == "publication") {
-				$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%'";
+				$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date, email FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%'";
 				if ($from_date != "--") {
-					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%' AND DATE(publication_date) >= '$from_date'";
+					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date, email FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%' AND DATE(publication_date) >= '$from_date'";
 				}
 				if ($from_date != "--" && $to_date != "--") {
-					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%' AND DATE(publication_date) BETWEEN '$from_date' AND '$to_date'";
+					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date, email FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE title LIKE '%$search_key%' AND DATE(publication_date) BETWEEN '$from_date' AND '$to_date'";
 				}
 				$result = mysqli_query($dbc,$sql);
 			}else if ($search_type == "publisher") {
-				$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%'";
+				$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date, email FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%'";
 				if ($from_date != "--") {
-					 $sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%' AND DATE(publication_date) >= '$from_date'";
+					 $sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date, email FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%' AND DATE(publication_date) >= '$from_date'";
 				}
 				if ($from_date != "--" && $to_date != "--") {
-					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%' AND DATE(publication_date) BETWEEN '$from_date' AND '$to_date'";
+					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date, email FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE p_name LIKE '%$search_key%' AND DATE(publication_date) BETWEEN '$from_date' AND '$to_date'";
 				}
 				$result = mysqli_query($dbc,$sql);
 			}else{
-				$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%'";
+				$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date, email FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%'";
 				if ($from_date != "--") {
-					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%' AND DATE(publication_date) >= '$date'";
+					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date, email FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%' AND DATE(publication_date) >= '$date'";
 				}
 				if ($from_date != "--" && $to_date != "--") {
-					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%' AND DATE(publication_date) BETWEEN '$from_date' AND '$to_date'";
+					$sql = "SELECT p_id, title, p_name, s_name, s_surname, publication_date, email FROM publication NATURAL JOIN submits NATURAL JOIN author NATURAL JOIN subscriber WHERE s_name LIKE '%$search_key%' AND DATE(publication_date) BETWEEN '$from_date' AND '$to_date'";
 				}
 				$result = mysqli_query($dbc,$sql);
 			}
@@ -92,32 +92,40 @@
 								<a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
 							</li>
 							<?php
-	                // Reviewer
-	                if($user_type == 1){
-	                  echo '<li class="nav-item">
-	                          <a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">My Invitations</a>
-	                        </li>';
-	                // Author
-	              }else if($user_type == 2){
-	                  echo '<li class="nav-item">
-	                                <a class="nav-link" id="author-submission" href="author-submissions.php">My Submissions</a>
-	                              </li>';
-	                  echo '<li class="nav-item">
-	                                <a class="nav-link" id="author-submission" href="author-publications.php">My Publications</a>
-	                              </li>';
-	                }
-	                // Editor
-	                else if($user_type == 3){
-	                  echo '<li class="nav-item">
-	                          <a class="nav-link" id="submissions" href="editor-submission.php">My Submission</a>
-	                        </li>';
-	                }else{ // Subscriber
+									// Reviewer
+									if($user_type == 1){
+										echo '<li class="nav-item">
+														<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">My Invitations</a>
+													</li>';
+									// Author
+								}else if($user_type == 2){
+										echo '<li class="nav-item">
+																	<a class="nav-link" id="author-submission" href="author-submissions.php">My Submissions</a>
+																</li>';
+										echo '<li class="nav-item">
+																	<a class="nav-link" id="author-submission" href="author-publications.php">My Publications</a>
+																</li>';
+									}
+									// Editor
+									else if($user_type == 3){
+										echo '<li class="nav-item">
+														<a class="nav-link" id="submissions" href="editor-submission.php">My Submission</a>
+													</li>';
+									}else{ // Subscriber
 
-	                }
-	             ?>
-	             <li class="nav-item">
-	               <a class="nav-link" id="navbar-logout" href="institutions.php">Institutions</a>
-	             </li>
+									}
+							 ?>
+							 <li class="nav-item">
+								 <a class="nav-link" id="navbar-institution" href="institutions.php">Institutions</a>
+							 </li>
+							 <li class="nav-item">
+								 <a class="nav-link" id="navbar-conferences" href="conferences.php">Conferences</a>
+							 </li>
+						</ul>
+						<ul class="navbar-nav ml-auto">
+							<li class="nav-item">
+								<a class="nav-link" id="navbar-email" href="#"><i><?php echo $_SESSION['email']; ?></i></a>
+							</li>
 							<li class="nav-item">
 								<a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
 							</li>
@@ -186,7 +194,7 @@
 							echo "<tr align='center'>";
 							echo "<td><a href='publication-page.php?p_id=$row[0]'>$row[1]</a></td>";
 							echo "<td><a href='find-publisher.php?p_name=$row[2]'>$row[2]</a></td>";
-							echo "<td>$row[3] $row[4]</td>";
+							echo "<td><a href='author-publications.php?email=$row[6]'>$row[3] $row[4]</a></td>";
 							echo "<td>$row[5]</td>";
 							echo "</tr>";
 						}

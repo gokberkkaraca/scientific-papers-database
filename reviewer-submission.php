@@ -28,34 +28,42 @@
 					<ul class="navbar-nav">
 						<li class="nav-item active">
 							<a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
-            </li>
+						</li>
 						<?php
-                // Reviewer
-                if($user_type == 1){
-                  echo '<li class="nav-item">
-                          <a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">My Invitations</a>
-                        </li>';
-                // Author
-              }else if($user_type == 2){
-                  echo '<li class="nav-item">
-                                <a class="nav-link" id="author-submission" href="author-submissions.php">My Submissions</a>
-                              </li>';
-                  echo '<li class="nav-item">
-                                <a class="nav-link" id="author-submission" href="author-publications.php">My Publications</a>
-                              </li>';
-                }
-                // Editor
-                else if($user_type == 3){
-                  echo '<li class="nav-item">
-                          <a class="nav-link" id="submissions" href="editor-submission.php">My Submission</a>
-                        </li>';
-                }else{ // Subscriber
+								// Reviewer
+								if($user_type == 1){
+									echo '<li class="nav-item">
+													<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">My Invitations</a>
+												</li>';
+								// Author
+							}else if($user_type == 2){
+									echo '<li class="nav-item">
+																<a class="nav-link" id="author-submission" href="author-submissions.php">My Submissions</a>
+															</li>';
+									echo '<li class="nav-item">
+																<a class="nav-link" id="author-submission" href="author-publications.php">My Publications</a>
+															</li>';
+								}
+								// Editor
+								else if($user_type == 3){
+									echo '<li class="nav-item">
+													<a class="nav-link" id="submissions" href="editor-submission.php">My Submission</a>
+												</li>';
+								}else{ // Subscriber
 
-                }
-             ?>
-             <li class="nav-item">
-               <a class="nav-link" id="navbar-logout" href="institutions.php">Institutions</a>
-             </li>
+								}
+						 ?>
+						 <li class="nav-item">
+							 <a class="nav-link" id="navbar-institution" href="institutions.php">Institutions</a>
+						 </li>
+						 <li class="nav-item">
+							 <a class="nav-link" id="navbar-conferences" href="conferences.php">Conferences</a>
+						 </li>
+					</ul>
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" id="navbar-email" href="#"><i><?php echo $_SESSION['email']; ?></i></a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
 						</li>

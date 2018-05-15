@@ -1,26 +1,24 @@
+<!DOCTYPE html>
 <?php
-  include("config.php");
+  require('config.php');
   session_start();
 
-  if (isset($_GET["p_name"]) && isset($_SESSION["email"])) {
-    $p_name = $_GET["p_name"];
+  if (isset($_SESSION["email"])) {
+    $email = $_SESSION["email"];
     $user_type = $_SESSION["type"];
-  }else{
+  }
+  else {
     header("location: index.php");
   }
 
-
-  $sql = "SELECT a_name, a_surname FROM audience WHERE p_name = '$p_name'";
-  $audience_table = mysqli_query($dbc,$sql);
-  $num_of_audience = mysqli_num_rows($audience_table);
+  $sql = "SELECT date, conference_topic, p_name FROM conference";
+  $result = mysqli_query($dbc, $sql);
 
  ?>
-
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Conference Audience</title>
+    <title>Conferences</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   </head>
   <body>
@@ -77,29 +75,37 @@
         </div>
       </nav>
     </div>
-    <br />
-    <div class="container">
-      <div class="jumbotron">
-          <?php  echo "<h1 align='center'>$p_name</h1>"?>
-          <br />
-          <div class="row">
-            <div class="col-md-12">
-              <?php
-                  echo "<div align='center'>";
-                  echo "<table>";
-                  echo "<tr align='center'><th>Audience</th></tr>";
-                  $i = 1;
-                  for ($i; $i <= $num_of_audience; $i++) {
-                    $row = mysqli_fetch_array($audience_table, MYSQLI_NUM);
-                    echo "<tr><td align='center'>$row[0] $row[1]</td></tr>";
-                  }
-                  echo "</table>";
-                  echo "</div><br />";
-                  echo "<p>Total audience: $num_of_audience</p>";
-               ?>
-            </div>
-          </div>
-      </div>
+    <div class="container" style="margin-top: 30px">
+      <?php
+          echo "<div id=\"result-panel\" align=\"center\">";
+          echo "<div align=\"center\">";
+          echo "<table class=\"table table-striped\">";
+          echo "<thead class=\"thead-light\">";
+          echo "<tr align='center'>";
+          echo "<th scope=\"col\">Conference Name</th>";
+          echo "<th scope=\"col\">Conference Date</th>";
+          echo "<th scope=\"col\">Conference Topic</th>";
+          echo "<th scope=\"col\">Total Audience</th>";
+          echo "</tr>";
+          echo "</thead>";
+          echo "<tbody>";
+          while ( $row = mysqli_fetch_array($result,MYSQLI_NUM)) {
+            echo "<tr align='center'>";
+            echo "<td><a href='find-publisher.php?p_name=$row[2]'>$row[2]</a></td>";
+            echo "<td>$row[0]</td>";
+            echo "<td>$row[1]</td>";
+            $sql = "SELECT count(a_name) as total_audience FROM audience NATURAL JOIN conference WHERE p_name='$row[2]'";
+            $total_audience = mysqli_query($dbc, $sql);
+            $total_audience = mysqli_fetch_array($total_audience, MYSQLI_NUM);
+
+            echo "<td>$total_audience[0]</td>";
+            echo "</tr>";
+          }
+          echo "</tbody>";
+          echo "</table>";
+          echo "</div>";
+          echo "</div>";
+      ?>
     </div>
   </body>
 </html>

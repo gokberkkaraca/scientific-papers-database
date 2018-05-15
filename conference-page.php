@@ -74,8 +74,16 @@
                 }
              ?>
              <li class="nav-item">
-               <a class="nav-link" id="navbar-logout" href="institutions.php">Institutions</a>
+               <a class="nav-link" id="navbar-institution" href="institutions.php">Institutions</a>
              </li>
+             <li class="nav-item">
+               <a class="nav-link" id="navbar-conferences" href="conferences.php">Conferences</a>
+             </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" id="navbar-email" href="#"><i><?php echo $_SESSION['email']; ?></i></a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
             </li>

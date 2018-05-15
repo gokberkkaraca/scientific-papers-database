@@ -13,8 +13,6 @@
 
   $sql = "SELECT i_name, city_name, country, count(email) FROM institution NATURAL JOIN subscriber GROUP BY i_name";
   $result = mysqli_query($dbc, $sql);
-
-  $sql = "SELECT i_name, city_name, country, count(title) as total_publications FROM submits NATURAL JOIN publication NATURAL JOIN subscriber NATURAL JOIN institution GROUP BY i_name";
  ?>
 <html>
   <head>
@@ -59,8 +57,16 @@
                 }
              ?>
              <li class="nav-item">
-               <a class="nav-link" id="navbar-logout" href="institutions.php">Institutions</a>
+               <a class="nav-link" id="navbar-institution" href="institutions.php">Institutions</a>
              </li>
+             <li class="nav-item">
+               <a class="nav-link" id="navbar-conferences" href="conferences.php">Conferences</a>
+             </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" id="navbar-email" href="#"><i><?php echo $_SESSION['email']; ?></i></a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
             </li>

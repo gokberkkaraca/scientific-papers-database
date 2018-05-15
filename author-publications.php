@@ -10,6 +10,10 @@
         header("location:index.php");
       }
 
+      if (isset($_GET['email'])) {
+        $email = $_GET['email'];
+      }
+
       $sql = "SELECT s_name, s_surname FROM subscriber WHERE email='$email'";
       $author_name = mysqli_query($dbc, $sql);
       $author_name = mysqli_fetch_array($author_name, MYSQLI_NUM);
@@ -73,12 +77,20 @@
                   }
                ?>
                <li class="nav-item">
-                 <a class="nav-link" id="navbar-logout" href="institutions.php">Institutions</a>
+                 <a class="nav-link" id="navbar-institution" href="institutions.php">Institutions</a>
                </li>
-							<li class="nav-item">
-								<a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
-							</li>
+               <li class="nav-item">
+                 <a class="nav-link" id="navbar-conferences" href="conferences.php">Conferences</a>
+               </li>
 						</ul>
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" id="navbar-email" href="#"><i><?php echo $_SESSION['email']; ?></i></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
+              </li>
+            </ul>
 					</div>
 				</nav>
 			</div>
