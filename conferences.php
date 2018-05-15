@@ -11,13 +11,14 @@
     header("location: index.php");
   }
 
-  $sql = "SELECT i_name, city_name, country, count(email) FROM institution NATURAL JOIN subscriber GROUP BY i_name";
+  $sql = "SELECT date, conference_topic, p_name FROM conference";
   $result = mysqli_query($dbc, $sql);
+
  ?>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Institutions</title>
+    <title>Conferences</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   </head>
   <body>
@@ -59,7 +60,7 @@
              <li class="nav-item">
                <a class="nav-link" id="navbar-logout" href="institutions.php">Institutions</a>
              </li>
-                         <li class="nav-item">
+            <li class="nav-item">
              <a class="nav-link" id="navbar-logout" href="conferences.php">Conferences</a>
             </li>
             <li class="nav-item">
@@ -76,23 +77,23 @@
           echo "<table class=\"table table-striped\">";
           echo "<thead class=\"thead-light\">";
           echo "<tr align='center'>";
-          echo "<th scope=\"col\">Institution Name</th>";
-          echo "<th scope=\"col\">Institution Address</th>";
-          echo "<th scope=\"col\">Total Members</th>";
-          echo "<th scope=\"col\">Total Publications</th>";
+          echo "<th scope=\"col\">Conference Name</th>";
+          echo "<th scope=\"col\">Conference Date</th>";
+          echo "<th scope=\"col\">Conference Topic</th>";
+          echo "<th scope=\"col\">Total Audience</th>";
           echo "</tr>";
           echo "</thead>";
           echo "<tbody>";
           while ( $row = mysqli_fetch_array($result,MYSQLI_NUM)) {
             echo "<tr align='center'>";
-            echo "<td><a href='institution-page.php?i_name=$row[0]'>$row[0]</a></td>";
-            echo "<td>$row[1], $row[2]</td>";
-            echo "<td>$row[3]</td>";
-            $sql = "SELECT count(title) as total_publications FROM submits NATURAL JOIN publication NATURAL JOIN subscriber NATURAL JOIN institution WHERE i_name='$row[0]'";
-            $total_publications = mysqli_query($dbc, $sql);
-            $total_publications = mysqli_fetch_array($total_publications, MYSQLI_NUM);
+            echo "<td><a href='find-publisher.php?p_name=$row[2]'>$row[2]</a></td>";
+            echo "<td>$row[0]</td>";
+            echo "<td>$row[1]</td>";
+            $sql = "SELECT count(a_name) as total_audience FROM audience NATURAL JOIN conference WHERE p_name='$row[2]'";
+            $total_audience = mysqli_query($dbc, $sql);
+            $total_audience = mysqli_fetch_array($total_audience, MYSQLI_NUM);
 
-            echo "<td>$total_publications[0]</td>";
+            echo "<td>$total_audience[0]</td>";
             echo "</tr>";
           }
           echo "</tbody>";

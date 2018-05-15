@@ -59,6 +59,9 @@
                  <li class="nav-item">
                    <a class="nav-link" id="navbar-logout" href="institutions.php">Institutions</a>
                  </li>
+                             <li class="nav-item">
+             <a class="nav-link" id="navbar-logout" href="conferences.php">Conferences</a>
+            </li>
   							<li class="nav-item">
   								<a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
   							</li>
