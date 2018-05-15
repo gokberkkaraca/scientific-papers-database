@@ -85,7 +85,7 @@
                         global $email;
 
                         $selAuthSubmissions = "select submission.s_id as s_id, title, p_name, status from submission, submits
-                        where submission.s_id = submits.s_id
+                        where submission.s_id = submits.s_id and submission.status < 4
                         and submits.email = '".$email."' order by date DESC;";
 
                         $stmt = @mysqli_query($dbc,$selAuthSubmissions) or die(mysqli_error($dbc));
