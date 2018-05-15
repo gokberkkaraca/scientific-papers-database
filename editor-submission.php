@@ -32,29 +32,32 @@
 							<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
 						</li>
 						<?php
-								// Reviewer
-								if($user_type == 1){
-									echo '<li class="nav-item">
-													<a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">Invitations</a>
-												</li>';
-								// Author
-							}else if($user_type == 2){
-									echo '<li class="nav-item">
-																<a class="nav-link" id="author-submission" href="author-submissions.php">Submissions</a>
-															</li>';
-									echo '<li class="nav-item">
-																<a class="nav-link" id="author-submission" href="author-publications.php">Publications</a>
-															</li>';
-								}
-								// Editor
-								else if($user_type == 3){
-									echo '<li class="nav-item">
-													<a class="nav-link" id="submissions" href="editor-submission.php">Editor Submission</a>
-												</li>';
-								}else{ // Subscriber
+                // Reviewer
+                if($user_type == 1){
+                  echo '<li class="nav-item">
+                          <a class="nav-link" id="reviewer-submission" href="reviewer-submission.php">My Invitations</a>
+                        </li>';
+                // Author
+              }else if($user_type == 2){
+                  echo '<li class="nav-item">
+                                <a class="nav-link" id="author-submission" href="author-submissions.php">My Submissions</a>
+                              </li>';
+                  echo '<li class="nav-item">
+                                <a class="nav-link" id="author-submission" href="author-publications.php">My Publications</a>
+                              </li>';
+                }
+                // Editor
+                else if($user_type == 3){
+                  echo '<li class="nav-item">
+                          <a class="nav-link" id="submissions" href="editor-submission.php">My Submission</a>
+                        </li>';
+                }else{ // Subscriber
 
-								}
-						 ?>
+                }
+             ?>
+             <li class="nav-item">
+               <a class="nav-link" id="navbar-logout" href="institutions.php">Institutions</a>
+             </li>
 						<li class="nav-item">
 							<a class="nav-link" id="navbar-logout" href="logout.php">Logout</a>
 						</li>
@@ -83,7 +86,7 @@
 			$(".heading").text("Invite Reviewer");
 
 
-			
+
 			$(".popup-content").append( '<div class="added_div" data-sid="'+ s_id +'" data-status="'+ status +'"><div class="col-6 invite_input_div">'+
 			'<div class="form-group"><input class="form-control invite_input" type="text" name="reviewer_name" placeholder="Enter a name"></div>'+
 			'<div class="form-group"><select class="form-control expertise_select invite_input" name="expertise"></select></div>'+
@@ -169,7 +172,7 @@
 							toAdd += '</ul></div</div></td><td>'+
 							'<button id="'+ element.email +'" class="invite_btn btn btn-primary">Invite</button>'+
 							'</td></tr>';
-							
+
 						});
 						toAdd += '</tbody></table>';
 						$(".matching_reviewers").append( toAdd );
