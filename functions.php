@@ -464,7 +464,16 @@
     function publishSubmission()
     {
         global $dbc;
-        $s_id = intval($_GET['publishID']);
+        $s_id = intval($_POST['publishID']);
+        
+        if(!isset($_POST['citations']) && empty($_POST['citations']))
+        {
+            $citations = -1;
+        }
+        else
+        {
+            $citations = $_POST['citations'];
+        }
 
         /*$changeState = "update submission set status = 4 where s_id = ".$s_id.";";
         $addPublication = "insert into publication (title, pages,publication_date,doc_link,downloads,s_id)"
@@ -488,7 +497,43 @@
         $stmt = @mysqli_query($dbc,$insertPublication) or die(mysqli_error($dbc));
         @mysqli_stmt_close($stmt);
 
-        return 'success';
+        if ( $citations != -1 )
+        {
+            $getMaxID = "select p_id from publication order by p_id DESC limit 1;";
+            $stmt = @mysqli_query($dbc,$getMaxID) or die(mysqli_error($dbc));
+            $row = @mysqli_fetch_array($stmt);
+            $p_id = $row['p_id'];
+            @mysqli_stmt_close($stmt);
+
+            $addCitations = "insert into cites (citer, cited) values (".$p_id.", ".$citations[0].")";
+
+            $count = 0;
+            if (is_array($citations) || is_object($citations))
+            {
+                foreach ($citations as $citation) {
+                    if( $count != 0)
+                    {
+                        $addCitations .= ", (".$p_id.", ".$citation.")";
+                    }
+                    $count++;
+                }
+            }
+
+            $addCitations .= ";";
+
+            //echo $addCoauthor;
+            $stmt2 = @mysqli_prepare($dbc,$addCitations) or die(mysqli_error($dbc));
+            @mysqli_stmt_execute($stmt2) or die(mysqli_error($dbc));
+            @mysqli_stmt_close($stmt2) or die(mysqli_error($dbc));
+        }
+
+        $_SESSION['validationMessage'] = 'Submission successfully published';
+        header('Location: author-submissions.php?success=true');
+        exit();
+
+        //return 'success';
+
+        
     }
 
     function sendBackToAuthor()
@@ -896,7 +941,7 @@
         makeSubmission();
     }
 
-    if(isset($_GET['publish']))
+    if(isset($_POST['publish']))
     {
         $res = publishSubmission();
         echo $res;
