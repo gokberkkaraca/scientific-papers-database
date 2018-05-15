@@ -138,7 +138,7 @@
                   echo "<tr><td><div><strong>Number of Pages:</strong> $pages </div></td></tr>";
                   echo "<tr><td><div><strong>Number of Citers:</strong> $num_of_citers[0] </div></td></tr>";
                   echo "<tr><td><div><strong>Number of Downloads: </strong> $downloads </div></td></tr>";
-                  echo "<tr><td><div><strong>Authors: </strong> $name </div></td></tr>";
+                  echo "<tr><td><div><strong>Author: </strong> <a href='author-publications.php?email=$email'>$name</a></div></td></tr>";
                   echo "<tr><td><div><strong>Sponsors: </strong><a href='$sponsor_link'>$sponsor_name</a></div></td></tr>";
                   echo "</table>";
                   }

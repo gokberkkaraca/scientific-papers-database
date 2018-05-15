@@ -10,6 +10,10 @@
         header("location:index.php");
       }
 
+      if (isset($_GET['email'])) {
+        $email = $_GET['email'];
+      }
+
       $sql = "SELECT s_name, s_surname FROM subscriber WHERE email='$email'";
       $author_name = mysqli_query($dbc, $sql);
       $author_name = mysqli_fetch_array($author_name, MYSQLI_NUM);
