@@ -104,5 +104,23 @@ $(document).ready(function(){
         }
 
     });
+    $(".citations_select").select2({
+        placeholder: 'Type cited publication title',
+        ajax: {
+            url: 'functions.php?getPublications=true',
+            //type: "GET",
+            delay: 250,
+            dataType: 'json',
+            minimumInputLength: 1,
+            data: function (term) {
+                //alert(term.term);
+                return {
+                    searchTerm: term.term // search term
+                };
+            }
+        }
+
+    });
+    
     
 });

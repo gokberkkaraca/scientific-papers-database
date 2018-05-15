@@ -321,7 +321,7 @@
         {
             $publisher = $_POST['nsubmission_publisher'];
         }
-        if(empty($_POST['coauthors_emails']))
+        if(!isset($_POST['coauthors_emails']) && empty($_POST['coauthors_emails']))
         {
             $authorsEmails = -1;
         }
@@ -438,19 +438,23 @@
         $deleteSubmitsQuery = "delete from submits where s_id = ".$s_id.";";
         $deleteInvitesQuery = "delete from invites where s_id = ".$s_id.";";
         $deleteReviewsQuery = "delete from reviews where s_id = ".$s_id.";";
+        $deleteCoAuthorsQuery = "delete from co_authors where s_id = ".$s_id.";";
         $deleteSubmissionQuery = "delete from submission where s_id = ".$s_id.";";
 
         $stmt = @mysqli_prepare($dbc,$deleteSubmitsQuery) or die(mysqli_error($dbc));
         @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
 
         $stmt = @mysqli_prepare($dbc,$deleteInvitesQuery) or die(mysqli_error($dbc));
-        @mysqli_stmt_execute($stmt2) or die(mysqli_error($dbc));
+        @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
 
         $stmt = @mysqli_prepare($dbc,$deleteReviewsQuery) or die(mysqli_error($dbc));
-        @mysqli_stmt_execute($stmt3) or die(mysqli_error($dbc));
+        @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
+
+        $stmt = @mysqli_prepare($dbc,$deleteCoAuthorsQuery) or die(mysqli_error($dbc));
+        @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
 
         $stmt = @mysqli_prepare($dbc,$deleteSubmissionQuery) or die(mysqli_error($dbc));
-        @mysqli_stmt_execute($stmt4) or die(mysqli_error($dbc));
+        @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
 
         @mysqli_stmt_close($stmt);
 
@@ -773,45 +777,13 @@
     function getAuthorsEmails()
     {
         global $dbc;
-        /*
-        $testres = '{ "results": [{"id": 1,"text": "Option 1"},{"id": 2,"text": "Option 2"}]}';
-        //return $testres;
-        $term = '';
-
-        if (isset($_GET['searchTerm']))
-            $term = $_GET['searchTerm'];
-        else
-        {
-            return $testres;
-        }
-        */
+        
         $term = '';
         $term = $_GET['searchTerm'];
 
         $selAuthors = "select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where usertype = 2 and (email like '%".$term."%' or s_name like '%".$term."%' or s_surname like '%".$term."%')";
 
         $stmt = @mysqli_query($dbc,$selAuthors) or die(mysqli_error($dbc));
-
-    /*
-        $testres = '{
-            "results": [
-              {
-                "id": 1,
-                "text": "Option 1"
-              },
-              {
-                "id": 2,
-                "text": "Option 2"
-              }
-            ]}';
-
-            $json = [];
-            while($row = @mysqli_fetch_array($stmt) )
-            {
-                $text = $row['fullName'].", ".$row['email'];
-                $json[] = ['id'=>$row['email'], 'text'=>$text];
-            }
-*/
 
            
         $res = '{ "results" : ';
@@ -840,6 +812,43 @@
         //return json_encode($json);
         return $res;
 
+    }
+
+    function getPublications()
+    {
+        global $dbc;
+        
+        $term = '';
+        $term = $_GET['searchTerm'];
+
+        $selPublications = "select p_id, title from publication where title like '%".$term."%'";
+
+        $stmt = @mysqli_query($dbc,$selPublications) or die(mysqli_error($dbc));
+
+           
+        $res = '{ "results" : ';
+        $counter = 1;
+        while( $row = @mysqli_fetch_array($stmt) )
+        {
+            if ( $counter == 1 )
+            {
+                $res .= '[{ "id":"'.$row['p_id'].'", "text" : "'.$row['title'].'" }';
+                $counter++;
+            }
+            else
+            {
+                $res .= ',{ "id":"'.$row['p_id'].'", "text" : "'.$row['title'].'" }';
+            }
+        }
+        if ($counter == 2)
+            $res .= ']}';
+        else if ( $counter == 1)
+            $res .= '[] }';
+
+        @mysqli_stmt_close($stmt);
+
+        //return json_encode($json);
+        return $res;
     }
 
     if (isset($_GET['getPublishers']))
@@ -935,6 +944,12 @@
         $res = getAuthorsEmails();
         echo $res;
    }
+   if(isset($_GET['getPublications']))
+   {
+        $res = getPublications();
+        echo $res;
+   }
+   
    
    
 

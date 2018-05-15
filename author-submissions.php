@@ -215,6 +215,9 @@
                         <!--<input type="email" class="form-control" name="coauthors_emails" placeholder="Co-Authors emails seperated by comma">-->
                     </div>
                     <div class="form-group row">
+                        <select class="form-control citations_select" name="citations[]" multiple></select>
+                    </div>
+                    <div class="form-group row">
                         <label for="expertises" style="display: block; text-align: left;">Field(s) of expertise</label>
 
                         <?php
