@@ -367,7 +367,7 @@ public class Connector {
         String query1 = "('Computer Science')";
         String query2 = "('Chemistry')";
         String query3 = "('Economy')";
-        String query4 = "('Bioglogy')";
+        String query4 = "('Biology')";
         String query5 = "('Physics')";
         String query6 = "('Law')";
 
@@ -679,7 +679,12 @@ public class Connector {
     private static void insertReviewerExpertises() {
         String insertQuery = "INSERT INTO reviewerExpertise VALUES";
         String query1 ="('tonybarnosky@standford.edu', 'Computer Science')";
-        String query2 ="('poole@cs.epfl.edu', 'Chemistry')";
+        String query2 ="('tonybarnosky@standford.edu', 'Biology')";
+        String query3 ="('tonybarnosky@standford.edu', 'Physics')";
+        String query4 ="('poole@cs.epfl.edu', 'Computer Science')";
+        String query5 ="('poole@cs.epfl.edu', 'Biology')";
+        String query6 ="('poole@cs.epfl.edu', 'Chemistry')";
+
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
