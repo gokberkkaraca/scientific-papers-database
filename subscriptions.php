@@ -9,9 +9,13 @@
   else {
     header("location: index.php");
   }
+  $is_empty = 0;
 
   $sql = "SELECT p_name, start_date, end_date FROM subscription Where email = '$email'";
   $result = mysqli_query($dbc, $sql);
+  if (mysqli_num_rows($result) == 0) {
+    $is_empty = 1;
+  }
   
  ?>
 <html>
@@ -79,6 +83,7 @@
     </div>
     <div class="container" style="margin-top: 30px">
       <?php
+        if ($is_empty == 0) {
           echo "<div id=\"result-panel\" align=\"center\">";
           echo "<div align=\"center\">";
           echo "<table class=\"table table-striped\">";
@@ -107,6 +112,10 @@
           echo "</table>";
           echo "</div>";
           echo "</div>";
+        }
+        else {
+          echo "<h4 align='center'>You are not subscribed to anything</h4>";
+        }
       ?>
     </div>
   </body>
