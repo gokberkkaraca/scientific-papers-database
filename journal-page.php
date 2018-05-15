@@ -6,6 +6,17 @@
     $p_name = $_GET["p_name"];
     $email = $_SESSION["email"];
     $user_type = $_SESSION["type"];
+
+    if (isset($_GET["subscribe"])) {
+      $query = "INSERT INTO subscription VALUES( '$email','$p_name', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 30 DAY));";
+      mysqli_query($dbc,$query);
+
+    } 
+    else if (isset($_GET["unsubscribe"])) {
+      $query = "DELETE FROM subscription WHERE email = '$email' AND p_name = '$p_name'";
+      mysqli_query($dbc,$query);
+    }
+
   }else{
     header("location: index.php");
   }
@@ -119,10 +130,14 @@
         <?php   echo "<h1 align='center'>$p_name<p></p>";
                 if (isset($completed)) {
                   if ($subscription_check == 0) {
-                    echo "<button class='btn btn-success' onclick=\"subscribe('$email', '$p_name')\">Subscribe for 1 month</button></h1>";
+                    echo "<form method=\"post\" action=\"journal-page.php?p_name=".$p_name."&subscribe=true\">";
+                    echo '<button type="submit" name="subscribe">Subscribe for 1 month</button></h1>';
+                    echo '</form>';
                   }
                   else if ($subscription_check == 1) {
-                    echo "<button class='btn btn-warning' onclick=\"unsubscribe('$email', '$p_name')\">Unsubscribe</button></h1>";
+                    echo "<form method=\"post\" action=\"journal-page.php?p_name=".$p_name."&unsubscribe=true\">";
+                    echo '<button type="submit" name="subscribe">Unsubscribe</button></h1>';
+                    echo '</form>';
                   }
                 }
         ?>
