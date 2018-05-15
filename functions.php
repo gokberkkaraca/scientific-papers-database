@@ -443,8 +443,13 @@
 
         @mysqli_stmt_close($stmt); */
 
+        $submissionInfo = "SELECT title, doc_link from submission WHERE s_id = ".$s_id.";";
+        $query = @mysqli_query($dbc,$submissionInfo) or die(mysqli_error($dbc));
+        $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
+        @mysqli_stmt_close($query);
+
         $number_of_pages = 0;
-        $insertPublication = "call insert_publication('$title', '$number_of_pages', '$link', '$s_id')";
+        $insertPublication = "call insert_publication('".$row['title']."', '$number_of_pages', '".$row['doc_link']."', '$s_id')";
         $stmt = @mysqli_query($dbc,$insertPublication) or die(mysqli_error($dbc));
         @mysqli_stmt_close($stmt);
 
