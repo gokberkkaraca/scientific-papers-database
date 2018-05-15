@@ -9,18 +9,26 @@
 			header('Location: main.php');
 		}
 
-		// if (isset($_GET["end_volume"])) {
-  //     		$query = 	"UPDATE journal_volume 
-		// 			    SET volume_no = volume_no + 1
-		// 			    WHERE p_name IN (SELECT p_name
-		// 				FROM submission AS S JOIN submits AS S2 JOIN subscriber AS S3
-		// 				WHERE S.s_id = S2.s_id AND S2.email = S3.email AND S.status = 0 AND S.email = ".$email."
-		// 				ORDER BY date ASC)";
+		if (isset($_GET["end_volume"])) {
+			$query = 	"SELECT p_name FROM editor NATURAL JOIN editorPublisher 
+						 WHERE email = \"$email\"";
+      		$res = mysqli_query($dbc,$query);
+ 			$res = mysqli_fetch_array($res, MYSQLI_NUM);
 
-					    
+ 			//$res = $res[0];
 
-  //     		mysqli_query($dbc,$query);
-  //   	} 
+ 			//echo "$res";
+ 			$query = "SELECT max(volume_no) FROM journal_volume 
+ 						WHERE p_name = \"$res[0]\" LIMIT 1";
+
+ 			$res2 = mysqli_query($dbc,$query);
+ 			$res2 = mysqli_fetch_array($res2, MYSQLI_NUM);
+
+ 			$res2 = $res2[0] + 1;
+ 			//echo "$res2";
+      		$query = 	"INSERT INTO journal_volume VALUES(\"$res[0]\", \"$res2\")";
+      		mysqli_query($dbc,$query);
+    	} 
 	}
  ?>
 <html>
