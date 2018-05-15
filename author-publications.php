@@ -10,7 +10,7 @@
         header("location:index.php");
       }
 
-      $sql = "SELECT s_name FROM subscriber WHERE email='$email'";
+      $sql = "SELECT s_name, s_surname FROM subscriber WHERE email='$email'";
       $author_name = mysqli_query($dbc, $sql);
       $author_name = mysqli_fetch_array($author_name, MYSQLI_NUM);
 
@@ -81,7 +81,7 @@
 			</div>
       <div class="container">
         <div class="jumbotron">
-        <h1><?php echo "$author_name[0]"?></h1>
+        <h1><?php echo "$author_name[0] $author_name[1]"?></h1>
         <h4><?php echo "$email" ?></h4>
         <h6><?php echo "Total Publications: $total_publications, Total Citations: $total_citations" ?></h6>
         <h6><?php echo "Most Popular Publication: <i>$most_popular_publication[0]</i>" ?></h6>

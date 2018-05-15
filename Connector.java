@@ -1,4 +1,3 @@
-import java.awt.desktop.SystemSleepEvent;
 import java.sql.*;
 
 public class Connector {
@@ -363,7 +362,7 @@ public class Connector {
     }
 
     private static void insertExpertises() {
-        System.out.println("In expertise");
+        System.out.println("Insert expertise");
         String insertQuery = "INSERT INTO expertise VALUES";
         String query1 = "('Computer Science')";
         String query2 = "('Chemistry')";
@@ -385,7 +384,7 @@ public class Connector {
     private static void insertConference() {
         System.out.println("In conference");
         String insertQuery = "INSERT INTO conference VALUES";
-        String query1 = "('2017.01.01', 'NIPS : Neural Information Processing Systems (NIPS)', 'TED Conferences')";
+        String query1 = "('2017.01.01', 'NIPS : Neural Information Processing Systems', 'TED Conferences')";
         String query2 = "('2018.01.02', '31st International Microprocesses and Nanotechnology Conference', 'Harvard Conferences')";
         String query3 = "('2019.01.03', '45th annual European Physical Society Conference on Plasma Physics', 'Bilkent Conferences')";
         String query4 = "('2019.01.03', 'ECCV : European Conference on Computer Vision', 'EPFL Conferences')";
@@ -645,12 +644,12 @@ public class Connector {
 
     private static void insertPublications() {
         String insertQuery = "INSERT INTO publication VALUES";
-        String query1 ="('11', 'publication1', '581', '1970.01.01', 'link1', '1', '1')";
-        String query2 ="('12', 'publication2', '582', '1970.01.02', 'link2', '2', '2')";
-        String query3 ="('13', 'publication3', '583', '1970.01.03', 'link3', '3', '3')";
-        String query4 ="('14', 'publication4', '584', '1970.01.04', 'link4', '4', '4')";
-        String query5 ="('15', 'publication5', '585', '1970.01.05', 'link5', '5', '5')";
-        String query6 ="('16', 'publication6', '586', '1970.01.06', 'link6', '6', '6')";
+        String query1 ="('11', 'Influence Estimation and Maximization', '122', '2018.01.05', 'link1', '1', '1')";
+        String query2 ="('12', 'Highly-Scalable Deep Convolutional Neural Network', '431', '2018.03.30', 'link2', '2', '2')";
+        String query3 ="('13', 'Development of Interest Estimation Tool for Effective HAI', '321', '1970.01.03', 'link3', '3', '3')";
+        String query4 ="('14', 'SynFlo: A Tangible Museum Exhibit', '432', '1970.01.04', 'link4', '4', '4')";
+        String query5 ="('15', 'Database research at Bilkent University', '542', '1970.01.05', 'link5', '5', '5')";
+        String query6 ="('16', 'Compressed Representations of Conjunctive Query Results', '145', '1970.01.06', 'link6', '6', '6')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -683,12 +682,12 @@ public class Connector {
 
     private static void insertReviews() {
         String insertQuery = "INSERT INTO reviews VALUES";
-        String query1 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '1', 'feedback1')";
-        String query2 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '2', 'feedback2')";
-        String query3 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '3', 'feedback3')";
-        String query4 ="('poole@cs.epfl.edu', 'kocabiyik@boun.edu.tr', '4', 'feedback4')";
-        String query5 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '5', 'feedback5')";
-        String query6 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '6', 'feedback6')";
+        String query1 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '1', 'Good job.')";
+        String query2 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '2', 'Please change the title.')";
+        String query3 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '3', 'Can you add more references?')";
+        String query4 ="('poole@cs.epfl.edu', 'kocabiyik@boun.edu.tr', '4', 'This topic does not seem relevant.')";
+        String query5 ="('tonybarnosky@standford.edu', 'kocabiyik@boun.edu.tr', '5', 'Font size is not suitable for that publisher.')";
+        String query6 ="('poole@cs.epfl.edu', 'abramson@harvard.edu', '6', 'Submission is approved.')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -739,12 +738,12 @@ public class Connector {
 
     private static void insertSubmissions() {
         String insertQuery = "INSERT INTO submission VALUES";
-        String query1 ="('1', '0', 'sub1', 'link1', '1970.01.01', 'kocabiyik@boun.edu.tr')";
-        String query2 ="('2', '1', 'sub2',  'link2', '1970.01.02','abramson@harvard.edu')";
-        String query3 ="('3', '3', 'sub3', 'link3','1970.01.03',  'kocabiyik@boun.edu.tr')";
-        String query4 ="('4', '3', 'sub4', 'link4','1970.01.04',  'abramson@harvard.edu')";
-        String query5 ="('5', '2', 'sub5', 'link5', '1970.01.05',  'kocabiyik@boun.edu.tr')";
-        String query6 ="('6', '1', 'sub6', 'link6','1970.01.06',  'abramson@harvard.edu')";
+        String query1 ="('1', '0', 'Influence Estimation and Maximization', 'link1', '1970.01.01', 'kocabiyik@boun.edu.tr')";
+        String query2 ="('2', '1', 'Highly-Scalable Deep Convolutional Neural Network',  'link2', '1970.01.02','abramson@harvard.edu')";
+        String query3 ="('3', '3', 'Development of Interest Estimation Tool for Effective HAI', 'link3','1970.01.03',  'kocabiyik@boun.edu.tr')";
+        String query4 ="('4', '3', 'SynFlo: A Tangible Museum Exhibit', 'link4','1970.01.04',  'abramson@harvard.edu')";
+        String query5 ="('5', '2', 'Database research at Bilkent University', 'link5', '1970.01.05',  'kocabiyik@boun.edu.tr')";
+        String query6 ="('6', '1', 'Compressed Representations of Conjunctive Query Results', 'link6','1970.01.06',  'abramson@harvard.edu')";
 
         execQuery( insertQuery + query1);
         execQuery( insertQuery + query2);
@@ -858,6 +857,7 @@ public class Connector {
         execQuery(dropPublicationCount);
         execQuery(dropFindNumberOfCitations);
 
+
         String insertSubmission = "CREATE PROCEDURE insert_submission\n" +
                 " (IN title varchar(200), IN doc_link varchar(200), IN email_in VARCHAR(200), IN in_publisher_name VARCHAR(200))\n" +
                 "BEGIN\n" +
@@ -867,8 +867,7 @@ public class Connector {
                 "SELECT (max(s_id) + 1) INTO s_id_val\n" +
                 "FROM submission;\n" +
                 "\n" +
-                "select  email into email_editor FROM( SELECT\n" +
-                "\temail, count(email) as count from submission where status < 4 group by email order by count ASC limit 1) as emails;\n" +
+                "select  email into email_editor FROM editor natural join publisher WHERE p_name = in_publisher_name ORDER BY RAND() limit 1;\n" +
                 "\n" +
                 "INSERT INTO submission(s_id, `status`, title, doc_link, `date`, email)\n" +
                 "VALUES(`s_id_val`, 0, `title`, `doc_link`, CURDATE(), `email_editor`);\n" +
