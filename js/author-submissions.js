@@ -131,9 +131,10 @@ $(document).ready(function(){
             dataType: 'json',
             minimumInputLength: 1,
             data: function (term) {
-                //alert(term.term);
+                var author = $("i").text();
                 return {
-                    searchTerm: term.term // search term
+                    searchTerm: term.term, // search term
+                    authEmail: author
                 };
             }
         }

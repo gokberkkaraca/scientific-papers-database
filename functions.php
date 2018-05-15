@@ -719,14 +719,15 @@
         $name = $_GET['name'];
         $expertise = $_GET['expertise'];
 
+
         $selReviewers = "select reviewers.fullName as fullName, reviewers.email as email, tag from reviewerExpertise, (select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where"
         ." usertype = 1 and (s_name like '%".$name."%' or s_surname like '%".$name."%') ) as reviewers"
         ." where reviewers.email in (select distinct email from reviewerExpertise where tag = '".$expertise."') and"
         ." reviewerExpertise.email = reviewers.email order by reviewers.fullName ASC";
 /*
 
-        $selReviewers = "select reviewers.fullName as fullName, reviewers.email as email, tag, count() as invited from reviewerExpertise, (select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where"
-        ." usertype = 1 and (s_name like '%".$name."%' or s_surname like '%".$name."%') ) as reviewers,(select reviewer_email from invites, reviews where invites.reviewer_email = reviews.reviewer_email and  ) as alreadyInvited"
+        $selReviewers = "select reviewers.fullName as fullName, reviewers.email as email, tag, sel1.c + sel2.c as invited from reviewerExpertise, (select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where"
+        ." usertype = 1 and (s_name like '%".$name."%' or s_surname like '%".$name."%') ) as reviewers, ( select count(reviewer_email) as c from invites where reviewer_email = reviewers.email and s_id = ".$s_id." ) as sel1, (select count(reviewer_email) as c from reviews where reviewer_email = reviewers.email and s_id = ".$s_id.") as sel2"
         ." where reviewers.email in (select distinct email from reviewerExpertise where tag = '".$expertise."') and"
         ." reviewerExpertise.email = reviewers.email order by reviewers.fullName ASC";
 */
@@ -825,8 +826,9 @@
         
         $term = '';
         $term = $_GET['searchTerm'];
-
-        $selAuthors = "select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where usertype = 2 and (email like '%".$term."%' or s_name like '%".$term."%' or s_surname like '%".$term."%')";
+        $authEmail = $_GET['authEmail'];
+        
+        $selAuthors = "select CONCAT(s_name, ' ', s_surname) as fullName, email from subscriber where usertype = 2 and email <> '".$authEmail."' and (email like '%".$term."%' or s_name like '%".$term."%' or s_surname like '%".$term."%')";
 
         $stmt = @mysqli_query($dbc,$selAuthors) or die(mysqli_error($dbc));
 
@@ -994,9 +996,7 @@
         $res = getPublications();
         echo $res;
    }
+  
    
-   
-   
-
    @mysqli_close($dbc);
 ?>
