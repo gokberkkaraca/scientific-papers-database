@@ -703,6 +703,11 @@
         else
             echo "not set";
 */
+        $changeState = "update submission set status = 1 where s_id = ".$s_id.";";
+
+        $stmt = @mysqli_prepare($dbc,$changeState) or die(mysqli_error($dbc));
+        @mysqli_stmt_execute($stmt) or die(mysqli_error($dbc));
+
         $addInvite = "insert into invites (reviewer_email,editor_email,s_id,status) values ('".$revEmail."', '".$editorEmail."', ".$s_id." , ".$status.");";
 
         $stmt = @mysqli_prepare($dbc,$addInvite) or die(mysqli_error($dbc));
